@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Train Booking - RailConnect</title>
+    <link rel="stylesheet" href="trains.css">
+    <style>
+        /* Make the image act as a background */
+        .background-img {
+          position: fixed;
+          top: 0;
+          left: 0;
+          width: 100%;
+          height: 100%;
+          z-index: -1; /* Ensure it stays behind the content */
+          object-fit: cover; /* Scale the image to cover the entire viewport */
+        }
+    
+        /* Style for the booking form */
+        .form-container {
+          background-color: rgba(255, 255, 255, 0.9); /* Semi-transparent white */
+          padding: 20px;
+          border-radius: 10px;
+          box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2);
+          width: 400px;
+          margin: 50px auto;
+          text-align: center;
+        }
+    
+        input, select, button {
+          width: calc(100% - 20px);
+          margin: 10px 0;
+          padding: 10px;
+          border: 1px solid #ccc;
+          border-radius: 5px;
+          font-size: 16px;
+        }
+    
+        button {
+          background-color: #f04a4a;
+          color: white;
+          border: none;
+          cursor: pointer;
+          transition: background-color 0.3s ease;
+        }
+    
+        button:hover {
+          background-color: #d63a3a;
+        }
+      </style>
+</head>
+<body>
+    <img src="train background.jpg" alt="Background Image" class="background-img">
+    <!-- Header -->
+    <header>
+        <div class="navbar">
+            <h1>RailConnect</h1>
+            <nav>
+                <a href="#">Login</a>
+                <a href="#">Register</a>
+                <a href="#">Help & Support</a>
+                <a href="#">Daily Deals</a>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Main Booking Section -->
+    <section class="booking-section">
+        <h2>Book Your Train Ticket</h2>
+        
+        <form id="trainForm" class="booking-form">
+            <div class="form-group">
+                <label for="from">From:</label>
+                <select id="from">
+                    <option value="">Select departure city</option>
+                    <option value="Mumbai">Mumbai</option>
+                    <option value="Delhi">Delhi</option>
+                    <option value="Bengaluru">Bengaluru</option>
+                    <option value="Chennai">Chennai</option>
+                    <option value="Hyderabad">Hyderabad</option>
+                    <option value="Kolkata">Kolkata</option>
+                    <option value="Ahmedabad">Ahmedabad</option>
+                    <option value="Pune">Pune</option>
+                    <option value="Jaipur">Jaipur</option>
+                    <option value="Goa">Goa</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="to">To:</label>
+                <select id="to">
+                    <option value="">Select destination city</option>
+                    <option value="Mumbai">Mumbai</option>
+                    <option value="Delhi">Delhi</option>
+                    <option value="Bengaluru">Bengaluru</option>
+                    <option value="Chennai">Chennai</option>
+                    <option value="Hyderabad">Hyderabad</option>
+                    <option value="Kolkata">Kolkata</option>
+                    <option value="Ahmedabad">Ahmedabad</option>
+                    <option value="Pune">Pune</option>
+                    <option value="Jaipur">Jaipur</option>
+                    <option value="Goa">Goa</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="date">Date of Journey:</label>
+                <input type="date" id="date" required>
+            </div>
+            <div class="form-group">
+                <label for="class">Class:</label>
+                <select id="class">
+                    <option value="All Classes">All Classes</option>
+                    <option value="AC First Class">AC First Class</option>
+                    <option value="AC 2 Tier">AC 2 Tier</option>
+                    <option value="AC 3 Tier">AC 3 Tier</option>
+                    <option value="Sleeper Class">Sleeper Class</option>
+                    <option value="General">General</option>
+                </select>
+            </div>
+            <div class="options">
+                <label>Additional Options:</label>
+                <div>
+                    <input type="checkbox" id="disability">
+                    <label for="disability">Person with Disability Concession</label>
+                    <input type="checkbox" id="flexible">
+                    <label for="flexible">Flexible with Date</label>
+                    <input type="checkbox" id="berth">
+                    <label for="berth">Train with Available Berth</label>
+                    <input type="checkbox" id="railway-pass">
+                    <label for="railway-pass">Railway Pass Concession</label>
+                </div>
+            </div>
+            <button type="submit" class="search-button">Search Trains</button>
+        </form>
+    </section>
+
+    <!-- Footer Section -->
+    <footer>
+        <p>&copy; 2024 RailConnect. All rights reserved.</p>
+    </footer>
+
+    <script src="trains.js"></script>
+</body>
+</html>

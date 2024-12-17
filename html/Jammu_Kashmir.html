@@ -1,0 +1,593 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Museum Ticket Booking Chatbot</title>
+    <link rel="stylesheet" href="Jammu_cb.css">
+    <link href="https://db.onlinewebfonts.com/c/6bff5f8f85a7385fbdc21a8f724dd8ac?family=Rajasthan+Regular"
+        rel="stylesheet">
+    <style>
+        .goog-te-gadget .goog-te-combo {
+            margin: 4px 0;
+            padding: 5px;
+            border-radius: 20px;
+        }
+        #timing{
+            margin-bottom: 15px;
+        }
+        .dropbtn {
+            background-color: #04AA6D;
+            color: white;
+            padding: 10px;
+            font-size: 16px;
+            margin-bottom: 10px;
+            border: none;
+        }
+
+        .dropdown {
+            position: relative;
+            display: inline-block;
+        }
+
+        .dropdown-content {
+            display: none;
+            position: absolute;
+            background-color: #f1f1f1;
+            min-width: 160px;
+            box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
+            z-index: 1;
+        }
+
+        .dropdown-content a {
+            color: black;
+            min-width: 200px;
+            padding: 0px;
+            font-size: 15px;
+            font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+            text-decoration: none;
+            display: block;
+        }
+
+
+        .dropdown:hover .dropdown-content {
+            display: block;
+        }
+
+    </style>
+</head>
+
+<body>
+    <div id="bg-img">
+        <header>
+            <div-1>
+                <img id="logo" src="photos/logo1.png" alt="">
+                <h1>ChatBot-Ticketing System </h1>
+            </div-1>
+            <div id="google_element"></div>
+        </header>
+
+        <div id="top">
+            <div class="chat-container">
+                <div id="chat-box" class="chat-box">
+                    <div class="message bot">Hello! Welcome to our museum. What is your name?</div>
+                </div>
+                <div id="nameInputContainer">
+                    <input type="text" id="user-input" placeholder="Enter your name..." autofocus>
+                    <button onclick="sendMessage()">Send</button>
+                </div>
+
+                <div id="cityPrompt" class="hidden">
+                    <label for="citySelect">Select City:</label>
+                    <select id="citySelect" onchange="botReply()">
+                        <option value="">--Select a City--</option>
+                        <option value="Srinagar">Srinagar</option>
+                        <option value="Jammu">Jammu</option>
+                        <option value="Leh">Leh</option>
+                    </select>
+                </div>
+
+                <div id="museumPrompt" class="hidden">
+                    <label for="museumSelect">Select Museum:</label>
+                    <select id="museumSelect" onchange="botReply()">
+                        <!-- Options will be populated dynamically -->
+                    </select>
+                </div>
+
+                <div id="visitorTypePrompt" class="hidden">
+                    <label for="visitorTypeSelect">Are you an Indian or Foreigner?</label>
+                    <select id="visitorTypeSelect" onchange="botReply()">
+                        <option value="">--Select--</option>
+                        <option value="indian">Indian</option>
+                        <option value="foreigner">Foreigner</option>
+                    </select>
+                </div>
+
+                <div id="ticketPrompt" class="hidden">
+                    <label for="ticketSelect">Number of Tickets:</label>
+                    <select id="ticketSelect" onchange="botReply()">
+                        <option value="">--Select Number of Tickets--</option>
+                        <option value="1">1</option>
+                        <option value="2">2</option>
+                        <option value="3">3</option>
+                        <option value="4">4</option>
+                        <option value="5">5</option>
+                        <option value="6">6</option>
+                        <option value="7">7</option>
+                        <option value="8">8</option>
+                        <option value="9">9</option>
+                        <option value="10">10</option>
+                    </select>
+                </div>
+
+                <div id="datePrompt" class="hidden">
+                    <label for="dateSelect">Select Date:</label>
+                    <input type="date" id="dateSelect" onchange="botReply()">
+                </div>
+
+                <div id="timePrompt" class="hidden">
+                    <label for="timeSelect">Select Time Slot:</label>
+                    <select id="timeSelect" onchange="botReply()">
+                        <option value="">--Select Time Slot--</option>
+                        <option value="09:00">09:00 AM</option>
+                        <option value="11:00">11:00 AM</option>
+                        <option value="14:00">02:00 PM</option>
+                    </select>
+                </div>
+
+                <div id="priceDisplay" class="hidden">
+                    <div id="priceMessage"></div>
+                </div>
+
+                <div id="paymentButtonContainer" class="hidden">
+                    <button id="payButton" onclick="completePayment()">Complete Payment</button>
+                </div>
+
+                <div id="confirmationMessage" class="hidden">
+                    <div class="message bot">Your ticket is booked. Thanks for visiting us!</div>
+                    <a id='download' href="ticket.html">Download your ticket</a>
+                </div>
+            </div>
+
+            <div class="right-text">
+                <h1>JAMMU & KASHMIR</h1>
+                <p>
+                    Jammu & Kashmir, located in the northern part of India, is renowned for its stunning landscapes,
+                    serene lakes, and majestic mountains. Known for its breathtaking natural beauty, the region offers a
+                    mix of rich cultural heritage and outdoor adventures. The state is home to picturesque destinations
+                    such as Srinagar, Jammu, Leh, and Ladakh, each known for their unique experiences and scenic beauty.
+
+                    <br><br>
+
+                    Srinagar, the summer capital, is famous for its beautiful gardens, houseboats, and the Dal Lake.
+                    Jammu, the winter capital, is known for its temples and vibrant local culture. Leh and Ladakh are
+                    renowned for their rugged landscapes and adventure sports like trekking and mountain biking.
+
+                    <br><br>
+
+                    Jammu & Kashmir's diverse landscape and cultural richness make it a captivating destination for
+                    travelers seeking both adventure and tranquility.
+                </p>
+            </div>
+        </div>
+    </div>
+
+    <div class="bottom">
+        <div id="first">
+            <div class="text-content">
+                <h1 style="text-decoration: underline;">Srinagar Museum: Srinagar</h1>
+                <p id="museum-p">The Srinagar Museum, also known as the Jammu and Kashmir State Museum, is a prominent
+                    institution showcasing the region's cultural and historical heritage. It features a rich collection
+                    of artifacts, including ancient sculptures, paintings, and manuscripts.</p>
+                <h3 style="text-decoration: underline;">Contact Number:</h3>
+                <p id="number">0194 2472118</p>
+                <div class="dropdown">
+                    <button class="dropbtn">Timings</button>
+                    <div class="dropdown-content">
+                        <a href="#">Monday: CLOSED!</a>
+                        <a href="#">Tuesday: 10:00 - 17:30</a>
+                        <a href="#">Wednesday: 10:00 - 17:30</a>
+                        <a href="#">Thursday: 10:00 - 17:30</a>
+                        <a href="#">Friday: 10:00 - 17:30</a>
+                        <a href="#">Satuday: 10:30 - 17:30</a>
+                        <a href="#">Sunday: 10:30 - 17:30</a>
+                    </div>
+                </div>
+                <br>
+                <a
+                    href="https://www.google.co.in/maps/place/Art+Museum/@34.0735326,74.8048464,7z/data=!4m10!1m2!2m1!1sSrinagar+Museum!3m6!1s0x38e18fb2f5aae6a1:0x644fcc1ecc73ec90!8m2!3d34.0735313!4d74.8048071!15sCg9TcmluYWdhciBNdXNldW1aESIPc3JpbmFnYXIgbXVzZXVtkgEGbXVzZXVtmgEjQ2haRFNVaE5NRzluUzBWSlEwRm5TVVF0YVVwNlRVeG5FQUXgAQA!16s%2Fg%2F11sc0hxz8j?entry=ttu&g_ep=EgoyMDI0MDgyOC4wIKXMDSoASAFQAw%3D%3D">📍
+                    Directions</a>
+            </div>
+            <div class="image-content">
+                <img id="museum-img" src="photos/Srinagar_Museum.jpg" alt="Srinagar Museum: Srinagar">
+            </div>
+        </div>
+    </div>
+
+    <div class="bottom">
+        <div id="first">
+            <div class="text-content">
+                <h1 style="text-decoration: underline;">SPS Museum: Srinagar</h1>
+                <p id="museum-p">The SPS Museum, named after Maharaja Pratap Singh, is located in Srinagar and houses a
+                    rich collection of ancient manuscripts, sculptures, coins, and artifacts. It reflects the diverse
+                    cultural and historical heritage of Jammu and Kashmir.</p>
+                <h3 style="text-decoration: underline;">Contact Number:</h3>
+                <p id="number">0194 231 0562</p>
+                <div class="dropdown">
+                    <button class="dropbtn">Timings</button>
+                    <div class="dropdown-content">
+                        <a href="#">Monday: CLOSED!</a>
+                        <a href="#">Tuesday: 10:00 - 17:30</a>
+                        <a href="#">Wednesday: 10:00 - 17:30</a>
+                        <a href="#">Thursday: 10:00 - 17:30</a>
+                        <a href="#">Friday: 10:00 - 17:30</a>
+                        <a href="#">Satuday: 10:30 - 17:30</a>
+                        <a href="#">Sunday: 10:30 - 17:30</a>
+                    </div>
+                </div>
+                <br>
+                <a
+                    href="https://www.google.co.in/maps/place/SPS+Museum/@33.8715771,74.2848381,10z/data=!4m10!1m2!2m1!1sPulwama+museum!3m6!1s0x38e18f97ca2d7f23:0xf0a8c7535a446e36!8m2!3d34.0668125!4d74.8130156!15sCg5QdWx3YW1hIG11c2V1bVoQIg5wdWx3YW1hIG11c2V1bZIBBm11c2V1bZoBJENoZERTVWhOTUc5blMwVkpRMEZuU1VRMk9IUjVYMmRuUlJBQuABAA!16s%2Fg%2F11fhkgqx4r?entry=ttu&g_ep=EgoyMDI0MDgyOC4wIKXMDSoASAFQAw%3D%3D">📍
+                    Directions</a>
+            </div>
+            <div class="image-content">
+                <img id="museum-img" src="photos/SPS_Museum.jpg" alt="SPS Museum: Srinagar">
+            </div>
+        </div>
+    </div>
+
+    <div class="bottom">
+        <div id="first">
+            <div class="text-content">
+                <h1 style="text-decoration: underline;">Bahu Fort: Jammu</h1>
+                <p id="museum-p">Bahu Fort, one of the oldest structures in Jammu, is located on the banks of the Tawi
+                    River. The fort is famous for the Goddess Kali temple inside, known as Bawe Wali Mata. The fort
+                    offers a panoramic view of the Jammu city and is surrounded by a lush green terraced garden,
+                    Bagh-e-Bahu, which adds to its charm.</p>
+                <h3 style="text-decoration: underline;">Contact Number:</h3>
+                <p id="number">0191 254 3347</p>
+                <div class="dropdown">
+                    <button class="dropbtn">Timings</button>
+                    <div class="dropdown-content">
+                        <a href="#">Monday: CLOSED!</a>
+                        <a href="#">Tuesday: 10:00 - 17:30</a>
+                        <a href="#">Wednesday: 10:00 - 17:30</a>
+                        <a href="#">Thursday: 10:00 - 17:30</a>
+                        <a href="#">Friday: 10:00 - 17:30</a>
+                        <a href="#">Satuday: 10:30 - 17:30</a>
+                        <a href="#">Sunday: 10:30 - 17:30</a>
+                    </div>
+                </div>
+                <br>
+                <a href="https://maps.app.goo.gl/5nRtY">📍 Directions</a>
+            </div>
+            <div class="image-content">
+                <img id="museum-img" src="photos/Bahu_Fort_Museum.jpg" alt="Bahu Fort: Jammu">
+            </div>
+        </div>
+    </div>
+
+    <div class="bottom">
+        <div id="first">
+            <div class="text-content">
+                <h1 style="text-decoration: underline;">Jammu Museum: Jammu</h1>
+                <p id="museum-p">The Jammu Museum is an important cultural site that offers insights into the historical
+                    and artistic legacy of the Jammu region. It showcases a variety of artifacts including ancient
+                    coins, sculptures, and art pieces.</p>
+                <h3 style="text-decoration: underline;">Contact Number:</h3>
+                <p id="number">0191 2565862</p>
+                <div class="dropdown">
+                    <button class="dropbtn">Timings</button>
+                    <div class="dropdown-content">
+                        <a href="#">Monday: CLOSED!</a>
+                        <a href="#">Tuesday: 10:00 - 17:30</a>
+                        <a href="#">Wednesday: 10:00 - 17:30</a>
+                        <a href="#">Thursday: 10:00 - 17:30</a>
+                        <a href="#">Friday: 10:00 - 17:30</a>
+                        <a href="#">Satuday: 10:30 - 17:30</a>
+                        <a href="#">Sunday: 10:30 - 17:30</a>
+                    </div>
+                </div>
+                <br>
+                <a
+                    href="https://www.google.co.in/maps/place/Amar+Mahal+Museum+and+Library/@32.7477098,74.8722927,10z/data=!4m10!1m2!2m1!1sJammu+Museum!3m6!1s0x391e84778bb4030f:0xb2ebe51a9e1da4bc!8m2!3d32.7477098!4d74.8722927!15sCgxKYW1tdSBNdXNldW2SAQZtdXNldW3gAQA!16s%2Fm%2F027hy_w?entry=ttu&g_ep=EgoyMDI0MDgyOC4wIKXMDSoASAFQAw%3D%3D">📍
+                    Directions</a>
+            </div>
+            <div class="image-content">
+                <img id="museum-img" src="photos/Jammu_Museum.jpg" alt="Jammu Museum: Jammu">
+            </div>
+        </div>
+    </div>
+    <div class="bottom">
+        <div id="first">
+            <div class="text-content">
+                <h1 style="text-decoration: underline;">Leh Palace Museum: Leh</h1>
+                <p id="museum-p">The Leh Palace Museum, located in the historical Leh Palace, offers a glimpse into the
+                    rich heritage of the Ladakh region. The museum exhibits traditional artifacts, royal memorabilia,
+                    and ancient manuscripts.</p>
+                <h3 style="text-decoration: underline;">Contact Number:</h3>
+                <p id="number">01982 252721</p>
+                <<div class="dropdown">
+                    <button class="dropbtn">Timings</button>
+                    <div class="dropdown-content">
+                        <a href="#">Monday: CLOSED!</a>
+                        <a href="#">Tuesday: 10:00 - 17:30</a>
+                        <a href="#">Wednesday: 10:00 - 17:30</a>
+                        <a href="#">Thursday: 10:00 - 17:30</a>
+                        <a href="#">Friday: 10:00 - 17:30</a>
+                        <a href="#">Satuday: 10:30 - 17:30</a>
+                        <a href="#">Sunday: 10:30 - 17:30</a>
+                    </div>
+                </div>
+                <br>
+                <a
+                    href="https://www.google.co.in/maps/place/Central+Asian+Museum/@34.1652943,77.5847815,13z/data=!4m10!1m2!2m1!1sLeh+Palace+Museum!3m6!1s0x38fdeb3fd898d28b:0x65894e34a4e0b82b!8m2!3d34.1652943!4d77.5847815!15sChFMZWggUGFsYWNlIE11c2V1bVoTIhFsZWggcGFsYWNlIG11c2V1bZIBBm11c2V1bZoBJENoZERTVWhOTUc5blMwVkpRMEZuU1VSNk4yVjZialozUlJBQuABAA!16s%2Fg%2F11cs01v4_f?entry=ttu&g_ep=EgoyMDI0MDgyOC4wIKXMDSoASAFQAw%3D%3D">📍
+                    Directions</a>
+            </div>
+            <div class="image-content">
+                <img id="museum-img" src="photos/Leh_Palace_Museum.jpg" alt="Leh Palace Museum: Leh">
+            </div>
+        </div>
+    </div>
+    <div class="bottom">
+        <div id="first">
+            <div class="text-content">
+                <h1 style="text-decoration: underline;">Ladakh Museum: Leh</h1>
+                <p id="museum-p">The Ladakh Museum in Leh showcases the cultural and natural history of the Ladakh
+                    region. It features exhibits on local traditions, crafts, and the unique geography of Ladakh.</p>
+                <h3 style="text-decoration: underline;">Contact Number:</h3>
+                <p id="number">01982 259508</p>
+                <div class="dropdown">
+                    <button class="dropbtn">Timings</button>
+                    <div class="dropdown-content">
+                        <a href="#">Monday: CLOSED!</a>
+                        <a href="#">Tuesday: 10:00 - 17:30</a>
+                        <a href="#">Wednesday: 10:00 - 17:30</a>
+                        <a href="#">Thursday: 10:00 - 17:30</a>
+                        <a href="#">Friday: 10:00 - 17:30</a>
+                        <a href="#">Satuday: 10:30 - 17:30</a>
+                        <a href="#">Sunday: 10:30 - 17:30</a>
+                    </div>
+                </div>
+                <br>
+                <a
+                    href="https://www.google.co.in/maps/place/Stok+Museum/@34.0730019,77.5486221,13z/data=!4m10!1m2!2m1!1sLadakh+Museum!3m6!1s0x38fd92c791806a4f:0xe3e13cc5223f44a4!8m2!3d34.0730019!4d77.5486221!15sCg1MYWRha2ggTXVzZXVtkgEGbXVzZXVt4AEA!16s%2Fg%2F121k2p41?entry=ttu&g_ep=EgoyMDI0MDgyOC4wIKXMDSoASAFQAw%3D%3D">📍
+                    Directions</a>
+            </div>
+            <div class="image-content">
+                <img id="museum-img" src="photos/Ladakh_Museum.jpg" alt="Ladakh Museum: Leh">
+            </div>
+        </div>
+    </div>
+
+
+    <script>
+        function loadGoogleTranslate() {
+            new google.translate.TranslateElement({ pageLanguage: 'en' }, 'google_element');
+        }
+    </script>
+    <script src="https://translate.google.com/translate_a/element.js?cb=loadGoogleTranslate"></script>
+
+    <script>
+        let step = 0;
+        let userName = '';
+        let selectedCity = '';
+        let selectedMuseum = '';
+        let visitorType = '';
+        let numberOfTickets = 0;
+        let selectedDate = '';
+        let selectedTime = '';
+        const ticketPrices = { indian: 100, foreigner: 500 };
+
+        // Send message function
+        function sendMessage() {
+            const userInput = document.getElementById('user-input').value.trim();
+            if (userInput === '') return;
+
+            appendMessage(userInput, 'user');
+            document.getElementById('user-input').value = '';
+
+            if (step === 0) {
+                document.getElementById('nameInputContainer').style.display = 'none';
+            }
+
+            setTimeout(() => {
+                botReply(userInput);
+            }, 500);
+        }
+
+        // Append messages to the chat box
+        function appendMessage(text, sender) {
+            const chatBox = document.getElementById('chat-box');
+            const message = document.createElement('div');
+            message.className = `message ${sender}`;
+            message.innerText = text;
+            chatBox.appendChild(message);
+            chatBox.scrollTop = chatBox.scrollHeight;
+        }
+
+        // Handle bot replies based on the current step
+        function botReply(userInput = '') {
+            let botMessage = '';
+
+            switch (step) {
+                case 0:
+                    userName = userInput;
+                    botMessage = `Nice to meet you, ${userName}. Which city would you like to book tickets for?`;
+                    step++;
+                    showElement('cityPrompt');
+                    break;
+
+                case 1:
+                    selectedCity = document.getElementById('citySelect').value;
+                    if (selectedCity) {
+                        botMessage = `You've selected ${selectedCity.charAt(0).toUpperCase() + selectedCity.slice(1)}. Which museum would you like to visit?`;
+                        step++;
+                        updateMuseums();
+                        showElement('museumPrompt');
+                    }
+                    break;
+
+                case 2:
+                    selectedMuseum = document.getElementById('museumSelect').value;
+                    if (selectedMuseum) {
+                        botMessage = `You've chosen ${selectedMuseum.replace(/_/g, ' ').toUpperCase()}. Are you an Indian or Foreigner?`;
+                        step++;
+                        showElement('visitorTypePrompt');
+                    }
+                    break;
+
+                case 3:
+                    visitorType = document.getElementById('visitorTypeSelect').value;
+                    if (visitorType) {
+                        botMessage = `You've selected ${visitorType.charAt(0).toUpperCase() + visitorType.slice(1)}. How many tickets would you like to book?`;
+                        step++;
+                        showElement('ticketPrompt');
+                    }
+                    break;
+
+                case 4:
+                    numberOfTickets = parseInt(document.getElementById('ticketSelect').value);
+                    if (!isNaN(numberOfTickets) && numberOfTickets > 0) {
+                        botMessage = `You've chosen ${numberOfTickets} tickets. Please select a date.`;
+                        step++;
+                        showElement('datePrompt');
+                    }
+                    break;
+
+                case 5:
+                    selectedDate = document.getElementById('dateSelect').value;
+                    if (selectedDate) {
+                        botMessage = `You've selected ${selectedDate}. Please choose a time slot.`;
+                        step++;
+                        showElement('timePrompt');
+                    }
+                    break;
+
+                case 6:
+                    selectedTime = document.getElementById('timeSelect').value;
+                    if (selectedTime) {
+                        calculatePrice();
+                        botMessage = `You've chosen ${selectedTime}. The total price is ₹${ticketPrices[visitorType] * numberOfTickets}. Would you like to proceed with the payment?`;
+                        step++;
+                        showElement('paymentButtonContainer');
+                    }
+                    break;
+
+                case 7:
+                    botMessage = `Thank you, ${userName}! Your booking is confirmed.`;
+                    step++;
+                    document.getElementById('confirmationMessage').classList.remove('hidden');
+                    break;
+
+                default:
+                    botMessage = "Your ticket has already been booked. Thank you!";
+            }
+
+            if (botMessage) {
+                appendMessage(botMessage, 'bot');
+            }
+        }
+
+        // Update museums based on the selected city
+        function updateMuseums() {
+            const museumSelect = document.getElementById('museumSelect');
+            museumSelect.innerHTML = ''; // Clear previous options
+
+            const museums = {
+                Jammu: ['--Select a Museum--', 'Bahu Fort', 'Jammu Museum'],
+                Srinagar: ['--Select a Museum--', 'SPS Museum', 'Srinagar Museum'],
+                Leh: ['--Select a Museum--', 'Leh Palace Museum', 'Ladakh Museum']
+            };
+
+
+            museums[selectedCity].forEach(museum => {
+                const option = document.createElement('option');
+                option.value = museum.toLowerCase().replace(/ /g, '_');
+                option.textContent = museum;
+                museumSelect.appendChild(option);
+            });
+        }
+
+        // Calculate the total price based on visitor type and number of tickets
+        function calculatePrice() {
+            const totalPrice = ticketPrices[visitorType] * numberOfTickets;
+            const priceMessage = `The total price is ₹${totalPrice}.`;
+            document.getElementById('priceMessage').innerText = priceMessage;
+            showElement('priceDisplay');
+        }
+
+        // Simulate completing the payment process
+        function completePayment() {
+            appendMessage("Processing your payment...", 'bot');
+            setTimeout(() => {
+                document.getElementById('paymentButtonContainer').classList.add('hidden');
+                botReply();
+            }, 1500); // Simulating payment process delay
+        }
+
+        // Show an element by removing the 'hidden' class
+        function showElement(elementId) {
+            document.getElementById(elementId).classList.remove('hidden');
+        }
+    </script>
+
+    <script>
+        function saveData() {
+            const userData = {
+                userName: document.getElementById('userName').value,
+                selectedCity: document.getElementById('selectedCity').value,
+                selectedMuseum: document.getElementById('selectedMuseum').value,
+                visitorType: document.getElementById('visitorType').value,
+                numberOfTickets: document.getElementById('numberOfTickets').value,
+                selectedDate: document.getElementById('selectedDate').value,
+                selectedTime: document.getElementById('selectedTime').value
+            };
+
+            localStorage.setItem('userData', JSON.stringify(userData));
+            window.location.href = 'ticket.html'; // Redirect to ticket page
+        }
+
+        function saveData() {
+            const userData = {
+                userName: document.getElementById('userName').value,
+                selectedCity: document.getElementById('selectedCity').value,
+                selectedMuseum: document.getElementById('selectedMuseum').value,
+                visitorType: document.getElementById('visitorType').value,
+                numberOfTickets: document.getElementById('numberOfTickets').value,
+                selectedDate: document.getElementById('selectedDate').value,
+                selectedTime: document.getElementById('selectedTime').value
+            };
+
+            console.log(userData);  // Log the data to the console for debugging
+
+            localStorage.setItem('userData', JSON.stringify(userData));
+            window.location.href = 'ticket.html';  // Redirect to ticket page
+        }
+
+        function completePayment() {
+            const userData = {
+                userName,
+                selectedCity,
+                selectedMuseum,
+                visitorType,
+                numberOfTickets,
+                selectedDate,
+                selectedTime
+            };
+
+            // Save data to localStorage
+            localStorage.setItem('userData', JSON.stringify(userData));
+
+            // Simulating payment and redirect to ticket.html
+            appendMessage("Processing your payment...", 'bot');
+            setTimeout(() => {
+                window.location.href = 'ticket.html'; // Redirect to ticket.html
+            }, 1500);
+        }
+    </script>
+
+</body>
+
+</html>

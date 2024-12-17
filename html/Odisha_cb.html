@@ -1,0 +1,548 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Museum Ticket Booking Chatbot</title>
+    <link rel="stylesheet" href="Odisha_cb.css">
+    <link href="https://db.onlinewebfonts.com/c/6bff5f8f85a7385fbdc21a8f724dd8ac?family=Rajasthan+Regular"
+        rel="stylesheet">
+    <style>
+        
+        .right-text p {
+            padding-bottom: 30px;
+        }
+
+        .goog-te-gadget .goog-te-combo {
+            margin: 4px 0;
+            padding: 5px;
+            border-radius: 20px;
+        }
+        #timing{
+            margin-bottom: 15px;
+        }
+        .dropbtn {
+            background-color: #04AA6D;
+            color: white;
+            padding: 10px;
+            font-size: 16px;
+            margin-bottom: 10px;
+            border: none;
+        }
+
+        .dropdown {
+            position: relative;
+            display: inline-block;
+        }
+
+        .dropdown-content {
+            display: none;
+            position: absolute;
+            background-color: #f1f1f1;
+            min-width: 160px;
+            box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
+            z-index: 1;
+        }
+
+        .dropdown-content a {
+            color: black;
+            min-width: 200px;
+            padding: 0px;
+            font-size: 15px;
+            font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+            text-decoration: none;
+            display: block;
+        }
+
+
+        .dropdown:hover .dropdown-content {
+            display: block;
+        }
+
+    </style>
+</head>
+
+<body>
+    <div id="bg-img">
+        <header>
+            <div-1>
+                <img id="logo" src="photos/logo1.png" alt="">
+                <h1>ChatBot-Ticketing System </h1>
+            </div-1>
+            <div id="google_element"></div>
+
+        </header>
+
+
+        <div id="top">
+            <div class="chat-container">
+                <div id="chat-box" class="chat-box">
+                    <div class="message bot">Hello! Welcome to our museum. What is your name?</div>
+                </div>
+                <div id="nameInputContainer">
+                    <input type="text" id="user-input" placeholder="Enter your name..." autofocus>
+                    <button onclick="sendMessage()">Send</button>
+                </div>
+
+                <div id="cityPrompt" class="hidden">
+                    <label for="citySelect">Select City:</label>
+                    <select id="citySelect" onchange="botReply()">
+                        <option value="">--Select a City--</option>
+                        <option value="bhubneswar">Bhubneswar</option>
+                        <option value="cuttack">Cuttack</option>
+                        <option value="konark">Konark</option>
+                    </select>
+                </div>
+
+                <div id="museumPrompt" class="hidden">
+                    <label for="museumSelect">Select Museum:</label>
+                    <select id="museumSelect" onchange="botReply()">
+                        <!-- Options will be populated dynamically -->
+                    </select>
+                </div>
+
+                <div id="visitorTypePrompt" class="hidden">
+                    <label for="visitorTypeSelect">Are you an Indian or Foreigner?</label>
+                    <select id="visitorTypeSelect" onchange="botReply()">
+                        <option value="">--Select--</option>
+                        <option value="indian">Indian</option>
+                        <option value="foreigner">Foreigner</option>
+                    </select>
+                </div>
+
+                <div id="ticketPrompt" class="hidden">
+                    <label for="ticketSelect">Number of Tickets:</label>
+                    <select id="ticketSelect" onchange="botReply()">
+                        <option value="">--Select Number of Tickets--</option>
+                        <option value="1">1</option>
+                        <option value="2">2</option>
+                        <option value="3">3</option>
+                        <option value="4">4</option>
+                        <option value="5">5</option>
+                        <option value="6">6</option>
+                        <option value="7">7</option>
+                        <option value="8">8</option>
+                        <option value="9">9</option>
+                        <option value="10">10</option>
+                    </select>
+                </div>
+
+                <div id="datePrompt" class="hidden">
+                    <label for="dateSelect">Select Date:</label>
+                    <input type="date" id="dateSelect" onchange="botReply()">
+                </div>
+
+                <div id="timePrompt" class="hidden">
+                    <label for="timeSelect">Select Time Slot:</label>
+                    <select id="timeSelect" onchange="botReply()">
+                        <option value="">--Select Time Slot--</option>
+                        <option value="09:00">09:00 AM</option>
+                        <option value="11:00">11:00 AM</option>
+                        <option value="14:00">02:00 PM</option>
+                    </select>
+                </div>
+
+                <div id="priceDisplay" class="hidden">
+                    <div id="priceMessage"></div>
+                </div>
+
+                <div id="paymentButtonContainer" class="hidden">
+                    <button id="payButton" onclick="completePayment()">Complete Payment</button>
+                </div>
+
+                <div id="confirmationMessage" class="hidden">
+                    <div class="message bot">Your ticket is booked. Thanks for visiting us!</div>
+                    <a id='download' href="ticket.html">Download your ticket</a>
+                </div>
+            </div>
+
+            <div class="right-text">
+                <h1>ODISHA</h1>
+                <p>Odisha, located on the eastern coast of India, is a state rich in history, culture, and natural beauty. It boasts a diverse landscape ranging from the Eastern Ghats to the Bay of Bengal, with lush forests, serene rivers, and a long coastline. The state is known for its unique blend of ancient and modern influences, evident in its architecture, arts, and festivals. Historically, Odisha was known as Kalinga, a powerful kingdom that played a crucial role in Indian history, particularly during the Kalinga War, which led to Emperor Ashoka's embrace of Buddhism.
+                    <br>
+                    <br>
+                    Culturally, Odisha is a treasure trove of traditions, especially in the fields of dance, music, and handicrafts. The classical dance form of Odissi, which originated here, is one of the oldest dance forms in India, renowned for its grace and expressiveness. The state is also famous for its intricate temple architecture, with the Sun Temple at Konark, a UNESCO World Heritage Site, being a prime example. Festivals like Rath Yatra, held in Puri, attract millions of devotees from across the world, showcasing the state's vibrant spiritual life.
+                    <br>
+                    <br>
+                    Economically, Odisha is a key player in India's industrial and agricultural sectors. It is rich in natural resources, particularly minerals like iron ore, coal, and bauxite, making it a hub for mining and metal industries. The state's economy is also bolstered by agriculture, with rice being the staple crop. Despite its economic potential, Odisha faces challenges such as poverty and natural disasters, particularly cyclones, but it continues to make strides in development through government initiatives and community resilience.
+                </p>
+            </div>
+        </div>
+    </div>
+
+    </div>
+    </div>
+    <div class="bottom">
+        <div id="first">
+            <div class="text-content">
+                <h1 style="text-decoration: underline;">Odisha State Museum:Bhubaneswar</h1>
+                <p id="museum-p">Located in the capital city, this museum is one of the most comprehensive in Odisha, offering insights into the state's history, archaeology, art, and culture. It houses a vast collection of artifacts, including ancient manuscripts, coins, and weapons, as well as exhibits on traditional folk and tribal art forms.
+
+                    <h3 style="text-decoration: underline;">Contact Us:</h3></a>
+                    <p id="number">011 2301 1358</p>
+                    <div class="dropdown">
+                        <button class="dropbtn">Timings</button>
+                        <div class="dropdown-content">
+                            <a href="#">Monday: CLOSED!</a>
+                            <a href="#">Tuesday: 10:00 - 17:30</a>
+                            <a href="#">Wednesday: 10:00 - 17:30</a>
+                            <a href="#">Thursday: 10:00 - 17:30</a>
+                            <a href="#">Friday: 10:00 - 17:30</a>
+                            <a href="#">Satuday: 10:30 - 17:30</a>
+                            <a href="#">Sunday: 10:30 - 17:30</a>
+                        </div>
+                    </div>
+                    <br>
+    
+                    <a href="https://www.google.co.in/maps/place/Odisha+State+Museum/@20.2563713,85.8387117,17z/data=!3m1!4b1!4m6!3m5!1s0x3a19a737b64c6c93:0x15fb2ca96f6abd2c!8m2!3d20.2563713!4d85.8412866!16s%2Fm%2F0rpgy_2?entry=ttu&g_ep=EgoyMDI0MDkwMy4wIKXMDSoASAFQAw%3D%3D">📍 Directions</a>
+            </div>
+            <div class="image-content">
+                <img id="museum-img" src="photos/odisha-state-museum.jpeg"alt="Odisha State Museum">
+            </div>
+        </div>
+    </div>
+    <div class="bottom">
+        <div id="first">
+            <div class="text-content">
+                <h1 style="text-decoration: underline;">Tribal Museum:Bhubneswar</h1>
+                <p id="museum-p"> Also known as the Tribal Research Institute Museum, this museum focuses on the diverse tribal cultures of Odisha. It exhibits traditional clothing, ornaments, tools, and household items used by various tribal communities, offering visitors a glimpse into their way of life, customs, and beliefs.
+
+                </p>
+
+                    <h3 style="text-decoration: underline;">Contact Us:</h3>
+                    <p id="number">011 2301 2843</p>
+                    <div class="dropdown">
+                        <button class="dropbtn">Timings</button>
+                        <div class="dropdown-content">
+                            <a href="#">Monday: CLOSED!</a>
+                            <a href="#">Tuesday: 10:00 - 17:30</a>
+                            <a href="#">Wednesday: 10:00 - 17:30</a>
+                            <a href="#">Thursday: 10:00 - 17:30</a>
+                            <a href="#">Friday: 10:00 - 17:30</a>
+                            <a href="#">Satuday: 10:30 - 17:30</a>
+                            <a href="#">Sunday: 10:30 - 17:30</a>
+                        </div>
+                    </div>
+                    <br>
+    
+                
+                <a href="https://www.google.co.in/maps/place/Odisha+State+Tribal+Museum/@20.2830021,85.8042533,17z/data=!3m1!4b1!4m6!3m5!1s0x3a19082addaf39ff:0xc39f00aa71aba680!8m2!3d20.2830021!4d85.8068282!16s%2Fm%2F012sdd4x?entry=ttu&g_ep=EgoyMDI0MDkwMy4wIKXMDSoASAFQAw%3D%3D">📍 Directions</a>
+            </div>
+            <div class="image-content">
+                <img id="museum-img" src="photos/tribal-museum.webp" alt="Tribal Museum">
+            </div>
+        </div>
+    </div>
+    <div class="bottom">
+        <div id="first">
+            <div class="text-content">
+                <h1 style="text-decoration: underline;">Odisha Crafts Museum (Kala Bhoomi):Bhubaneswar</h1>
+                <p id="museum-p">
+                    This museum is dedicated to the traditional crafts and textiles of Odisha. Spread over a large area, it showcases handloom sarees, terracotta, stone and wood carvings, pattachitra paintings, and more. The museum also has a live demonstration area where artisans create and display their crafts.
+                </p>
+
+                <h3 style="text-decoration: underline;">Contact Number:</h3>
+                <p id="number">011 2688 1826</p>
+                <div class="dropdown">
+                    <button class="dropbtn">Timings</button>
+                    <div class="dropdown-content">
+                        <a href="#">Monday: CLOSED!</a>
+                        <a href="#">Tuesday: 10:00 - 17:30</a>
+                        <a href="#">Wednesday: 10:00 - 17:30</a>
+                        <a href="#">Thursday: 10:00 - 17:30</a>
+                        <a href="#">Friday: 10:00 - 17:30</a>
+                        <a href="#">Satuday: 10:30 - 17:30</a>
+                        <a href="#">Sunday: 10:30 - 17:30</a>
+                    </div>
+                </div>
+                <br>
+
+                <a href="https://www.google.co.in/maps/place/Kala+Bhoomi+Odisha+Crafts+Museum/@20.2521434,85.8047544,17z/data=!3m1!4b1!4m6!3m5!1s0x3a19a7cebbc84181:0xde4d5d69b761d082!8m2!3d20.2521434!4d85.8073293!16s%2Fg%2F11g1mvzts6?entry=ttu&g_ep=EgoyMDI0MDkwMy4wIKXMDSoASAFQAw%3D%3D">📍 Directions</a>
+            </div>
+            <div class="image-content">
+                <img id="museum-img" src="photos/odisha-craft.jpg" alt="Odisha Crafts Museum">
+            </div>
+        </div>
+    </div>
+    <div class="bottom">
+        <div id="first">
+            <div class="text-content">
+                <h1 style="text-decoration: underline;">Netaji Birthplace Museum:Cuttack</h1>
+                <p id="museum-p">Located in the ancestral home of Netaji Subhas Chandra Bose, this museum is dedicated to the life and legacy of the Indian freedom fighter. It houses a collection of personal belongings, letters, photographs, and documents related to Netaji, highlighting his contributions to India's independence movement.</p>
+
+                <h3 style="text-decoration: underline;">Contact Number:</h3>
+                <p id="number">011 2337 1370</p>
+                <div class="dropdown">
+                    <button class="dropbtn">Timings</button>
+                    <div class="dropdown-content">
+                        <a href="#">Monday: CLOSED!</a>
+                        <a href="#">Tuesday: 10:00 - 17:30</a>
+                        <a href="#">Wednesday: 10:00 - 17:30</a>
+                        <a href="#">Thursday: 10:00 - 17:30</a>
+                        <a href="#">Friday: 10:00 - 17:30</a>
+                        <a href="#">Satuday: 10:30 - 17:30</a>
+                        <a href="#">Sunday: 10:30 - 17:30</a>
+                    </div>
+                </div>
+                <br>
+
+                <a href="https://www.google.co.in/maps/place/Netaji+Birth+Place+Museum+-+Cuttack/@20.4694241,85.8669977,18z/data=!4m10!1m2!2m1!1sNetaji+Birthplace+Museum:Cuttack!3m6!1s0x3a190d8b1fd24b2b:0x935f3d12296e516c!8m2!3d20.4700673!4d85.8668001!15sCiBOZXRhamkgQmlydGhwbGFjZSBNdXNldW06Q3V0dGFja1oiIiBuZXRhamkgYmlydGhwbGFjZSBtdXNldW0gY3V0dGFja5IBBm11c2V1beABAA!16s%2Fg%2F1tkb3jkb?entry=ttu&g_ep=EgoyMDI0MDkwMy4wIKXMDSoASAFQAw%3D%3D">📍 Directions</a>
+            </div>
+            <div class="image-content">
+                <img id="museum-img" src="photos/netaji.jpeg" alt="Netaji Birthplace Museum">
+            </div>
+        </div>
+    </div>
+    <div class="bottom">
+        <div id="first">
+            <div class="text-content">
+                <h1 style="text-decoration: underline;">Konark Sun Temple Museum:Konark</h1>
+                <p id="museum-p">Managed by the Archaeological Survey of India, this museum is situated near the iconic Sun Temple at Konark. It features four galleries displaying a wide range of sculptures, carvings, and architectural fragments from the temple, providing a deeper understanding of the craftsmanship and religious significance of this UNESCO World Heritage Site.</p>
+
+                <h3 style="text-decoration: underline;">Contact Number:</h3>
+                <p id="number">011 2337 1370</p>
+                <div class="dropdown">
+                    <button class="dropbtn">Timings</button>
+                    <div class="dropdown-content">
+                        <a href="#">Monday: CLOSED!</a>
+                        <a href="#">Tuesday: 10:00 - 17:30</a>
+                        <a href="#">Wednesday: 10:00 - 17:30</a>
+                        <a href="#">Thursday: 10:00 - 17:30</a>
+                        <a href="#">Friday: 10:00 - 17:30</a>
+                        <a href="#">Satuday: 10:30 - 17:30</a>
+                        <a href="#">Sunday: 10:30 - 17:30</a>
+                    </div>
+                </div>
+                <br>
+
+                <a href="https://www.google.co.in/maps/place/Konark+Sun+Temple+Museum/@19.8911384,86.091952,17z/data=!3m1!4b1!4m6!3m5!1s0x3a19f317d8af8cb7:0x6877b2963e79c8c1!8m2!3d19.8911384!4d86.0945269!16s%2Fg%2F11k6jzf0qs?entry=ttu&g_ep=EgoyMDI0MDkwMy4wIKXMDSoASAFQAw%3D%3D">📍 Directions</a>
+            </div>
+            <div class="image-content">
+                <img id="museum-img" src="photos/konark-sun.jpeg" alt="Konark Sun Temple Museum">
+            </div>
+        </div>
+    </div>
+    </div>
+
+
+
+    <script>
+        let step = 0;
+        let userName = '';
+        let selectedCity = '';
+        let selectedMuseum = '';
+        let visitorType = '';
+        let numberOfTickets = 0;
+        let selectedDate = '';
+        let selectedTime = '';
+        const ticketPrices = { indian: 100, foreigner: 500 };
+
+        function sendMessage() {
+            const userInput = document.getElementById("user-input").value;
+            if (userInput === "") return;
+
+            appendMessage(userInput, 'user');
+            document.getElementById("user-input").value = '';
+
+            if (step === 0) {
+                // Hide the name input after entering the name
+                document.getElementById("nameInputContainer").style.display = "none";
+            }
+
+            setTimeout(() => {
+                botReply(userInput);
+            }, 500);
+        }
+
+
+        function appendMessage(text, sender) {
+            const chatBox = document.getElementById("chat-box");
+            const message = document.createElement("div");
+            message.className = `message ${sender}`;
+            message.innerText = text;
+            chatBox.appendChild(message);
+            chatBox.scrollTop = chatBox.scrollHeight;
+        }
+
+        function botReply(userInput = '') {
+            let botMessage = '';
+
+            switch (step) {
+                case 0:
+                    userName = userInput;
+                    botMessage = `Nice to meet you, ${userName}. Which city would you like to book tickets for?`;
+                    step++;
+                    showElement('cityPrompt');
+                    break;
+
+                case 1:
+                    selectedCity = document.getElementById('citySelect').value;
+                    if (selectedCity) {
+                        botMessage = `You've selected ${selectedCity.charAt(0).toUpperCase() + selectedCity.slice(1)}. Which museum would you like to visit?`;
+                        step++;
+                        updateMuseums();
+                        showElement('museumPrompt');
+                    }
+                    break;
+                case 2:
+                    selectedMuseum = document.getElementById('museumSelect').value;
+                    if (selectedMuseum) {
+                        botMessage = `You've chosen ${selectedMuseum.replace(/_/g, ' ').toUpperCase()}. Are you an Indian or Foreigner?`;
+                        step++;
+                        showElement('visitorTypePrompt');
+                    }
+                    break;
+                case 3:
+                    visitorType = document.getElementById('visitorTypeSelect').value;
+                    if (visitorType) {
+                        botMessage = `You've selected ${visitorType.charAt(0).toUpperCase() + visitorType.slice(1)}. How many tickets would you like to book?`;
+                        step++;
+                        showElement('ticketPrompt');
+                    }
+                    break;
+                case 4:
+                    numberOfTickets = parseInt(document.getElementById('ticketSelect').value);
+                    if (!isNaN(numberOfTickets) && numberOfTickets > 0) {
+                        botMessage = `You've chosen ${numberOfTickets} tickets. Please select a date.`;
+                        step++;
+                        showElement('datePrompt');
+                    }
+                    break;
+                case 5:
+                    selectedDate = document.getElementById('dateSelect').value;
+                    if (selectedDate) {
+                        botMessage = `You've selected ${selectedDate}. Please choose a time slot.`;
+                        step++;
+                        showElement('timePrompt');
+                    }
+                    break;
+                case 6:
+                    selectedTime = document.getElementById('timeSelect').value;
+                    if (selectedTime) {
+                        calculatePrice();
+                        botMessage = `You've chosen ${selectedTime}. The total price is ₹${ticketPrices[visitorType] * numberOfTickets}. Would you like to proceed with the payment?`;
+                        step++;
+                        showElement('paymentButtonContainer');
+                    }
+                    break;
+                case 7:
+                    botMessage = `Thank you, ${userName}! Your booking is confirmed.`;
+                    step++;
+                    document.getElementById('confirmationMessage').classList.remove('hidden');
+                    break;
+                default:
+                    botMessage = "Your ticket has already been booked. Thank you!";
+            }
+
+            if (botMessage) {
+                appendMessage(botMessage, 'bot');
+            }
+        }
+
+        function updateMuseums() {
+            const museumSelect = document.getElementById('museumSelect');
+            museumSelect.innerHTML = ''; // Clear previous options
+
+            const museums = {
+                bhubaneswar: ['--Select a Museum--', 'Odisha State Museum','Odisha Crafts Museum','Tribal Museum'],
+                cuttack: ['--Select a Museum--', 'Netaji Birthplace Museum'],
+                konark: ['--Select a Museum--', 'Konark Sun Temple Museum']
+            };
+
+            museums[selectedCity].forEach(museum => {
+                const option = document.createElement('option');
+                option.value = museum.toLowerCase().replace(/ /g, '_');
+                option.textContent = museum;
+                museumSelect.appendChild(option);
+            });
+        }
+
+        function calculatePrice() {
+            const totalPrice = ticketPrices[visitorType] * numberOfTickets;
+            const priceMessage = `The total price is ₹${totalPrice}.`;
+            document.getElementById('priceMessage').innerText = priceMessage;
+            showElement('priceDisplay');
+        }
+
+        function completePayment() {
+            appendMessage("Processing your payment...", 'bot');
+            setTimeout(() => {
+                document.getElementById('paymentButtonContainer').classList.add('hidden');
+                botReply();
+            }, 1500); // Simulating payment process delay
+        }
+
+        function showElement(elementId) {
+            document.getElementById(elementId).classList.remove('hidden');
+        }
+    </script>
+
+    <script>
+        function saveData() {
+            const userData = {
+                userName: document.getElementById('userName').value,
+                selectedCity: document.getElementById('selectedCity').value,
+                selectedMuseum: document.getElementById('selectedMuseum').value,
+                visitorType: document.getElementById('visitorType').value,
+                numberOfTickets: document.getElementById('numberOfTickets').value,
+                selectedDate: document.getElementById('selectedDate').value,
+                selectedTime: document.getElementById('selectedTime').value
+            };
+
+            localStorage.setItem('userData', JSON.stringify(userData));
+            window.location.href = 'ticket.html'; // Redirect to ticket page
+        }
+
+        function saveData() {
+            const userData = {
+                userName: document.getElementById('userName').value,
+                selectedCity: document.getElementById('selectedCity').value,
+                selectedMuseum: document.getElementById('selectedMuseum').value,
+                visitorType: document.getElementById('visitorType').value,
+                numberOfTickets: document.getElementById('numberOfTickets').value,
+                selectedDate: document.getElementById('selectedDate').value,
+                selectedTime: document.getElementById('selectedTime').value
+            };
+        
+            console.log(userData);  // Log the data to the console for debugging
+        
+            localStorage.setItem('userData', JSON.stringify(userData));
+            window.location.href = 'ticket.html';  // Redirect to ticket page
+        }
+            
+        function completePayment() {
+            const userData = {
+                userName,
+                selectedCity,
+                selectedMuseum,
+                visitorType,
+                numberOfTickets,
+                selectedDate,
+                selectedTime
+            };
+        
+            // Save data to localStorage
+            localStorage.setItem('userData', JSON.stringify(userData));
+        
+            // Simulating payment and redirect to ticket.html
+            appendMessage("Processing your payment...", 'bot');
+            setTimeout(() => {
+                window.location.href = 'ticket.html'; // Redirect to ticket.html
+            }, 1500);
+        }
+    </script>
+
+
+    <script>
+        function loadGoogleTranslate() {
+            new google.translate.TranslateElement({ pageLanguage: 'en' }, 'google_element');
+        }
+    </script>
+    <script src="https://translate.google.com/translate_a/element.js?cb=loadGoogleTranslate"></script>
+
+    
+
+</body>
+
+</html>

@@ -1,0 +1,710 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Museum Ticket Booking Chatbot</title>
+    <link rel="stylesheet" href="chat_kerela_css.css">
+    <link href="https://db.onlinewebfonts.com/c/6bff5f8f85a7385fbdc21a8f724dd8ac?family=Rajasthan+Regular"
+        rel="stylesheet">
+</head>
+
+<style>
+    .goog-te-gadget .goog-te-combo {
+        margin: 4px 0;
+        padding: 5px;
+        border-radius: 20px;
+    }
+    #timing{
+        margin-bottom: 10px;
+    }
+    .dropbtn {
+        background-color: #04AA6D;
+        color: white;
+        padding: 10px;
+        font-size: 16px;
+        margin-bottom: 10px;
+        border: none;
+    }
+
+    .dropdown {
+        position: relative;
+        display: inline-block;
+    }
+
+    .dropdown-content {
+        display: none;
+        position: absolute;
+        background-color: #f1f1f1;
+        min-width: 160px;
+        box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
+        z-index: 1;
+    }
+
+    .dropdown-content a {
+        color: black;
+        min-width: 200px;
+        padding: 0px;
+        font-size: 15px;
+        font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+        text-decoration: none;
+        display: block;
+    }
+
+
+    .dropdown:hover .dropdown-content {
+        display: block;
+    }
+
+</style>
+
+<body>
+    <div id="bg-img">
+        <header>
+            <div class="header-content">
+                <img id="logo" src="photos/logo1.png" alt="Museum Logo">
+                <h1>ChatBot-Ticketing System</h1>
+            </div>
+            <div id="google_element"></div>
+
+        </header>
+
+        <div id="top">
+            <div class="chat-container">
+                <div id="chat-box" class="chat-box">
+                    <div class="message bot">Hello! Welcome to our museum. What is your name?</div>
+                </div>
+                <div id="nameInputContainer">
+                    <input type="text" id="user-input" placeholder="Enter your name..." autofocus>
+                    <button onclick="sendMessage()">Send</button>
+                </div>
+
+                <div id="cityPrompt" class="hidden">
+                    <label for="citySelect">Select City:</label>
+                    <select id="citySelect" onchange="botReply()">
+                        <option value="">--Select a City--</option>
+                        <option value="thiruvananthapuram">Thiruvananthapuram</option>
+                        <option value="kochi">Kochi</option>
+                        <option value="kollam">Kollam</option>
+                    </select>
+                </div>
+
+                <div id="museumPrompt" class="hidden">
+                    <label for="museumSelect">Select Museum:</label>
+                    <select id="museumSelect" onchange="botReply()">
+                        <!-- Options will be populated dynamically -->
+                    </select>
+                </div>
+
+                <div id="visitorTypePrompt" class="hidden">
+                    <label for="visitorTypeSelect">Are you an Indian or Foreigner?</label>
+                    <select id="visitorTypeSelect" onchange="botReply()">
+                        <option value="">--Select--</option>
+                        <option value="indian">Indian</option>
+                        <option value="foreigner">Foreigner</option>
+                    </select>
+                </div>
+
+                <div id="ticketPrompt" class="hidden">
+                    <label for="ticketSelect">Number of Tickets:</label>
+                    <select id="ticketSelect" onchange="botReply()">
+                        <option value="">--Select Number of Tickets--</option>
+                        <option value="1">1</option>
+                        <option value="2">2</option>
+                        <option value="3">3</option>
+                        <option value="4">4</option>
+                        <option value="5">5</option>
+                        <option value="6">6</option>
+                        <option value="7">7</option>
+                        <option value="8">8</option>
+                        <option value="9">9</option>
+                        <option value="10">10</option>
+                    </select>
+                </div>
+
+                <div id="datePrompt" class="hidden">
+                    <label for="dateSelect">Select Date:</label>
+                    <input type="date" id="dateSelect" onchange="botReply()">
+                </div>
+
+                <div id="timePrompt" class="hidden">
+                    <label for="timeSelect">Select Time Slot:</label>
+                    <select id="timeSelect" onchange="botReply()">
+                        <option value="">--Select Time Slot--</option>
+                        <option value="09:00">09:00 AM</option>
+                        <option value="11:00">11:00 AM</option>
+                        <option value="14:00">02:00 PM</option>
+                    </select>
+                </div>
+
+                <div id="priceDisplay" class="hidden">
+                    <div id="priceMessage"></div>
+                </div>
+
+                <div id="paymentButtonContainer" class="hidden">
+                    <button id="payButton" onclick="completePayment()">Complete Payment</button>
+                </div>
+
+                <div id="confirmationMessage" class="hidden">
+                    <div class="message bot">Your ticket is booked. Thanks for visiting us!</div>
+                    <a id='download' href="ticket.html">Download your ticket</a>
+                </div>
+            </div>
+
+            <div class="right-text">
+                <h1>KERALA</h1>
+                <p>
+                    Kerala, located on the southwestern coast of India, is renowned for its breathtaking natural beauty,
+                    rich cultural heritage, and progressive social indicators. Often referred to as "God's Own Country,"
+                    Kerala boasts a diverse landscape that includes serene backwaters, lush green hill stations, and
+                    pristine beaches. The state is celebrated for its unique backwater system, where houseboat cruises
+                    offer a tranquil escape amidst picturesque waterways and vibrant flora and <br><br>
+
+                    Kerala's cultural richness is reflected in its vibrant festivals, traditional art forms, and
+                    cuisine. The annual Onam festival, characterized by elaborate feasts and intricate floral
+                    arrangements, highlights the state's strong cultural traditions. Kerala is also known for its
+                    classical dance forms like Kathakali and Mohiniyattam, which portray mythological stories with
+                    elaborate costumes and expressive performances.<br><br>
+
+                    In addition to its cultural and natural attractions, Kerala is noted for its high literacy rates and
+                    progressive healthcare system, which contribute to its high human development indices. The state's
+                    commitment to sustainable tourism and environmental preservation ensures that its beauty remains
+                    unspoiled. Overall, Kerala stands as a model of harmony between tradition and modernity, offering a
+                    rich and multifaceted experience to its visitors.
+                </p>
+            </div>
+        </div>
+    </div>
+
+    <div class="bottom">
+        <div id="first">
+            <div class="text-content">
+                <h1 style="text-decoration: underline;">Napier Museum</h1>
+                <p id="museum-p">
+                    The Napier Museum, located in Thiruvananthapuram, Kerala, is a historic landmark renowned for its
+                    impressive architectural design and rich collection of artifacts. Built in the 19th century, the
+                    museum's Indo-Saracenic style features a blend of Indian and Gothic elements. It houses a diverse
+                    range of exhibits, including ancient sculptures, bronze artifacts, and historical artifacts. The
+                    museum's lush gardens and well-preserved interiors provide a serene backdrop for exploring Kerala's
+                    cultural heritage. As a significant cultural institution, the Napier Museum offers visitors a
+                    glimpse into the region's artistic and historical legacy.
+
+                </p>
+                <h3 style="text-decoration: underline;">Contact Number:</h3>
+                <p id="number">0141 257 0099</p>
+                <div class="dropdown">
+                    <button class="dropbtn">Timings</button>
+                    <div class="dropdown-content">
+                        <a href="#">Monday: CLOSED!</a>
+                        <a href="#">Tuesday: 10:00 - 17:30</a>
+                        <a href="#">Wednesday: 10:00 - 17:30</a>
+                        <a href="#">Thursday: 10:00 - 17:30</a>
+                        <a href="#">Friday: 10:00 - 17:30</a>
+                        <a href="#">Satuday: 10:30 - 17:30</a>
+                        <a href="#">Sunday: 10:30 - 17:30</a>
+                    </div>
+                </div>
+                <br>
+                <a href="https://maps.app.goo.gl/1AksL1nSNMhtTeAd6">📍 Directions</a>
+            </div>
+            <div class="image-content">
+                <img id="museum-img" src="photos/Napier Museum.jpeg.jpg" alt="Napier Museum">
+            </div>
+        </div>
+
+        <!-- Museum Information Sections -->
+        <div id="first">
+            <div class="text-content">
+                <h1 style="text-decoration: underline;">Kuthiramalika Palace </h1>
+                <p id="museum-p">Kuthiramalika Palace, also known as the Kuthiramalika Museum, is a historic palace
+                    located in Thiruvananthapuram, Kerala. Built in the 19th century by Maharaja Swathi Thirunal, the
+                    palace is renowned for its exquisite traditional architecture and intricate wooden carvings. The
+                    name "Kuthiramalika" translates to "Mansion of Horses," referencing the horse motifs found in its
+                    design. The palace houses an impressive collection of royal artifacts, including paintings,
+                    sculptures, and antiques. It offers visitors a glimpse into the opulent lifestyle of Kerala's
+                    erstwhile royalty and the region's rich cultural heritage.
+
+                </p>
+                <h3 style="text-decoration: underline;">Contact Number:</h3>
+                <p id="number">0141 257 0099</p>
+                <div class="dropdown">
+                    <button class="dropbtn">Timings</button>
+                    <div class="dropdown-content">
+                        <a href="#">Monday: CLOSED!</a>
+                        <a href="#">Tuesday: 10:00 - 17:30</a>
+                        <a href="#">Wednesday: 10:00 - 17:30</a>
+                        <a href="#">Thursday: 10:00 - 17:30</a>
+                        <a href="#">Friday: 10:00 - 17:30</a>
+                        <a href="#">Satuday: 10:30 - 17:30</a>
+                        <a href="#">Sunday: 10:30 - 17:30</a>
+                    </div>
+                </div>
+                <br>
+                <a href="https://maps.app.goo.gl/iMYQbMo2FuaGUFhP9">📍 Directions</a>
+            </div>
+            <div class="image-content">
+                <img id="museum-img" src="photos/Kuthiramalika Palace.jpg" alt="Kuthiramalika Palace">
+            </div>
+        </div>
+
+
+        <div id="first">
+            <div class="text-content">
+                <h1 style="text-decoration: underline;">Kerala Science and Technology Museum </h1>
+                <p id="museum-p">
+                    The Kerala Science and Technology Museum, located in Thiruvananthapuram, is an interactive science
+                    museum dedicated to promoting scientific understanding and innovation. Established in 1984, it
+                    features a wide range of exhibits and interactive displays on topics such as physics, astronomy, and
+                    environmental science. The museum also houses a planetarium, offering educational shows about space
+                    and celestial phenomena. It serves as a resource for students and enthusiasts, with hands-on
+                    exhibits designed to make science accessible and engaging. The museum plays a key role in fostering
+                    scientific curiosity and education in the region.
+
+                </p>
+                <h3 style="text-decoration: underline;">Contact Number:</h3>
+                <p id="number">0141 257 0099</p>
+                <div class="dropdown">
+                    <button class="dropbtn">Timings</button>
+                    <div class="dropdown-content">
+                        <a href="#">Monday: CLOSED!</a>
+                        <a href="#">Tuesday: 10:00 - 17:30</a>
+                        <a href="#">Wednesday: 10:00 - 17:30</a>
+                        <a href="#">Thursday: 10:00 - 17:30</a>
+                        <a href="#">Friday: 10:00 - 17:30</a>
+                        <a href="#">Satuday: 10:30 - 17:30</a>
+                        <a href="#">Sunday: 10:30 - 17:30</a>
+                    </div>
+                </div>
+                <br>
+                <a href="https://maps.app.goo.gl/Gyd67ijEwouEYsSE8">📍 Directions</a>
+            </div>
+            <div class="image-content">
+                <img id="museum-img" src="photos/Kerala Science and Technology Museum.jpeg.jpg"
+                    alt="Kerala Science and Technology Museum ">
+            </div>
+        </div>
+        <div id="first">
+            <div class="text-content">
+                <h1 style="text-decoration: underline;">Hill Palace Museum </h1>
+                <p id="museum-p">
+
+                    The Hill Palace Museum, situated in Kochi, is a historical museum that was once the royal residence
+                    of the Kochi Maharajas. Established in 1980, the museum showcases a rich collection of royal
+                    artifacts, including paintings, sculptures, and antique furniture. Its exhibits offer insights into
+                    the opulent lifestyle of the Maharajas and the cultural heritage of Kerala. The museum is set in a
+                    sprawling estate with well-maintained gardens, adding to its historical charm. It serves as an
+                    important cultural landmark, preserving and presenting the royal history of Kochi.
+
+                </p>
+                <h3 style="text-decoration: underline;">Contact Number:</h3>
+                <p id="number">0141 257 0099</p>
+                <div class="dropdown">
+                    <button class="dropbtn">Timings</button>
+                    <div class="dropdown-content">
+                        <a href="#">Monday: CLOSED!</a>
+                        <a href="#">Tuesday: 10:00 - 17:30</a>
+                        <a href="#">Wednesday: 10:00 - 17:30</a>
+                        <a href="#">Thursday: 10:00 - 17:30</a>
+                        <a href="#">Friday: 10:00 - 17:30</a>
+                        <a href="#">Satuday: 10:30 - 17:30</a>
+                        <a href="#">Sunday: 10:30 - 17:30</a>
+                    </div>
+                </div>
+                <br>
+                <a href="https://maps.app.goo.gl/5yYKe5vJQ2npvFRC6">📍 Directions</a>
+            </div>
+            <div class="image-content">
+                <img id="museum-img" src="photos/Hill Palace Museum.jpg" alt="Hill Palace Museum">
+            </div>
+        </div>
+
+        <div id="first">
+            <div class="text-content">
+                <h1 style="text-decoration: underline;">Indo-Portuguese Museum </h1>
+                <p id="museum-p">The Indo-Portuguese Museum in Kochi explores the historical and cultural impact of
+                    Portuguese colonization in India. Housed in a historic church, the museum features a diverse
+                    collection of artifacts, including religious art, antique furniture, and manuscripts. It highlights
+                    the fusion of Portuguese and Indian cultures through exhibits of ecclesiastical artifacts and
+                    colonial-era items. The museum provides valuable insights into the legacy of Portuguese influence in
+                    Kerala. Its architecture and exhibits offer a fascinating glimpse into the region's colonial past.
+                </p>
+                <h3 style="text-decoration: underline;">Contact Number:</h3>
+                <p id="number">0141 257 0099</p>
+                <div class="dropdown">
+                    <button class="dropbtn">Timings</button>
+                    <div class="dropdown-content">
+                        <a href="#">Monday: CLOSED!</a>
+                        <a href="#">Tuesday: 10:00 - 17:30</a>
+                        <a href="#">Wednesday: 10:00 - 17:30</a>
+                        <a href="#">Thursday: 10:00 - 17:30</a>
+                        <a href="#">Friday: 10:00 - 17:30</a>
+                        <a href="#">Satuday: 10:30 - 17:30</a>
+                        <a href="#">Sunday: 10:30 - 17:30</a>
+                    </div>
+                </div>
+                <br>
+                <a href="https://maps.app.goo.gl/erkwxoTWAoMHfSAu8">📍 Directions</a>
+            </div>
+            <div class="image-content">
+                <img id="museum-img" src="photos/Indo-Portuguese Museum.jpg" alt="Indo-Portuguese Museum ">
+            </div>
+        </div>
+
+        <div id="first">
+            <div class="text-content">
+                <h1 style="text-decoration: underline;">Kerala Folklore Museum </h1>
+                <p id="museum-p">
+                    The Kerala Folklore Museum in Kochi showcases the rich cultural heritage of Kerala through an
+                    extensive collection of traditional artifacts and art forms. The museum's exhibits include folk
+                    costumes, masks, and musical instruments, reflecting the diverse cultural practices of the region.
+                    Its unique architecture, designed in traditional Kerala style, adds to the immersive experience. The
+                    museum also hosts live performances of classical and folk arts, enhancing visitors' understanding of
+                    local traditions. It serves as a vibrant repository of Kerala’s cultural history and artistic
+                    expressions.
+
+                </p>
+                <h3 style="text-decoration: underline;">Contact Number:</h3>
+                <p id="number">0141 257 0099</p>
+                <div class="dropdown">
+                    <button class="dropbtn">Timings</button>
+                    <div class="dropdown-content">
+                        <a href="#">Monday: CLOSED!</a>
+                        <a href="#">Tuesday: 10:00 - 17:30</a>
+                        <a href="#">Wednesday: 10:00 - 17:30</a>
+                        <a href="#">Thursday: 10:00 - 17:30</a>
+                        <a href="#">Friday: 10:00 - 17:30</a>
+                        <a href="#">Satuday: 10:30 - 17:30</a>
+                        <a href="#">Sunday: 10:30 - 17:30</a>
+                    </div>
+                </div>
+                <br>
+                <a href="https://maps.app.goo.gl/D8bkPU5cCWtMFhQP9">📍 Directions</a>
+            </div>
+            <div class="image-content">
+                <img id="museum-img" src="photos/Kerala Folklore Museum.jpg" alt="Kerala Folklore Museum ">
+            </div>
+        </div>
+
+        <div id="first">
+            <div class="text-content">
+                <h1 style="text-decoration: underline;">Krishnapuram Palace
+                </h1>
+                <p id="museum-p">Krishnapuram Palace, located in Kollam, is a historic royal residence known for its
+                    impressive Keralite architecture. The palace houses a museum showcasing artifacts from the region’s
+                    past, including traditional paintings and sculptures. Its architecture features typical elements
+                    such as sloping roofs and intricately carved wooden panels. The palace is surrounded by lush
+                    gardens, enhancing its picturesque setting. It provides visitors with a glimpse into the opulent
+                    lifestyle of Kerala’s erstwhile royalty.
+                </p>
+                <h3 style="text-decoration: underline;">Contact Number:</h3>
+                <p id="number">0141 257 0099</p>
+                <div class="dropdown">
+                    <button class="dropbtn">Timings</button>
+                    <div class="dropdown-content">
+                        <a href="#">Monday: CLOSED!</a>
+                        <a href="#">Tuesday: 10:00 - 17:30</a>
+                        <a href="#">Wednesday: 10:00 - 17:30</a>
+                        <a href="#">Thursday: 10:00 - 17:30</a>
+                        <a href="#">Friday: 10:00 - 17:30</a>
+                        <a href="#">Satuday: 10:30 - 17:30</a>
+                        <a href="#">Sunday: 10:30 - 17:30</a>
+                    </div>
+                </div>
+                <br>
+                <a href="https://maps.app.goo.gl/wVsokqNLJf58nCnTA">📍 Directions</a>
+            </div>
+            <div class="image-content">
+                <img id="museum-img" src="photos/Krishnapuram Palace.jpeg.jpg" alt="Krishnapuram Palace">
+            </div>
+        </div>
+
+        <div id="first">
+            <div class="text-content">
+                <h1 style="text-decoration: underline;">Thangassery Light House Museum </h1>
+                <p id="museum-p">
+                    The Thangassery Light House Museum, located in Kollam, is a fascinating historical site featuring a
+                    functioning lighthouse and a museum dedicated to maritime history. The lighthouse, built in the 19th
+                    century, offers panoramic views of the Arabian Sea from its observation deck. The museum exhibits
+                    maritime artifacts, including old navigation equipment and ship models. The surrounding area is
+                    scenic, with a beautiful beach and colonial-era structures adding to its charm. It provides a unique
+                    insight into the region's coastal heritage and lighthouse operations
+
+                </p>
+                <h3 style="text-decoration: underline;">Contact Number:</h3>
+                <p id="number">0141 257 0099</p>
+                <div class="dropdown">
+                    <button class="dropbtn">Timings</button>
+                    <div class="dropdown-content">
+                        <a href="#">Monday: CLOSED!</a>
+                        <a href="#">Tuesday: 10:00 - 17:30</a>
+                        <a href="#">Wednesday: 10:00 - 17:30</a>
+                        <a href="#">Thursday: 10:00 - 17:30</a>
+                        <a href="#">Friday: 10:00 - 17:30</a>
+                        <a href="#">Satuday: 10:30 - 17:30</a>
+                        <a href="#">Sunday: 10:30 - 17:30</a>
+                    </div>
+                </div>
+                <br>
+                <a href="https://maps.app.goo.gl/KnywjWhGaYfVirCy7">📍 Directions</a>
+            </div>
+            <div class="image-content">
+                <img id="museum-img" src="photos/Thangassery Light House Museum.jpeg.jpg"
+                    alt="Thangassery Light House Museum">
+            </div>
+        </div>
+
+        <div id="first">
+            <div class="text-content">
+                <h1 style="text-decoration: underline;">Jatayu Earth Center
+                </h1>
+                <p id="museum-p">The Jatayu Earth Center, located in Chadayamangalam, Kollam, is a unique park dedicated
+                    to the mythical bird Jatayu from the Ramayana epic. The center features a massive sculpture of
+                    Jatayu, which is one of the largest in the world, and offers panoramic views from its observation
+                    deck. The park includes adventure activities such as zip-lining and trekking, along with cultural
+                    exhibits showcasing local folklore. The center blends mythology with nature, providing an engaging
+                    experience for visitors of all ages. Its lush surroundings and innovative attractions make it a
+                    must-visit destination
+                </p>
+                <h3 style="text-decoration: underline;">Contact Number:</h3>
+                <p id="number">0141 257 0099</p>
+                <div class="dropdown">
+                    <button class="dropbtn">Timings</button>
+                    <div class="dropdown-content">
+                        <a href="#">Monday: CLOSED!</a>
+                        <a href="#">Tuesday: 10:00 - 17:30</a>
+                        <a href="#">Wednesday: 10:00 - 17:30</a>
+                        <a href="#">Thursday: 10:00 - 17:30</a>
+                        <a href="#">Friday: 10:00 - 17:30</a>
+                        <a href="#">Satuday: 10:30 - 17:30</a>
+                        <a href="#">Sunday: 10:30 - 17:30</a>
+                    </div>
+                </div>
+                <br>
+                <a href="https://maps.app.goo.gl/vZQdEVtKao6ysFkq8">📍 Directions</a>
+            </div>
+            <div class="image-content">
+                <img id="museum-img" src="photos/Jatayu Earth Center.jpg" alt="Jatayu Earth Center">
+            </div>
+            <!-- Repeat similar sections for other museums... -->
+        </div>
+    </div>
+
+    <script>
+        function loadGoogleTranslate() {
+            new google.translate.TranslateElement({ pageLanguage: 'en' }, 'google_element');
+        }
+    </script>
+    <script src="https://translate.google.com/translate_a/element.js?cb=loadGoogleTranslate"></script>
+
+    <script>
+        let step = 0;
+        let userName = '';
+        let selectedCity = '';
+        let selectedMuseum = '';
+        let visitorType = '';
+        let numberOfTickets = 0;
+        let selectedDate = '';
+        let selectedTime = '';
+        const ticketPrices = { indian: 100, foreigner: 500 };
+
+        function sendMessage() {
+            const userInput = document.getElementById("user-input").value;
+            if (userInput === "") return;
+
+            appendMessage(userInput, 'user');
+            document.getElementById("user-input").value = '';
+
+            if (step === 0) {
+                document.getElementById("nameInputContainer").style.display = "none";
+            }
+
+            setTimeout(() => {
+                botReply(userInput);
+            }, 500);
+        }
+
+        function appendMessage(text, sender) {
+            const chatBox = document.getElementById("chat-box");
+            const message = document.createElement("div");
+            message.className = `message ${sender}`;
+            message.innerText = text;
+            chatBox.appendChild(message);
+            chatBox.scrollTop = chatBox.scrollHeight;
+        }
+
+        function botReply(userInput = '') {
+            let botMessage = '';
+
+            switch (step) {
+                case 0:
+                    userName = userInput;
+                    botMessage = `Nice to meet you, ${userName}. Which city would you like to book tickets for?`;
+                    step++;
+                    showElement('cityPrompt');
+                    break;
+
+                case 1:
+                    selectedCity = document.getElementById('citySelect').value;
+                    if (selectedCity) {
+                        botMessage = `You've selected ${selectedCity.charAt(0).toUpperCase() + selectedCity.slice(1)}. Which museum would you like to visit?`;
+                        step++;
+                        updateMuseums();
+                        showElement('museumPrompt');
+                    }
+                    break;
+
+                case 2:
+                    selectedMuseum = document.getElementById('museumSelect').value;
+                    if (selectedMuseum) {
+                        botMessage = `You've chosen ${selectedMuseum.replace(/_/g, ' ')}. Are you an Indian or Foreigner?`;
+                        step++;
+                        showElement('visitorTypePrompt');
+                    }
+                    break;
+
+                case 3:
+                    visitorType = document.getElementById('visitorTypeSelect').value;
+                    if (visitorType) {
+                        botMessage = `How many tickets would you like to book?`;
+                        step++;
+                        showElement('ticketPrompt');
+                    }
+                    break;
+
+                case 4:
+                    numberOfTickets = document.getElementById('ticketSelect').value;
+                    if (numberOfTickets) {
+                        botMessage = `What date would you like to visit?`;
+                        step++;
+                        showElement('datePrompt');
+                    }
+                    break;
+
+                case 5:
+                    selectedDate = document.getElementById('dateSelect').value;
+                    if (selectedDate) {
+                        botMessage = `What time slot would you prefer?`;
+                        step++;
+                        showElement('timePrompt');
+                    }
+                    break;
+
+                case 6:
+                    selectedTime = document.getElementById('timeSelect').value;
+                    if (selectedTime) {
+                        const price = ticketPrices[visitorType] * numberOfTickets;
+                        botMessage = `The total price is ₹${price}. Would you like to proceed to payment?`;
+                        step++;
+                        document.getElementById('priceMessage').innerText = `Total Price: ₹${price}`;
+                        showElement('priceDisplay');
+                        showElement('paymentButtonContainer');
+                    }
+                    break;
+
+                case 7:
+                    botMessage = `Your ticket is booked. Thanks for visiting us!`;
+                    step++;
+                    showElement('confirmationMessage');
+                    break;
+
+                default:
+                    botMessage = "Your ticket has already been booked. Thank you!";
+            }
+
+            if (botMessage) {
+                appendMessage(botMessage, 'bot');
+            }
+        }
+
+        function updateMuseums() {
+            const museumSelect = document.getElementById('museumSelect');
+            museumSelect.innerHTML = ''; // Clear previous options
+
+            let museums = [];
+            if (selectedCity === 'thiruvananthapuram') {
+                museums = ['--select a museum--', 'Napier Museum', 'Kuthiramalika Palace', 'Kerala Science and Technology Museum'];
+            } else if (selectedCity === 'kochi') {
+                museums = ['--select a museum--', 'Hill Palace Museum', 'Indo-Portuguese Museum', 'Kerala Folklore Museum'];
+            } else if (selectedCity === 'kollam') {
+                museums = ['--select a museum--', 'Krishnapuram Palace', 'Thangassery Light House Museum', 'Jatayu Earth Center'];
+            }
+
+            museums.forEach(museum => {
+                const option = document.createElement('option');
+                option.value = museum;
+                option.text = museum;
+                museumSelect.appendChild(option);
+            });
+        }
+
+        function showElement(id) {
+            const elements = ['cityPrompt', 'museumPrompt', 'visitorTypePrompt', 'ticketPrompt', 'datePrompt', 'timePrompt', 'priceDisplay', 'paymentButtonContainer', 'confirmationMessage'];
+            elements.forEach(elementId => {
+                document.getElementById(elementId).style.display = (elementId === id) ? 'block' : 'none';
+            });
+        }
+
+        function completePayment() {
+            botReply(); // Proceed to the final step (confirmation)
+        }
+    </script>
+
+    <script>
+        function saveData() {
+            const userData = {
+                userName: document.getElementById('userName').value,
+                selectedCity: document.getElementById('selectedCity').value,
+                selectedMuseum: document.getElementById('selectedMuseum').value,
+                visitorType: document.getElementById('visitorType').value,
+                numberOfTickets: document.getElementById('numberOfTickets').value,
+                selectedDate: document.getElementById('selectedDate').value,
+                selectedTime: document.getElementById('selectedTime').value
+            };
+
+            localStorage.setItem('userData', JSON.stringify(userData));
+            window.location.href = 'ticket.html'; // Redirect to ticket page
+        }
+
+        function saveData() {
+            const userData = {
+                userName: document.getElementById('userName').value,
+                selectedCity: document.getElementById('selectedCity').value,
+                selectedMuseum: document.getElementById('selectedMuseum').value,
+                visitorType: document.getElementById('visitorType').value,
+                numberOfTickets: document.getElementById('numberOfTickets').value,
+                selectedDate: document.getElementById('selectedDate').value,
+                selectedTime: document.getElementById('selectedTime').value
+            };
+
+            console.log(userData);  // Log the data to the console for debugging
+
+            localStorage.setItem('userData', JSON.stringify(userData));
+            window.location.href = 'ticket.html';  // Redirect to ticket page
+        }
+
+        function completePayment() {
+            const userData = {
+                userName,
+                selectedCity,
+                selectedMuseum,
+                visitorType,
+                numberOfTickets,
+                selectedDate,
+                selectedTime
+            };
+
+            // Save data to localStorage
+            localStorage.setItem('userData', JSON.stringify(userData));
+
+            // Simulating payment and redirect to ticket.html
+            appendMessage("Processing your payment...", 'bot');
+            setTimeout(() => {
+                window.location.href = 'ticket.html'; // Redirect to ticket.html
+            }, 1500);
+        }
+    </script>
+
+</body>
+
+</html>

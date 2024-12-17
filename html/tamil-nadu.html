@@ -1,0 +1,603 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Museum Ticket Booking Chatbot</title>
+    <link rel="stylesheet" href="tamil-chatcss.css">
+    <link href="https://db.onlinewebfonts.com/c/6bff5f8f85a7385fbdc21a8f724dd8ac?family=Rajasthan+Regular"
+        rel="stylesheet">
+    <style>
+        .goog-te-gadget .goog-te-combo {
+            margin: 4px 0;
+            padding: 5px;
+            border-radius: 20px;
+        }
+
+        #timing {
+            margin-bottom: 15px;
+        }
+        .dropbtn {
+            background-color: #04AA6D;
+            color: white;
+            padding: 10px;
+            font-size: 16px;
+            margin-bottom: 10px;
+            border: none;
+        }
+
+        .dropdown {
+            position: relative;
+            display: inline-block;
+        }
+
+        .dropdown-content {
+            display: none;
+            position: absolute;
+            background-color: #f1f1f1;
+            min-width: 160px;
+            box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
+            z-index: 1;
+        }
+
+        .dropdown-content a {
+            color: black;
+            min-width: 200px;
+            padding: 0px;
+            font-size: 15px;
+            font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+            text-decoration: none;
+            display: block;
+        }
+
+
+        .dropdown:hover .dropdown-content {
+            display: block;
+        }
+
+    </style>
+</head>
+
+<body>
+    <div id="bg-img">
+        <header>
+            <div-1>
+                <img id="logo" src="photos/logo1.png" alt="">
+                <h1>ChatBot-Ticketing System </h1>
+            </div-1>
+            <div id="google_element"></div>
+
+        </header>
+
+        <div id="top">
+            <div class="chat-container">
+                <div id="chat-box" class="chat-box">
+                    <div class="message bot">Hello! Welcome to our museum. What is your name?</div>
+                </div>
+                <div id="nameInputContainer">
+                    <input type="text" id="user-input" placeholder="Enter your name..." autofocus>
+                    <button onclick="sendMessage()">Send</button>
+                </div>
+
+                <div id="cityPrompt" class="hidden">
+                    <label for="citySelect">Select City:</label>
+                    <select id="citySelect" onchange="botReply()">
+                        <option value="">--Select a City--</option>
+                        <option value="visakhapatnam">Visakhapatnam</option>
+                        <option value="vijayawada">Vijayawada</option>
+                        <option value="hyderabad">Hyderabad</option>
+                        <option value="kondapalli">Kondapalli</option>
+                        <option value="chittoor">Chittoor</option>
+                        <option value="amaravati">Amaravati</option>
+                    </select>
+                </div>
+
+                <div id="museumPrompt" class="hidden">
+                    <label for="museumSelect">Select Museum:</label>
+                    <select id="museumSelect" onchange="botReply()">
+                        <!-- Options will be populated dynamically -->
+                    </select>
+                </div>
+
+                <div id="visitorTypePrompt" class="hidden">
+                    <label for="visitorTypeSelect">Are you an Indian or Foreigner?</label>
+                    <select id="visitorTypeSelect" onchange="botReply()">
+                        <option value="">--Select--</option>
+                        <option value="indian">Indian</option>
+                        <option value="foreigner">Foreigner</option>
+                    </select>
+                </div>
+
+                <div id="ticketPrompt" class="hidden">
+                    <label for="ticketSelect">Number of Tickets:</label>
+                    <select id="ticketSelect" onchange="botReply()">
+                        <option value="">--Select Number of Tickets--</option>
+                        <option value="1">1</option>
+                        <option value="2">2</option>
+                        <option value="3">3</option>
+                        <option value="4">4</option>
+                        <option value="5">5</option>
+                        <option value="6">6</option>
+                        <option value="7">7</option>
+                        <option value="8">8</option>
+                        <option value="9">9</option>
+                        <option value="10">10</option>
+                    </select>
+                </div>
+
+                <div id="datePrompt" class="hidden">
+                    <label for="dateSelect">Select Date:</label>
+                    <input type="date" id="dateSelect" onchange="botReply()">
+                </div>
+
+                <div id="timePrompt" class="hidden">
+                    <label for="timeSelect">Select Time Slot:</label>
+                    <select id="timeSelect" onchange="botReply()">
+                        <option value="">--Select Time Slot--</option>
+                        <option value="09:00">09:00 AM</option>
+                        <option value="11:00">11:00 AM</option>
+                        <option value="14:00">02:00 PM</option>
+                    </select>
+                </div>
+
+                <div id="priceDisplay" class="hidden">
+                    <div id="priceMessage"></div>
+                </div>
+
+                <div id="paymentButtonContainer" class="hidden">
+                    <button id="payButton" onclick="completePayment()">Complete Payment</button>
+                </div>
+
+                <div id="confirmationMessage" class="hidden">
+                    <div class="message bot">Your ticket is booked. Thanks for visiting us!</div>
+                    <a id='download' href="ticket.html">Download your ticket</a>
+                </div>
+            </div>
+
+            <div class="right-text">
+                <h1>TAMIL NADU</h1>
+                <p>
+                    Andhra Pradesh, located on the southeastern coast of India, is known for its rich cultural
+                    heritage, vibrant traditions, and diverse geography. Bordered by Tamil Nadu, Karnataka,
+                    Telangana, and Odisha, with the Bay of Bengal to its east, the state has a strategic coastal
+                    location that has contributed to its historical importance as a hub of trade and culture. The
+                    capital city, Amaravati, is a planned city that reflects the state's ambitions to develop into a
+                    modern urban center.
+                    <br><br>
+                    The state is agriculturally significant, with the Krishna and Godavari rivers irrigating its fertile
+                    plains, making it one of the leading producers of rice, often referred to as the "Rice Bowl of
+                    India." Apart from agriculture, Andhra Pradesh has a strong industrial base, with sectors like
+                    information technology, biotechnology, and pharmaceuticals contributing to its economy. The
+                    state also has a growing presence in renewable energy, particularly in solar and wind power.
+                    <br><br>
+                    Culturally, Andhra Pradesh is renowned for its classical dance form, Kuchipudi, as well as its
+                    unique cuisine, which features spicy and tangy flavors. The state has a rich tradition of arts and
+                    crafts, including Kalamkari (a type of hand-painted or block-printed cotton textile), Kondapalli
+                    toys, and intricate handloom textiles. With a blend of historical sites like the ancient Buddhist
+                    centers in Amaravati and Nagarjunakonda, and modern developments, Andhra Pradesh is a
+                    dynamic state that reflects the evolving face of India
+                </p>
+            </div>
+        </div>
+    </div>
+    <div class="bottom">
+        <div id="first">
+            <div class="text-content">
+                <h1 style="text-decoration: underline;">Salar Jung Museum: Hyderabad</h1>
+                <p id="museum-p">Although Hyderabad is now the capital of Telangana,
+                    the Salar Jung Museum remains closely associated with the cultural heritage of Andhra
+                    Pradesh. It is one of the largest museums in India, featuring an extensive collection of art,
+                    antiques, and artifacts from different parts of the world, including Europe, Asia, and the Middle
+                    East. The museum's vast collection includes sculptures, paintings, textiles, manuscripts, and
+                    clocks, making it a treasure trove of global history</p>
+                <h3 style="text-decoration: underline;">Contact Number:</h3>
+                <p id="number">022 2284 4484</p>
+                <div class="dropdown">
+                    <button class="dropbtn">Timings</button>
+                    <div class="dropdown-content">
+                        <a href="#">Monday: CLOSED!</a>
+                        <a href="#">Tuesday: 10:00 - 17:30</a>
+                        <a href="#">Wednesday: 10:00 - 17:30</a>
+                        <a href="#">Thursday: 10:00 - 17:30</a>
+                        <a href="#">Friday: 10:00 - 17:30</a>
+                        <a href="#">Satuday: 10:30 - 17:30</a>
+                        <a href="#">Sunday: 10:30 - 17:30</a>
+                    </div>
+                </div>
+                <br>
+                <a href="https://maps.app.goo.gl/DhKHUhBaTnZSMdNk6">📍 Directions</a>
+            </div>
+            <div class="image-content">
+                <img id="museum-img" src="photos/jawaharlal-nehru-state-museum.jpg" alt="Albert Hall Museum">
+            </div>
+        </div>
+    </div>
+
+
+    <div class="bottom">
+        <div id="first">
+            <div class="text-content">
+                <h1 style="text-decoration: underline;">*Visakha Museum: Visakhapatnam</h1>
+                <p id="museum-p"> Located in the port city of Visakhapatnam, the Visakha
+                    Museum, also known as the Visakhapatnam Municipal Museum, showcases the history of the
+                    region. The museum’s exhibits include ancient armor, coins, manuscripts, and historical
+                    documents, as well as items from the region's naval and maritime history. It provides a
+                    comprehensive look at the cultural and military heritage of Visakhapatnam.</p>
+                <h3 style="text-decoration: underline;">Contact Number:</h3>
+                <p id="number">020 2553 0200</p>
+                <div class="dropdown">
+                    <button class="dropbtn">Timings</button>
+                    <div class="dropdown-content">
+                        <a href="#">Monday: CLOSED!</a>
+                        <a href="#">Tuesday: 10:00 - 17:30</a>
+                        <a href="#">Wednesday: 10:00 - 17:30</a>
+                        <a href="#">Thursday: 10:00 - 17:30</a>
+                        <a href="#">Friday: 10:00 - 17:30</a>
+                        <a href="#">Satuday: 10:30 - 17:30</a>
+                        <a href="#">Sunday: 10:30 - 17:30</a>
+                    </div>
+                </div>
+                <br>
+                <a href="https://maps.app.goo.gl/tzgWLmLBsK5wUtVZ6">📍 Directions</a>
+            </div>
+            <div class="image-content">
+                <img class="museum-img" src="photos/Craft-Centre-museum.jpg" alt="Raja Dinkar Kelkar Museum">
+            </div>
+        </div>
+    </div>
+
+    <div class="bottom">
+        <div id="first">
+            <div class="text-content">
+                <h1 style="text-decoration: underline;">Victoria Jubilee Museum: Vijayawada</h1>
+                <p id="museum-p">  Also known as the Bapu Museum, this museum in
+                    Vijayawada is famous for its archaeological and historical artifacts. It houses an impressive
+                    collection of sculptures, inscriptions, coins, and pottery dating back to ancient and medieval
+                    periods. The museum is particularly known for its exhibits from the Satavahana and Ikshvaku
+                    dynasties, which played a significant role in the history of Andhra Pradesh.</p>
+                <h3 style="text-decoration: underline;">Contact Number:</h3>
+                <p id="number">0240 233 2323</p>
+                <div class="dropdown">
+                    <button class="dropbtn">Timings</button>
+                    <div class="dropdown-content">
+                        <a href="#">Monday: CLOSED!</a>
+                        <a href="#">Tuesday: 10:00 - 17:30</a>
+                        <a href="#">Wednesday: 10:00 - 17:30</a>
+                        <a href="#">Thursday: 10:00 - 17:30</a>
+                        <a href="#">Friday: 10:00 - 17:30</a>
+                        <a href="#">Satuday: 10:30 - 17:30</a>
+                        <a href="#">Sunday: 10:30 - 17:30</a>
+                    </div>
+                </div>
+                <br>
+                <a href="https://maps.app.goo.gl/gUcj2xkAYe5zgknaA">📍 Directions</a>
+            </div>
+            <div class="image-content">
+                <img class="museum-img" src="photos/State-forest-museum.jpg" alt="Aurangabad Caves">
+            </div>
+        </div>
+    </div>
+
+    <div class="bottom">
+        <div id="first">
+            <div class="text-content">
+                <h1 style="text-decoration: underline;">Kondapalli Museum: Kondapalli</h1>
+                <p id="museum-p"> Situated in the village of Kondapalli, famous for its
+                    traditional wooden toys, this museum is dedicated to preserving and showcasing the art of
+                    Kondapalli toy-making. The museum features a collection of colorful, hand-crafted wooden toys
+                    that depict scenes from rural life, mythology, and folklore. It offers a unique insight into the
+                    craftsmanship and cultural traditions of the region.</p>
+                <h3 style="text-decoration: underline;">Contact Number:</h3>
+                <p id="number">0712 253 1644</p>
+                <div class="dropdown">
+                    <button class="dropbtn">Timings</button>
+                    <div class="dropdown-content">
+                        <a href="#">Monday: CLOSED!</a>
+                        <a href="#">Tuesday: 10:00 - 17:30</a>
+                        <a href="#">Wednesday: 10:00 - 17:30</a>
+                        <a href="#">Thursday: 10:00 - 17:30</a>
+                        <a href="#">Friday: 10:00 - 17:30</a>
+                        <a href="#">Satuday: 10:30 - 17:30</a>
+                        <a href="#">Sunday: 10:30 - 17:30</a>
+                    </div>
+                </div>
+                <br>
+                <a href="https://maps.app.goo.gl/3f4mUzh5ZYsu9yxN9">📍 Directions</a>
+            </div>
+            <div class="image-content">
+                <img class="museum-img" src="photos/Twang-museum.jpg    " alt="Nagpur Central Museum">
+            </div>
+        </div>
+    </div>
+
+    <div class="bottom">
+        <div id="first">
+            <div class="text-content">
+                <h1 style="text-decoration: underline;">Chittoor Government Museum: Chittoor</h1>
+                <p id="museum-p"> This museum is a repository of the history and
+                    culture of the Chittoor district and surrounding regions. The museum’s collection includes
+                    sculptures, bronze figures, coins, and weapons from different historical periods. It also has a
+                    section dedicated to the flora and fauna of the region, making it an important center for both
+                    historical and natural history education in Andhra Pradesh.</p>
+                <h3 style="text-decoration: underline;">Contact Number:</h3>
+                <p id="number">0231 252 2017</p>
+                <div class="dropdown">
+                    <button class="dropbtn">Timings</button>
+                    <div class="dropdown-content">
+                        <a href="#">Monday: CLOSED!</a>
+                        <a href="#">Tuesday: 10:00 - 17:30</a>
+                        <a href="#">Wednesday: 10:00 - 17:30</a>
+                        <a href="#">Thursday: 10:00 - 17:30</a>
+                        <a href="#">Friday: 10:00 - 17:30</a>
+                        <a href="#">Satuday: 10:30 - 17:30</a>
+                        <a href="#">Sunday: 10:30 - 17:30</a>
+                    </div>
+                </div>
+                <br>
+                <a href="https://maps.app.goo.gl/8DvmKp7MbEgqn2Ko6">📍 Directions</a>
+            </div>
+            <div class="image-content">
+                <img class="museum-img" src="photos/Ziro-valley.jpg" alt="Kolhapur Museum">
+            </div>
+        </div>
+    </div>
+
+    <div class="bottom">
+        <div id="first">
+            <div class="text-content">
+                <h1 style="text-decoration: underline;">Amaravati Archaeological Museum: Amaravati</h1>
+                <p id="museum-p">Located near the ancient Buddhist site of
+                    Amaravati, this museum is dedicated to the Buddhist heritage of Andhra Pradesh. It houses a
+                    vast collection of Buddhist sculptures, inscriptions, and relics, including the famous Amaravati
+                    stupa fragments. The museum provides a deep insight into the region’s rich Buddhist past and
+                    its influence on Indian art and architecture</p>
+                <h3 style="text-decoration: underline;">Contact Number:</h3>
+                <p id="number">022 2380 5864</p>
+                <div class="dropdown">
+                    <button class="dropbtn">Timings</button>
+                    <div class="dropdown-content">
+                        <a href="#">Monday: CLOSED!</a>
+                        <a href="#">Tuesday: 10:00 - 17:30</a>
+                        <a href="#">Wednesday: 10:00 - 17:30</a>
+                        <a href="#">Thursday: 10:00 - 17:30</a>
+                        <a href="#">Friday: 10:00 - 17:30</a>
+                        <a href="#">Satuday: 10:30 - 17:30</a>
+                        <a href="#">Sunday: 10:30 - 17:30</a>
+                    </div>
+                </div>
+                <br>
+                <a href="https://maps.app.goo.gl/Nr5gcapGbs3bygz19">📍 Directions</a>
+            </div>
+            <div class="image-content">
+                <img class="museum-img" src="photos/Indira-gandi-museum.jpg" alt="Mani Bhavan Gandhi Museum">
+            </div>
+        </div>
+    </div>
+
+
+    <script>
+        function loadGoogleTranslate() {
+            new google.translate.TranslateElement({ pageLanguage: 'en' }, 'google_element');
+        }
+    </script>
+    <script src="https://translate.google.com/translate_a/element.js?cb=loadGoogleTranslate"></script>
+
+    <script>
+        let step = 0;
+        let userName = '';
+        let selectedCity = '';
+        let selectedMuseum = '';
+        let visitorType = '';
+        let numberOfTickets = 0;
+        let selectedDate = '';
+        let selectedTime = '';
+        const ticketPrices = { indian: 100, foreigner: 500 };
+
+        function sendMessage() {
+            const userInput = document.getElementById("user-input").value;
+            if (userInput.trim() === "") return;
+
+            appendMessage(userInput, 'user');
+            document.getElementById("user-input").value = '';
+
+            if (step === 0) {
+                // Hide the name input after entering the name
+                document.getElementById("nameInputContainer").style.display = "none";
+            }
+
+            setTimeout(() => {
+                botReply(userInput);
+            }, 500);
+        }
+
+        function appendMessage(text, sender) {
+            const chatBox = document.getElementById("chat-box");
+            const message = document.createElement("div");
+            message.className = `message ${sender}`;
+            message.innerText = text;
+            chatBox.appendChild(message);
+            chatBox.scrollTop = chatBox.scrollHeight;
+        }
+
+        function botReply(userInput = '') {
+            let botMessage = '';
+
+            switch (step) {
+                case 0:
+                    userName = userInput;
+                    botMessage = `Nice to meet you, ${userName}. Which city would you like to book tickets for?`;
+                    step++;
+                    showElement('cityPrompt');
+                    break;
+
+                case 1:
+                    selectedCity = document.getElementById('citySelect').value;
+                    if (selectedCity) {
+                        botMessage = `You've selected ${selectedCity.charAt(0).toUpperCase() + selectedCity.slice(1)}. Which museum would you like to visit?`;
+                        step++;
+                        updateMuseums();
+                        showElement('museumPrompt');
+                    }
+                    break;
+
+                case 2:
+                    selectedMuseum = document.getElementById('museumSelect').value;
+                    if (selectedMuseum) {
+                        botMessage = `You've chosen ${selectedMuseum.replace(/_/g, ' ').toUpperCase()}. Are you an Indian or Foreigner?`;
+                        step++;
+                        showElement('visitorTypePrompt');
+                    }
+                    break;
+
+                case 3:
+                    visitorType = document.getElementById('visitorTypeSelect').value;
+                    if (visitorType) {
+                        botMessage = `You've selected ${visitorType.charAt(0).toUpperCase() + visitorType.slice(1)}. How many tickets would you like to book?`;
+                        step++;
+                        showElement('ticketPrompt');
+                    }
+                    break;
+
+                case 4:
+                    numberOfTickets = parseInt(document.getElementById('ticketSelect').value, 10);
+                    if (!isNaN(numberOfTickets) && numberOfTickets > 0) {
+                        botMessage = `You've chosen ${numberOfTickets} tickets. Please select a date.`;
+                        step++;
+                        showElement('datePrompt');
+                    }
+                    break;
+
+                case 5:
+                    selectedDate = document.getElementById('dateSelect').value;
+                    if (selectedDate) {
+                        botMessage = `You've selected ${selectedDate}. Please choose a time slot.`;
+                        step++;
+                        showElement('timePrompt');
+                    }
+                    break;
+
+                case 6:
+                    selectedTime = document.getElementById('timeSelect').value;
+                    if (selectedTime) {
+                        calculatePrice();
+                        botMessage = `You've chosen ${selectedTime}. The total price is ₹${ticketPrices[visitorType] * numberOfTickets}. Would you like to proceed with the payment?`;
+                        step++;
+                        showElement('paymentButtonContainer');
+                    }
+                    break;
+
+                case 7:
+                    botMessage = `Thank you, ${userName}! Your booking is confirmed.`;
+                    step++;
+                    document.getElementById('confirmationMessage').classList.remove('hidden');
+                    break;
+
+                default:
+                    botMessage = "Your ticket has already been booked. Thank you!";
+            }
+
+            if (botMessage) {
+                appendMessage(botMessage, 'bot');
+            }
+        }
+
+        function updateMuseums() {
+            const museumSelect = document.getElementById('museumSelect');
+            museumSelect.innerHTML = ''; // Clear previous options
+
+            const museums = {
+                hyderabad: ['--Select a Museum--', 'Salar Jung Museum'],
+                visakhapatnam: ['--Select a Museum--', 'Visakha Museum'],
+                vijayawada: ['--Select a Museum--', 'Victoria Jubilee Museum'],
+                kondapalli: ['--Select a Museum--', 'Kondapalli Museum'],
+                chittoor: ['--Select a Museum--', 'Chittoor Government Museum'],
+                amaravati: ['--Select a Museum--', 'Amaravati Archaeological Museum']
+            };
+
+            museums[selectedCity].forEach(museum => {
+                const option = document.createElement('option');
+                option.value = museum.toLowerCase().replace(/ /g, '_');
+                option.textContent = museum;
+                museumSelect.appendChild(option);
+            });
+        }
+
+        function calculatePrice() {
+            const totalPrice = ticketPrices[visitorType] * numberOfTickets;
+            const priceMessage = `The total price is ₹${totalPrice}.`;
+            document.getElementById('priceMessage').innerText = priceMessage;
+            showElement('priceDisplay');
+        }
+
+        function completePayment() {
+            appendMessage("Processing your payment...", 'bot');
+            setTimeout(() => {
+                document.getElementById('paymentButtonContainer').classList.add('hidden');
+                botReply();
+            }, 1500); // Simulating payment process delay
+        }
+
+        function showElement(elementId) {
+            document.getElementById(elementId).classList.remove('hidden');
+        }
+    </script>
+
+    <script>
+        function saveData() {
+            const userData = {
+                userName: document.getElementById('userName').value,
+                selectedCity: document.getElementById('selectedCity').value,
+                selectedMuseum: document.getElementById('selectedMuseum').value,
+                visitorType: document.getElementById('visitorType').value,
+                numberOfTickets: document.getElementById('numberOfTickets').value,
+                selectedDate: document.getElementById('selectedDate').value,
+                selectedTime: document.getElementById('selectedTime').value
+            };
+
+            localStorage.setItem('userData', JSON.stringify(userData));
+            window.location.href = 'ticket.html'; // Redirect to ticket page
+        }
+
+        function saveData() {
+            const userData = {
+                userName: document.getElementById('userName').value,
+                selectedCity: document.getElementById('selectedCity').value,
+                selectedMuseum: document.getElementById('selectedMuseum').value,
+                visitorType: document.getElementById('visitorType').value,
+                numberOfTickets: document.getElementById('numberOfTickets').value,
+                selectedDate: document.getElementById('selectedDate').value,
+                selectedTime: document.getElementById('selectedTime').value
+            };
+
+            console.log(userData);  // Log the data to the console for debugging
+
+            localStorage.setItem('userData', JSON.stringify(userData));
+            window.location.href = 'ticket.html';  // Redirect to ticket page
+        }
+
+        function completePayment() {
+            const userData = {
+                userName,
+                selectedCity,
+                selectedMuseum,
+                visitorType,
+                numberOfTickets,
+                selectedDate,
+                selectedTime
+            };
+
+            // Save data to localStorage
+            localStorage.setItem('userData', JSON.stringify(userData));
+
+            // Simulating payment and redirect to ticket.html
+            appendMessage("Processing your payment...", 'bot');
+            setTimeout(() => {
+                window.location.href = 'ticket.html'; // Redirect to ticket.html
+            }, 1500);
+        }
+    </script>
+
+</body>
+
+</html>

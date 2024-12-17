@@ -1,0 +1,528 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Museum Ticket Booking Chatbot</title>
+    <link rel="stylesheet" href="goachatcss.css">
+    <link href="https://db.onlinewebfonts.com/c/6bff5f8f85a7385fbdc21a8f724dd8ac?family=Rajasthan+Regular"
+        rel="stylesheet">
+    <style>
+            .right-text p {
+            padding-bottom: 30px;
+        }
+
+        .goog-te-gadget .goog-te-combo {
+            margin: 4px 0;
+            padding: 5px;
+            border-radius: 20px;
+        }
+        #timing{
+            margin-bottom: 15px;
+        }
+        .dropbtn {
+            background-color: #04AA6D;
+            color: white;
+            padding: 10px;
+            font-size: 16px;
+            margin-bottom: 10px;
+            border: none;
+        }
+
+        .dropdown {
+            position: relative;
+            display: inline-block;
+        }
+
+        .dropdown-content {
+            display: none;
+            position: absolute;
+            background-color: #f1f1f1;
+            min-width: 160px;
+            box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
+            z-index: 1;
+        }
+
+        .dropdown-content a {
+            color: black;
+            min-width: 200px;
+            padding: 0px;
+            font-size: 15px;
+            font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+            text-decoration: none;
+            display: block;
+        }
+
+
+        .dropdown:hover .dropdown-content {
+            display: block;
+        }
+
+    </style>
+</head>
+
+<body>
+    <div id="bg-img">
+        <header>
+            <div-1>
+                <img id="logo" src="photos/logo1.png" alt="">
+                <h1>ChatBot-Ticketing System</h1>
+            </div-1>
+            <div id="google_element"></div>
+        </header>
+
+        <div id="top">
+            <div class="chat-container">
+                <div id="chat-box" class="chat-box">
+                    <div class="message bot">Hello! Welcome to our museum. What is your name?</div>
+                </div>
+                <div id="nameInputContainer">
+                    <input type="text" id="user-input" placeholder="Enter your name..." autofocus>
+                    <button onclick="sendMessage()">Send</button>
+                </div>
+
+                <div id="cityPrompt" class="hidden">
+                    <label for="citySelect">Select City:</label>
+                    <select id="citySelect" onchange="botReply()">
+                        <option value="">--Select a City--</option>
+                        <option value="Panaji">Panaji</option>
+                        <option value="Old Goa">Old Goa</option>
+                        <option value="Margao">Margao</option>
+                        <option value="Vasco_da_Gama">Vasco da Gama</option>
+                    </select>
+                </div>
+
+                <div id="museumPrompt" class="hidden">
+                    <label for="museumSelect">Select Museum:</label>
+                    <select id="museumSelect" onchange="botReply()">
+                        <!-- Options will be populated dynamically -->
+                    </select>
+                </div>
+
+                <div id="visitorTypePrompt" class="hidden">
+                    <label for="visitorTypeSelect">Are you an Indian or Foreigner?</label>
+                    <select id="visitorTypeSelect" onchange="botReply()">
+                        <option value="">--Select--</option>
+                        <option value="indian">Indian</option>
+                        <option value="foreigner">Foreigner</option>
+                    </select>
+                </div>
+
+                <div id="ticketPrompt" class="hidden">
+                    <label for="ticketSelect">Number of Tickets:</label>
+                    <select id="ticketSelect" onchange="botReply()">
+                        <option value="">--Select Number of Tickets--</option>
+                        <option value="1">1</option>
+                        <option value="2">2</option>
+                        <option value="3">3</option>
+                        <option value="4">4</option>
+                        <option value="5">5</option>
+                        <option value="6">6</option>
+                        <option value="7">7</option>
+                        <option value="8">8</option>
+                        <option value="9">9</option>
+                        <option value="10">10</option>
+                    </select>
+                </div>
+
+                <div id="datePrompt" class="hidden">
+                    <label for="dateSelect">Select Date:</label>
+                    <input type="date" id="dateSelect" onchange="botReply()">
+                </div>
+
+                <div id="timePrompt" class="hidden">
+                    <label for="timeSelect">Select Time Slot:</label>
+                    <select id="timeSelect" onchange="botReply()">
+                        <option value="">--Select Time Slot--</option>
+                        <option value="09:00">09:00 AM</option>
+                        <option value="11:00">11:00 AM</option>
+                        <option value="14:00">02:00 PM</option>
+                    </select>
+                </div>
+
+                <div id="priceDisplay" class="hidden">
+                    <div id="priceMessage"></div>
+                </div>
+
+                <div id="paymentButtonContainer" class="hidden">
+                    <button id="payButton" onclick="completePayment()">Complete Payment</button>
+                </div>
+
+                <div id="confirmationMessage" class="hidden">
+                    <div class="message bot">Your ticket is booked. Thanks for visiting us!</div>
+                    <a id='download' href="ticket.html">Download your ticket</a>
+                </div>
+            </div>
+
+            <div class="right-text">
+                <h1>GOA</h1>
+                <p>
+                    Goa, a state located on the western coast of India, is famous for its stunning beaches, vibrant
+                    nightlife, and rich history. Known for its Portuguese heritage, Goa is home to numerous historical
+                    sites, churches, and museums. The state's unique blend of Indian and Portuguese cultures makes it a
+                    popular destination for tourists looking to explore both beautiful landscapes and historical
+                    treasures.
+                    <br><br>
+                    Panaji, the capital city of Goa, is known for its charming streets, beautiful churches, and historic
+                    buildings. Old Goa is renowned for its magnificent churches and convents, reflecting the state's
+                    colonial past. Margao and Vasco da Gama are also prominent cities offering a mix of historical and
+                    modern attractions.
+                </p>
+            </div>
+        </div>
+    </div>
+
+    <div class="bottom">
+        <div id="first">
+            <div class="text-content">
+                <h1 style="text-decoration: underline;">Goa State Museum: Panaji</h1>
+                <p id="museum-p">The Goa State Museum, located in Panaji, is a significant cultural institution
+                    showcasing the rich history and heritage of Goa. Established in 1964, the museum features a diverse
+                    collection of artifacts, including sculptures, paintings, and manuscripts from different periods of
+                    Goan history. The museum provides insights into Goa's art, culture, and colonial past.</p>
+                <h3 style="text-decoration: underline;">Contact Number:</h3>
+                <p id="number">0832 222 6261</p>
+                <div class="dropdown">
+                    <button class="dropbtn">Timings</button>
+                    <div class="dropdown-content">
+                        <a href="#">Monday: CLOSED!</a>
+                        <a href="#">Tuesday: 10:00 - 17:30</a>
+                        <a href="#">Wednesday: 10:00 - 17:30</a>
+                        <a href="#">Thursday: 10:00 - 17:30</a>
+                        <a href="#">Friday: 10:00 - 17:30</a>
+                        <a href="#">Satuday: 10:30 - 17:30</a>
+                        <a href="#">Sunday: 10:30 - 17:30</a>
+                    </div>
+                </div>
+                <br>
+                
+                <a href="https://maps.app.goo.gl/RR8VXFPG3L9mfmDj6">📍 Directions</a>
+            </div>
+            <div class="image-content">
+                <img id="museum-img" src="photos/Goa_State_Museum_Panaji.jpg" alt="Goa State Museum">
+            </div>
+        </div>
+    </div>
+
+    <div class="bottom">
+        <div id="first">
+            <div class="text-content">
+                <h1 style="text-decoration: underline;">Museum of Christian Art: Old Goa</h1>
+                <p id="museum-p">The Museum of Christian Art in Old Goa is dedicated to preserving and showcasing the
+                    rich Christian heritage of Goa. Established in 1994, the museum features a remarkable collection of
+                    Christian art, including sculptures, paintings, and religious artifacts from the Portuguese colonial
+                    era. The museum provides a unique insight into the fusion of Indian and Christian artistic
+                    traditions.</p>
+                <h3 style="text-decoration: underline;">Contact Number:</h3>
+                <p id="number">0832 228 4677</p>
+                <div class="dropdown">
+                    <button class="dropbtn">Timings</button>
+                    <div class="dropdown-content">
+                        <a href="#">Monday: CLOSED!</a>
+                        <a href="#">Tuesday: 10:00 - 17:30</a>
+                        <a href="#">Wednesday: 10:00 - 17:30</a>
+                        <a href="#">Thursday: 10:00 - 17:30</a>
+                        <a href="#">Friday: 10:00 - 17:30</a>
+                        <a href="#">Satuday: 10:30 - 17:30</a>
+                        <a href="#">Sunday: 10:30 - 17:30</a>
+                    </div>
+                </div>
+                <br>
+
+                <a href="https://maps.app.goo.gl/qw5PD4n99zTSgv5q7">📍 Directions</a>
+            </div>
+            <div class="image-content">
+                <img id="museum-img" src="photos/Museum_of_Christian_Art_Old_Goa.webp" alt="Museum of Christian Art">
+            </div>
+        </div>
+    </div>
+
+    <div class="bottom">
+        <div id="first">
+            <div class="text-content">
+                <h1 style="text-decoration: underline;">Archaeological Museum: Old Goa</h1>
+                <p id="museum-p">The Archaeological Museum in Old Goa is one of the most prominent museums in Goa,
+                    dedicated to preserving and displaying the state's archaeological heritage. The museum features a
+                    rich collection of artifacts from various historical periods, including sculptures, inscriptions,
+                    and coins from the early medieval to the colonial period. It provides valuable insights into Goa's
+                    ancient history and culture.</p>
+                <h3 style="text-decoration: underline;">Contact Number:</h3>
+                <p id="number">0832 228 1901</p>
+                <div class="dropdown">
+                    <button class="dropbtn">Timings</button>
+                    <div class="dropdown-content">
+                        <a href="#">Monday: CLOSED!</a>
+                        <a href="#">Tuesday: 10:00 - 17:30</a>
+                        <a href="#">Wednesday: 10:00 - 17:30</a>
+                        <a href="#">Thursday: 10:00 - 17:30</a>
+                        <a href="#">Friday: 10:00 - 17:30</a>
+                        <a href="#">Satuday: 10:30 - 17:30</a>
+                        <a href="#">Sunday: 10:30 - 17:30</a>
+                    </div>
+                </div>
+                <br>
+
+                <a href="https://maps.app.goo.gl/NmA1Sj9HkemQPptr7">📍 Directions</a>
+            </div>
+            <div class="image-content">
+                <img id="museum-img" src="photos/Archaeological_Museum_Old_Goa.jpg" alt="Archaeological Museum">
+            </div>
+        </div>
+    </div>
+
+    <div class="bottom">
+        <div id="first">
+            <div class="text-content">
+                <h1 style="text-decoration: underline;">Goa Chitra Museum: Benaulim</h1>
+                <p id="museum-p">The Goa Chitra Museum in Benaulim is a unique museum showcasing the traditional
+                    artifacts and cultural heritage of Goa. Established by curator and historian Victor Hugo Gomes, the
+                    museum features a wide range of artifacts related to Goan rural life, including agricultural tools,
+                    household items, and art pieces. The museum offers a glimpse into the traditional lifestyle and
+                    cultural practices of Goa's past.</p>
+                <h3 style="text-decoration: underline;">Contact Number:</h3>
+                <p id="number">0832 278 2332</p>
+                <div class="dropdown">
+                    <button class="dropbtn">Timings</button>
+                    <div class="dropdown-content">
+                        <a href="#">Monday: CLOSED!</a>
+                        <a href="#">Tuesday: 10:00 - 17:30</a>
+                        <a href="#">Wednesday: 10:00 - 17:30</a>
+                        <a href="#">Thursday: 10:00 - 17:30</a>
+                        <a href="#">Friday: 10:00 - 17:30</a>
+                        <a href="#">Satuday: 10:30 - 17:30</a>
+                        <a href="#">Sunday: 10:30 - 17:30</a>
+                    </div>
+                </div>
+                <br>
+
+                <a href="https://maps.app.goo.gl/FcriKJsw7hksfWzZ7">📍 Directions</a>
+            </div>
+            <div class="image-content">
+                <img id="museum-img" src="photos/Goa_Chitra_Museum_Benaulim.jpg" alt="Goa Chitra Museum">
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let step = 0;
+        let userName = '';
+        let selectedCity = '';
+        let selectedMuseum = '';
+        let visitorType = '';
+        let numberOfTickets = 0;
+        let selectedDate = '';
+        let selectedTime = '';
+        const ticketPrices = { indian: 100, foreigner: 500 };
+
+        function sendMessage() {
+            const userInput = document.getElementById("user-input").value.trim();
+            if (userInput === "") return;
+
+            appendMessage(userInput, 'user');
+            document.getElementById("user-input").value = '';
+
+            if (step === 0) {
+                // Hide the name input after entering the name
+                document.getElementById("nameInputContainer").style.display = "none";
+            }
+
+            setTimeout(() => {
+                botReply(userInput);
+            }, 500);
+        }
+
+        function appendMessage(text, sender) {
+            const chatBox = document.getElementById("chat-box");
+            const message = document.createElement("div");
+            message.className = `message ${sender}`;
+            message.innerText = text;
+            chatBox.appendChild(message);
+            chatBox.scrollTop = chatBox.scrollHeight;
+        }
+
+        function botReply(userInput = '') {
+            let botMessage = '';
+
+            switch (step) {
+                case 0:
+                    userName = userInput;
+                    botMessage = `Nice to meet you, ${userName}. Which city would you like to book tickets for?`;
+                    step++;
+                    showElement('cityPrompt');
+                    break;
+
+                case 1:
+                    selectedCity = document.getElementById('citySelect').value;
+                    if (selectedCity) {
+                        botMessage = `You've selected ${selectedCity}. Which museum would you like to visit?`;
+                        step++;
+                        updateMuseums();
+                        showElement('museumPrompt');
+                    }
+                    break;
+
+                case 2:
+                    selectedMuseum = document.getElementById('museumSelect').value;
+                    if (selectedMuseum) {
+                        botMessage = `You've chosen ${selectedMuseum.replace(/_/g, ' ')}. Are you an Indian or Foreigner?`;
+                        step++;
+                        showElement('visitorTypePrompt');
+                    }
+                    break;
+
+                case 3:
+                    visitorType = document.getElementById('visitorTypeSelect').value;
+                    if (visitorType) {
+                        botMessage = `You've selected ${visitorType.charAt(0).toUpperCase() + visitorType.slice(1)}. How many tickets would you like to book?`;
+                        step++;
+                        showElement('ticketPrompt');
+                    }
+                    break;
+
+                case 4:
+                    numberOfTickets = parseInt(document.getElementById('ticketSelect').value);
+                    if (!isNaN(numberOfTickets) && numberOfTickets > 0) {
+                        botMessage = `You've chosen ${numberOfTickets} tickets. Please select a date.`;
+                        step++;
+                        showElement('datePrompt');
+                    }
+                    break;
+
+                case 5:
+                    selectedDate = document.getElementById('dateSelect').value;
+                    if (selectedDate) {
+                        botMessage = `You've selected ${selectedDate}. Please choose a time slot.`;
+                        step++;
+                        showElement('timePrompt');
+                    }
+                    break;
+
+                case 6:
+                    selectedTime = document.getElementById('timeSelect').value;
+                    if (selectedTime) {
+                        calculatePrice();
+                        botMessage = `You've chosen ${selectedTime}. The total price is ₹${ticketPrices[visitorType] * numberOfTickets}. Would you like to proceed with the payment?`;
+                        step++;
+                        showElement('paymentButtonContainer');
+                    }
+                    break;
+
+                case 7:
+                    botMessage = `Thank you, ${userName}! Your booking is confirmed.`;
+                    step++;
+                    document.getElementById('confirmationMessage').classList.remove('hidden');
+                    break;
+
+                default:
+                    botMessage = "Your ticket has already been booked. Thank you!";
+            }
+
+            if (botMessage) {
+                appendMessage(botMessage, 'bot');
+            }
+        }
+
+        function updateMuseums() {
+            const museumSelect = document.getElementById('museumSelect');
+            museumSelect.innerHTML = ''; // Clear previous options
+
+            const museums = {
+                Panaji: ['--Select a Museum--', 'Goa State Museum'],
+                Goa: ['--Select a Museum--', 'Museum of Christian Art', 'Archaeological Museum'],
+                Margao: ['--Select a Museum--', 'Margao Museum'],
+                Vasco_da_Gama: ['--Select a Museum--', 'Vasco Museum']
+            };
+
+            museums[selectedCity].forEach(museum => {
+                const option = document.createElement('option');
+                option.value = museum.toLowerCase().replace(/ /g, '_').replace(/:/g, '');
+                option.textContent = museum;
+                museumSelect.appendChild(option);
+            });
+        }
+
+        function calculatePrice() {
+            const totalPrice = ticketPrices[visitorType] * numberOfTickets;
+            const priceMessage = `The total price is ₹${totalPrice}.`;
+            document.getElementById('priceMessage').innerText = priceMessage;
+            showElement('priceDisplay');
+        }
+
+        function completePayment() {
+            appendMessage("Processing your payment...", 'bot');
+            setTimeout(() => {
+                document.getElementById('paymentButtonContainer').classList.add('hidden');
+                botReply();
+            }, 1500); // Simulating payment process delay
+        }
+
+        function showElement(elementId) {
+            document.getElementById(elementId).classList.remove('hidden');
+        }
+    </script>
+    <script>
+        function saveData() {
+            const userData = {
+                userName: document.getElementById('userName').value,
+                selectedCity: document.getElementById('selectedCity').value,
+                selectedMuseum: document.getElementById('selectedMuseum').value,
+                visitorType: document.getElementById('visitorType').value,
+                numberOfTickets: document.getElementById('numberOfTickets').value,
+                selectedDate: document.getElementById('selectedDate').value,
+                selectedTime: document.getElementById('selectedTime').value
+            };
+
+            localStorage.setItem('userData', JSON.stringify(userData));
+            window.location.href = 'ticket.html'; // Redirect to ticket page
+        }
+
+        function saveData() {
+            const userData = {
+                userName: document.getElementById('userName').value,
+                selectedCity: document.getElementById('selectedCity').value,
+                selectedMuseum: document.getElementById('selectedMuseum').value,
+                visitorType: document.getElementById('visitorType').value,
+                numberOfTickets: document.getElementById('numberOfTickets').value,
+                selectedDate: document.getElementById('selectedDate').value,
+                selectedTime: document.getElementById('selectedTime').value
+            };
+        
+            console.log(userData);  // Log the data to the console for debugging
+        
+            localStorage.setItem('userData', JSON.stringify(userData));
+            window.location.href = 'ticket.html';  // Redirect to ticket page
+        }
+            
+        function completePayment() {
+            const userData = {
+                userName,
+                selectedCity,
+                selectedMuseum,
+                visitorType,
+                numberOfTickets,
+                selectedDate,
+                selectedTime
+            };
+        
+            // Save data to localStorage
+            localStorage.setItem('userData', JSON.stringify(userData));
+        
+            // Simulating payment and redirect to ticket.html
+            appendMessage("Processing your payment...", 'bot');
+            setTimeout(() => {
+                window.location.href = 'ticket.html'; // Redirect to ticket.html
+            }, 1500);
+        }
+    </script>
+
+    <script>
+        function loadGoogleTranslate() {
+            new google.translate.TranslateElement({ pageLanguage: 'en' }, 'google_element');
+        }
+    </script>
+    <script src="https://translate.google.com/translate_a/element.js?cb=loadGoogleTranslate"></script>
+
+</body>
+
+</html>

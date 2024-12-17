@@ -1,0 +1,307 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Museum Ticket Booking Chatbot</title>
+    <link rel="stylesheet" href="chat_gujrat_css.css">
+    
+    <style>
+
+    </style>
+</head>
+
+<body>
+    <div id="bg-img">
+        <header>
+            <div-1>
+                <img id="logo" src="photos/logo1.png" alt="">
+                <h1>ChatBot-Ticketing System</h1>
+            </div-1>
+
+        </header>
+
+        <div id="top">
+            <div class="chat-container">
+                <div id="chat-box" class="chat-box">
+                    <div class="message bot">Hello! Welcome to our museum. What is your name?</div>
+                </div>
+                <div id="nameInputContainer">
+                    <input type="text" id="user-input" placeholder="Enter your name..." autofocus>
+                    <button onclick="sendMessage()">Send</button>
+                </div>
+
+                <div id="cityPrompt" class="hidden">
+                    <label for="citySelect">Select City:</label>
+                    <select id="citySelect" onchange="botReply()">
+                        <option value="">--Select a City--</option>
+                        <option value="ahmedabad">Ahemdabad</option>
+                        <option value="vadodara">Vadodara</option>
+                        <option value="surat">Surat</option>
+                    </select>
+                </div>
+
+                <div id="museumPrompt" class="hidden">
+                    <label for="museumSelect">Select Museum:</label>
+                    <select id="museumSelect" onchange="botReply()">
+                        <!-- Options will be populated dynamically -->
+                    </select>
+                </div>
+
+                <div id="visitorTypePrompt" class="hidden">
+                    <label for="visitorTypeSelect">Are you an Indian or Foreigner?</label>
+                    <select id="visitorTypeSelect" onchange="botReply()">
+                        <option value="">--Select--</option>
+                        <option value="indian">Indian</option>
+                        <option value="foreigner">Foreigner</option>
+                    </select>
+                </div>
+
+                <div id="ticketPrompt" class="hidden">
+                    <label for="ticketSelect">Number of Tickets:</label>
+                    <select id="ticketSelect" onchange="botReply()">
+                        <option value="">--Select Number of Tickets--</option>
+                        <option value="1">1</option>
+                        <option value="2">2</option>
+                        <option value="3">3</option>
+                        <option value="4">4</option>
+                        <option value="5">5</option>
+                        <option value="6">6</option>
+                        <option value="7">7</option>
+                        <option value="8">8</option>
+                        <option value="9">9</option>
+                        <option value="10">10</option>
+                    </select>
+                </div>
+
+                <div id="datePrompt" class="hidden">
+                    <label for="dateSelect">Select Date:</label>
+                    <input type="date" id="dateSelect" onchange="botReply()">
+                </div>
+
+                <div id="timePrompt" class="hidden">
+                    <label for="timeSelect">Select Time Slot:</label>
+                    <select id="timeSelect" onchange="botReply()">
+                        <option value="">--Select Time Slot--</option>
+                        <option value="09:00">09:00 AM</option>
+                        <option value="11:00">11:00 AM</option>
+                        <option value="14:00">02:00 PM</option>
+                    </select>
+                </div>
+
+                <div id="priceDisplay" class="hidden">
+                    <div id="priceMessage"></div>
+                </div>
+
+                <div id="paymentButtonContainer" class="hidden">
+                    <button id="payButton" onclick="completePayment()">Complete Payment</button>
+                </div>
+
+                <div id="confirmationMessage" class="hidden">
+                    <div class="message bot">Your ticket is booked. Thanks for visiting us!</div>
+                </div>
+            </div>
+
+            <div class="right-text">
+                <h1>GUJARAT</h1>
+                <p>
+                    Gujarat, located in western India, is a state known for its diverse culture, historical
+                    significance, and industrial prowess. It boasts a rich heritage that includes ancient civilizations,
+                    majestic palaces, and remarkable temples. Gujarat is a land where traditions and modernity blend
+                    seamlessly, offering visitors a unique experience.
+
+                    <br>
+                    <br>
+
+                    Ahmedabad, the largest city, is a vibrant metropolis known for its architectural marvels such as the
+                    Sabarmati Ashram and the intricate Adalaj Stepwell. Vadodara, often referred to as the cultural
+                    capital of Gujarat, is famous for the Lakshmi Vilas Palace and the Vadodara Museum. Surat, a rapidly
+                    growing city, is known for its diamond cutting and polishing industry and has sites like the Dutch
+                    Garden and Sardar Patel Museum. <br>
+                    <br>
+
+                    Gujarat also celebrates its rich cultural traditions through festivals like Navratri, where Garba
+                    and Dandiya Raas dance forms are performed with great fervor. The state's culinary delights,
+                    including Dhokla, Thepla, and Fafda, are a treat for food lovers.
+                </p>
+            </div>
+        </div>
+    </div>
+
+    
+    
+    
+
+
+
+        <script>
+            let step = 0;
+            let userName = '';
+            let selectedCity = '';
+            let selectedMuseum = '';
+            let visitorType = '';
+            let numberOfTickets = 0;
+            let selectedDate = '';
+            let selectedTime = '';
+            const ticketPrices = { indian: 100, foreigner: 500 };
+
+            function sendMessage() {
+                const userInput = document.getElementById("user-input").value;
+                if (userInput === "") return;
+
+                appendMessage(userInput, 'user');
+                document.getElementById("user-input").value = '';
+
+                if (step === 0) {
+                    // Hide the name input after entering the name
+                    document.getElementById("nameInputContainer").style.display = "none";
+                }
+
+                setTimeout(() => {
+                    botReply(userInput);
+                }, 500);
+            }
+
+            function appendMessage(text, sender) {
+                const chatBox = document.getElementById("chat-box");
+                const message = document.createElement("div");
+                message.className = `message ${sender}`;
+                message.innerText = text;
+                chatBox.appendChild(message);
+                chatBox.scrollTop = chatBox.scrollHeight;
+            }
+
+            function botReply(userInput = '') {
+                let botMessage = '';
+
+                switch (step) {
+                    case 0:
+                        userName = userInput;
+                        botMessage = `Nice to meet you, ${userName}. Which city would you like to book tickets for?`;
+                        step++;
+                        showElement('cityPrompt');
+                        break;
+
+                    case 1:
+                        selectedCity = document.getElementById('citySelect').value;
+                        if (selectedCity) {
+                            botMessage = `You selected ${selectedCity}. Which museum would you like to visit?`;
+                            step++;
+                            populateMuseums(selectedCity);
+                            showElement('museumPrompt');
+                        } else {
+                            botMessage = `Please select a city to continue.`;
+                        }
+                        break;
+
+                    case 2:
+                        selectedMuseum = document.getElementById('museumSelect').value;
+                        if (selectedMuseum) {
+                            botMessage = `Great choice! Are you an Indian or a foreigner?`;
+                            step++;
+                            showElement('visitorTypePrompt');
+                        } else {
+                            botMessage = `Please select a museum to continue.`;
+                        }
+                        break;
+
+                    case 3:
+                        visitorType = document.getElementById('visitorTypeSelect').value;
+                        if (visitorType) {
+                            botMessage = `How many tickets would you like to purchase?`;
+                            step++;
+                            showElement('ticketPrompt');
+                        } else {
+                            botMessage = `Please select your visitor type to continue.`;
+                        }
+                        break;
+
+                    case 4:
+                        numberOfTickets = document.getElementById('ticketSelect').value;
+                        if (numberOfTickets) {
+                            botMessage = `Please select the date of your visit.`;
+                            step++;
+                            showElement('datePrompt');
+                        } else {
+                            botMessage = `Please select the number of tickets to continue.`;
+                        }
+                        break;
+
+                    case 5:
+                        selectedDate = document.getElementById('dateSelect').value;
+                        if (selectedDate) {
+                            botMessage = `Please select your preferred time slot.`;
+                            step++;
+                            showElement('timePrompt');
+                        } else {
+                            botMessage = `Please select the date to continue.`;
+                        }
+                        break;
+
+                    case 6:
+                        selectedTime = document.getElementById('timeSelect').value;
+                        if (selectedTime) {
+                            const ticketPrice = ticketPrices[visitorType] * numberOfTickets;
+                            botMessage = `The total cost for ${numberOfTickets} ticket(s) is ₹${ticketPrice}. Please proceed with the payment.`;
+                            step++;
+                            showElement('priceDisplay');
+                            document.getElementById('priceMessage').innerText = botMessage;
+                            showElement('paymentButtonContainer');
+                        } else {
+                            botMessage = `Please select a time slot to continue.`;
+                        }
+                        break;
+                }
+
+                if (botMessage) {
+                    appendMessage(botMessage, 'bot');
+                }
+            }
+
+            function showElement(elementId) {
+                document.getElementById(elementId).classList.remove('hidden');
+            }
+
+            function populateMuseums(city) {
+                const museumSelect = document.getElementById('museumSelect');
+                museumSelect.innerHTML = '';
+
+                let museums = [];
+                if (city === 'ahmedabad') {
+                    museums = [
+                        'Sabarmati Ashram',
+                        'Calico Museum of Textiles',
+                        'Auto World Vintage Car Museum'
+                    ];
+                } else if (city === 'vadodara') {
+                    museums = [
+                        'Lakshmi Vilas Palace',
+                        'Vadodara Museum',
+                        'Maharaja Fateh Singh Museum'
+                    ];
+                } else if (city === 'surat') {
+                    museums = [
+                        'Sardar Patel Museum',
+                        'Science Centre Surat',
+                        'Dutch Garden'
+                    ];
+                }
+
+                museums.forEach(museum => {
+                    const option = document.createElement('option');
+                    option.value = museum;
+                    option.textContent = museum;
+                    museumSelect.appendChild(option);
+                });
+            }
+
+            function completePayment() {
+                appendMessage("Your payment is successful. Here is your booking confirmation:", 'bot');
+                appendMessage(`City: ${selectedCity}\nMuseum: ${selectedMuseum}\nDate: ${selectedDate}\nTime: ${selectedTime}\nTickets: ${numberOfTickets}`, 'bot');
+                document.getElementById('confirmationMessage').classList.remove('hidden');
+            }
+        </script>
+</body>
+
+</html>

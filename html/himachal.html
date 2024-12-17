@@ -1,0 +1,566 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Museum Ticket Booking Chatbot</title>
+    <link rel="stylesheet" href="himachal_chatcss.css">
+    <link href="https://db.onlinewebfonts.com/c/6bff5f8f85a7385fbdc21a8f724dd8ac?family=Rajasthan+Regular"
+        rel="stylesheet">
+    <style>
+        .right-text p {
+            color: white;
+            font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+            font-size: 18px;
+        }
+
+        .goog-te-gadget .goog-te-combo {
+            margin: 4px 0;
+            padding: 5px;
+            border-radius: 20px;
+        }
+        #timing{
+            margin-bottom: 15px;
+        }
+        .dropbtn {
+            background-color: #04AA6D;
+            color: white;
+            padding: 10px;
+            font-size: 16px;
+            margin-bottom: 10px;
+            border: none;
+        }
+
+        .dropdown {
+            position: relative;
+            display: inline-block;
+        }
+
+        .dropdown-content {
+            display: none;
+            position: absolute;
+            background-color: #f1f1f1;
+            min-width: 160px;
+            box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
+            z-index: 1;
+        }
+
+        .dropdown-content a {
+            color: black;
+            min-width: 200px;
+            padding: 0px;
+            font-size: 15px;
+            font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+            text-decoration: none;
+            display: block;
+        }
+
+
+        .dropdown:hover .dropdown-content {
+            display: block;
+        }
+
+    </style>
+</head>
+
+<body>
+    <div id="bg-img">
+        <header>
+            <div-1>
+                <img id="logo" src="photos/logo1.png" alt="">
+                <h1>ChatBot-Ticketing System </h1>
+            </div-1>
+            <div id="google_element"></div>
+
+        </header>
+
+        <div id="top">
+            <div class="chat-container">
+                <div id="chat-box" class="chat-box">
+                    <div class="message bot">Hello! Welcome to our museum. What is your name?</div>
+                </div>
+                <div id="nameInputContainer">
+                    <input type="text" id="user-input" placeholder="Enter your name..." autofocus>
+                    <button onclick="sendMessage()">Send</button>
+                </div>
+
+                <div id="cityPrompt" class="hidden">
+                    <label for="citySelect">Select City:</label>
+                    <select id="citySelect" onchange="botReply()">
+                        <option value="">--Select a City--</option>
+                        <option value="Shimla">Shimla</option>
+                        <option value="Dharamshala">Dharamshala</option>
+                        <option value="Kullu">Kullu</option>
+                        <option value="Manali">Manali</option>
+                        <option value="Mandi">Mandi</option>
+                    </select>
+                </div>
+
+                <div id="museumPrompt" class="hidden">
+                    <label for="museumSelect">Select Museum:</label>
+                    <select id="museumSelect" onchange="botReply()">
+                        <!-- Options will be populated dynamically -->
+                    </select>
+                </div>
+
+                <div id="visitorTypePrompt" class="hidden">
+                    <label for="visitorTypeSelect">Are you an Indian or Foreigner?</label>
+                    <select id="visitorTypeSelect" onchange="botReply()">
+                        <option value="">--Select--</option>
+                        <option value="indian">Indian</option>
+                        <option value="foreigner">Foreigner</option>
+                    </select>
+                </div>
+
+                <div id="ticketPrompt" class="hidden">
+                    <label for="ticketSelect">Number of Tickets:</label>
+                    <select id="ticketSelect" onchange="botReply()">
+                        <option value="">--Select Number of Tickets--</option>
+                        <option value="1">1</option>
+                        <option value="2">2</option>
+                        <option value="3">3</option>
+                        <option value="4">4</option>
+                        <option value="5">5</option>
+                        <option value="6">6</option>
+                        <option value="7">7</option>
+                        <option value="8">8</option>
+                        <option value="9">9</option>
+                        <option value="10">10</option>
+                    </select>
+                </div>
+
+                <div id="datePrompt" class="hidden">
+                    <label for="dateSelect">Select Date:</label>
+                    <input type="date" id="dateSelect" onchange="botReply()">
+                </div>
+
+                <div id="timePrompt" class="hidden">
+                    <label for="timeSelect">Select Time Slot:</label>
+                    <select id="timeSelect" onchange="botReply()">
+                        <option value="">--Select Time Slot--</option>
+                        <option value="09:00">09:00 AM</option>
+                        <option value="11:00">11:00 AM</option>
+                        <option value="14:00">02:00 PM</option>
+                    </select>
+                </div>
+
+                <div id="priceDisplay" class="hidden">
+                    <div id="priceMessage"></div>
+                </div>
+
+                <div id="paymentButtonContainer" class="hidden">
+                    <button id="payButton" onclick="completePayment()">Complete Payment</button>
+                </div>
+
+                <div id="confirmationMessage" class="hidden">
+                    <div class="message bot">Your ticket is booked. Thanks for visiting us!</div>
+                    <a id='download' href="ticket.html">Download your ticket</a>
+                </div>
+            </div>
+
+            <div class="right-text">
+                <h1>HIMACHAL PRADESH</h1>
+                <p>
+                    Himachal Pradesh, nestled in the northern part of India, is renowned for its picturesque landscapes,
+                    lush valleys, and majestic mountains. Known as the "Land of Snow," Himachal Pradesh is a popular
+                    destination for nature lovers and adventure enthusiasts. The state boasts beautiful hill stations
+                    like Shimla, Dharamshala, Manali, and Kullu, each offering unique experiences and breathtaking
+                    views.
+
+                    <br><br>
+
+                    Shimla, the state capital, is famous for its colonial architecture, charming mall road, and
+                    panoramic views. Dharamshala, home to the Dalai Lama, is known for its Tibetan culture and serene
+                    environment. Manali and Kullu are popular for their scenic beauty and adventure activities,
+                    including skiing and paragliding.
+
+                    <br><br>
+
+                    Himachal Pradesh's rich cultural heritage, natural beauty, and outdoor activities make it a
+                    captivating destination for tourists from all over the world.
+                </p>
+            </div>
+        </div>
+    </div>
+
+    <div class="bottom">
+        <div id="first">
+            <div class="text-content">
+                <h1 style="text-decoration: underline;">The Himachal State Museum: Shimla</h1>
+                <p id="museum-p">The Himachal State Museum in Shimla is a key museum showcasing the rich heritage of
+                    Himachal Pradesh. Established in 1968, it houses a diverse collection of artifacts including
+                    sculptures, paintings, and manuscripts from the region's history.</p>
+                <h3 style="text-decoration: underline;">Contact Number:</h3>
+                <p id="number">0177 2623892</p>
+                <div class="dropdown">
+                    <button class="dropbtn">Timings</button>
+                    <div class="dropdown-content">
+                        <a href="#">Monday: CLOSED!</a>
+                        <a href="#">Tuesday: 10:00 - 17:30</a>
+                        <a href="#">Wednesday: 10:00 - 17:30</a>
+                        <a href="#">Thursday: 10:00 - 17:30</a>
+                        <a href="#">Friday: 10:00 - 17:30</a>
+                        <a href="#">Satuday: 10:30 - 17:30</a>
+                        <a href="#">Sunday: 10:30 - 17:30</a>
+                    </div>
+                </div>
+                <br>
+                <a
+                    href="https://www.google.co.in/maps/place/State+Museum,+Chaura+Maidan+Rd,+Chaura+Maidan,+Shimla,+Himachal+Pradesh+171004/@31.1034073,77.1508082,17z/data=!4m6!3m5!1s0x390578e24f2b9c9f:0xfa11c2f40502f339!8m2!3d31.1034073!4d77.1508082!16s%2Fg%2F12jsyd1d4?entry=ttu&g_ep=EgoyMDI0MDgyOC4wIKXMDSoASAFQAw%3D%3D">📍
+                    Directions</a>
+            </div>
+            <div class="image-content">
+                <img id="museum-img" src="photos/Himachal State Museum.jpg" alt="The Himachal State Museum: Shimla">
+            </div>
+        </div>
+    </div>
+    <div class="bottom">
+        <div id="first">
+            <div class="text-content">
+                <h1 style="text-decoration: underline;">Tibetan Museum: Dharamshala</h1>
+                <p id="museum-p">The Tibetan Museum in Dharamshala offers an insight into Tibetan culture and history.
+                    Established in 1998, the museum showcases artifacts related to Tibetan art, culture, and the Tibetan
+                    struggle for freedom.</p>
+                <h3 style="text-decoration: underline;">Contact Number:</h3>
+                <p id="number">01892 221809</p>
+                <div class="dropdown">
+                    <button class="dropbtn">Timings</button>
+                    <div class="dropdown-content">
+                        <a href="#">Monday: CLOSED!</a>
+                        <a href="#">Tuesday: 10:00 - 17:30</a>
+                        <a href="#">Wednesday: 10:00 - 17:30</a>
+                        <a href="#">Thursday: 10:00 - 17:30</a>
+                        <a href="#">Friday: 10:00 - 17:30</a>
+                        <a href="#">Satuday: 10:30 - 17:30</a>
+                        <a href="#">Sunday: 10:30 - 17:30</a>
+                    </div>
+                </div>
+                <br>
+                <a
+                    href="https://www.google.co.in/maps/search/tibetian+museum/@32.2258994,76.325332,7z?entry=ttu&g_ep=EgoyMDI0MDgyOC4wIKXMDSoASAFQAw%3D%3D">📍
+                    Directions</a>
+            </div>
+            <div class="image-content">
+                <img id="museum-img" src="photos/Tibetan Museum.jpg" alt="Tibetan Museum: Dharamshala">
+            </div>
+        </div>
+    </div>
+    <div class="bottom">
+        <div id="first">
+            <div class="text-content">
+                <h1 style="text-decoration: underline;">Kullu Museum: Kullu</h1>
+                <p id="museum-p">The Kullu Museum is a significant cultural institution in Kullu, showcasing the
+                    region's rich heritage through artifacts, traditional clothing, and historical items. It offers a
+                    glimpse into the life and culture of the Kullu Valley.</p>
+                <h3 style="text-decoration: underline;">Contact Number:</h3>
+                <p id="number">01902 224158</p>
+                <div class="dropdown">
+                    <button class="dropbtn">Timings</button>
+                    <div class="dropdown-content">
+                        <a href="#">Monday: CLOSED!</a>
+                        <a href="#">Tuesday: 10:00 - 17:30</a>
+                        <a href="#">Wednesday: 10:00 - 17:30</a>
+                        <a href="#">Thursday: 10:00 - 17:30</a>
+                        <a href="#">Friday: 10:00 - 17:30</a>
+                        <a href="#">Satuday: 10:30 - 17:30</a>
+                        <a href="#">Sunday: 10:30 - 17:30</a>
+                    </div>
+                </div>
+                <br>
+                <a
+                    href="https://www.google.co.in/maps/place/The+Nicholas+Roerich+Art+Gallery+-+Kullu+District,+Himachal+Pradesh,+India/@32.1167479,75.948143,9z/data=!4m10!1m2!2m1!1sKullu+Museum!3m6!1s0x39048a3ff0539585:0x74d171d57b376b22!8m2!3d32.1166681!4d77.1686437!15sCgxLdWxsdSBNdXNldW1aDiIMa3VsbHUgbXVzZXVtkgEGbXVzZXVtmgEjQ2haRFNVaE5NRzluUzBWSlEwRm5TVVJVTUUxaGNVbDNFQUXgAQA!16s%2Fg%2F1wt3lsc1?entry=ttu&g_ep=EgoyMDI0MDgyOC4wIKXMDSoASAFQAw%3D%3D">📍
+                    Directions</a>
+            </div>
+            <div class="image-content">
+                <img id="museum-img" src="photos/Kullu Museum.jpg" alt="Kullu Museum: Kullu">
+            </div>
+        </div>
+    </div>
+    <div class="bottom">
+        <div id="first">
+            <div class="text-content">
+                <h1 style="text-decoration: underline;">Manali Museum: Manali</h1>
+                <p id="museum-p">The Manali Museum offers visitors a chance to explore the cultural and historical
+                    artifacts of the region. Established to preserve and showcase local heritage, the museum features a
+                    range of exhibits from traditional artifacts to historical documents.</p>
+                <h3 style="text-decoration: underline;">Contact Number:</h3>
+                <p id="number">01982 252321</p>
+                <div class="dropdown">
+                    <button class="dropbtn">Timings</button>
+                    <div class="dropdown-content">
+                        <a href="#">Monday: CLOSED!</a>
+                        <a href="#">Tuesday: 10:00 - 17:30</a>
+                        <a href="#">Wednesday: 10:00 - 17:30</a>
+                        <a href="#">Thursday: 10:00 - 17:30</a>
+                        <a href="#">Friday: 10:00 - 17:30</a>
+                        <a href="#">Satuday: 10:30 - 17:30</a>
+                        <a href="#">Sunday: 10:30 - 17:30</a>
+                    </div>
+                </div>
+                <br>
+                <a
+                    href="https://www.google.co.in/maps/place/Museum+of+Himachal+Culture+%26+Folk+Art/@32.246197,77.1806152,15z/data=!4m10!1m2!2m1!1sManali+Museum!3m6!1s0x390487e37976160d:0x1964803e449a6c2e!8m2!3d32.246197!4d77.1806152!15sCg1NYW5hbGkgTXVzZXVtWg8iDW1hbmFsaSBtdXNldW2SAQZtdXNldW3gAQA!16s%2Fg%2F12lrtb_6l?entry=ttu&g_ep=EgoyMDI0MDgyOC4wIKXMDSoASAFQAw%3D%3D">📍
+                    Directions</a>
+            </div>
+            <div class="image-content">
+                <img id="museum-img" src="photos/Manali Museum.jpg" alt="Manali Museum: Manali">
+            </div>
+        </div>
+    </div>
+
+    <div class="bottom">
+        <div id="first">
+            <div class="text-content">
+                <h1 style="text-decoration: underline;">Mandi Museum: Mandi</h1>
+                <p id="museum-p">Mandi Museum in Mandi is dedicated to the preservation and exhibition of artifacts from
+                    the Mandi region. The museum displays a rich collection of local artifacts, traditional art, and
+                    historical relics.</p>
+                <h3 style="text-decoration: underline;">Contact Number:</h3>
+                <p id="number">01905 223542</p>
+                <div class="dropdown">
+                    <button class="dropbtn">Timings</button>
+                    <div class="dropdown-content">
+                        <a href="#">Monday: CLOSED!</a>
+                        <a href="#">Tuesday: 10:00 - 17:30</a>
+                        <a href="#">Wednesday: 10:00 - 17:30</a>
+                        <a href="#">Thursday: 10:00 - 17:30</a>
+                        <a href="#">Friday: 10:00 - 17:30</a>
+                        <a href="#">Satuday: 10:30 - 17:30</a>
+                        <a href="#">Sunday: 10:30 - 17:30</a>
+                    </div>
+                </div>
+                <br>
+                <a
+                    href="https://www.google.co.in/maps/place/Shahid+Samarak+Sunken+Garden+Mandi/@31.7080665,75.7125043,9z/data=!4m10!1m2!2m1!1sMandi+Museum:+Mandi!3m6!1s0x3904e36babf299f5:0xde2ec7416ed7e17f!8m2!3d31.7080665!4d76.9319867!15sChNNYW5kaSBNdXNldW06IE1hbmRpWhQiEm1hbmRpIG11c2V1bSBtYW5kaZIBBm11c2V1bZoBI0NoWkRTVWhOTUc5blMwVkpRMEZuU1VScGJWcEVRVkJuRUFF4AEA!16s%2Fg%2F11hgd7tjs3?entry=ttu&g_ep=EgoyMDI0MDgyOC4wIKXMDSoASAFQAw%3D%3D">📍
+                    Directions</a>
+            </div>
+            <div class="image-content">
+                <img id="museum-img" src="photos/Mandi Museum.jpg" alt="Mandi Museum: Mandi">
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function loadGoogleTranslate() {
+            new google.translate.TranslateElement({ pageLanguage: 'en' }, 'google_element');
+        }
+    </script>
+    <script src="https://translate.google.com/translate_a/element.js?cb=loadGoogleTranslate"></script>
+
+    <script>
+        let step = 0;
+        let userName = '';
+        let selectedCity = '';
+        let selectedMuseum = '';
+        let visitorType = '';
+        let numberOfTickets = 0;
+        let selectedDate = '';
+        let selectedTime = '';
+        const ticketPrices = { indian: 100, foreigner: 500 };
+
+        function sendMessage() {
+            const userInput = document.getElementById("user-input").value;
+            if (userInput === "") return;
+
+            appendMessage(userInput, 'user');
+            document.getElementById("user-input").value = '';
+
+            if (step === 0) {
+                // Hide the name input after entering the name
+                document.getElementById("nameInputContainer").style.display = "none";
+            }
+
+            setTimeout(() => {
+                botReply(userInput);
+            }, 500);
+        }
+
+        function appendMessage(text, sender) {
+            const chatBox = document.getElementById("chat-box");
+            const message = document.createElement("div");
+            message.className = `message ${sender}`;
+            message.innerText = text;
+            chatBox.appendChild(message);
+            chatBox.scrollTop = chatBox.scrollHeight;
+        }
+
+        function botReply(userInput = '') {
+            let botMessage = '';
+
+            switch (step) {
+                case 0:
+                    userName = userInput;
+                    botMessage = `Nice to meet you, ${userName}. Which city would you like to book tickets for?`;
+                    step++;
+                    showElement('cityPrompt');
+                    break;
+
+                case 1:
+                    selectedCity = document.getElementById('citySelect').value;
+                    if (selectedCity) {
+                        botMessage = `You've selected ${selectedCity.charAt(0).toUpperCase() + selectedCity.slice(1)}. Which museum would you like to visit?`;
+                        step++;
+                        updateMuseums();
+                        showElement('museumPrompt');
+                    }
+                    break;
+
+                case 2:
+                    selectedMuseum = document.getElementById('museumSelect').value;
+                    if (selectedMuseum) {
+                        botMessage = `You've chosen ${selectedMuseum.replace(/_/g, ' ').toUpperCase()}. Are you an Indian or Foreigner?`;
+                        step++;
+                        showElement('visitorTypePrompt');
+                    }
+                    break;
+
+                case 3:
+                    visitorType = document.getElementById('visitorTypeSelect').value;
+                    if (visitorType) {
+                        botMessage = `You've selected ${visitorType.charAt(0).toUpperCase() + visitorType.slice(1)}. How many tickets would you like to book?`;
+                        step++;
+                        showElement('ticketPrompt');
+                    }
+                    break;
+
+                case 4:
+                    numberOfTickets = parseInt(document.getElementById('ticketSelect').value);
+                    if (!isNaN(numberOfTickets) && numberOfTickets > 0) {
+                        botMessage = `You've chosen ${numberOfTickets} tickets. Please select a date.`;
+                        step++;
+                        showElement('datePrompt');
+                    }
+                    break;
+
+                case 5:
+                    selectedDate = document.getElementById('dateSelect').value;
+                    if (selectedDate) {
+                        botMessage = `You've selected ${selectedDate}. Please choose a time slot.`;
+                        step++;
+                        showElement('timePrompt');
+                    }
+                    break;
+
+                case 6:
+                    selectedTime = document.getElementById('timeSelect').value;
+                    if (selectedTime) {
+                        calculatePrice();
+                        botMessage = `You've chosen ${selectedTime}. The total price is ₹${ticketPrices[visitorType] * numberOfTickets}. Would you like to proceed with the payment?`;
+                        step++;
+                        showElement('paymentButtonContainer');
+                    }
+                    break;
+
+                case 7:
+                    botMessage = `Thank you, ${userName}! Your booking is confirmed.`;
+                    step++;
+                    document.getElementById('confirmationMessage').classList.remove('hidden');
+                    break;
+
+                default:
+                    botMessage = "Your ticket has already been booked. Thank you!";
+            }
+
+            if (botMessage) {
+                appendMessage(botMessage, 'bot');
+            }
+        }
+
+        function updateMuseums() {
+            const museumSelect = document.getElementById('museumSelect');
+            museumSelect.innerHTML = ''; // Clear previous options
+
+            const museums = {
+                Shimla: ['--Select a Museum--', 'The Himachal State Museum'],
+                Dharamshala: ['--Select a Museum--', 'Tibetan Museum'],
+                Kullu: ['--Select a Museum--', 'Kullu Museum'],
+                Manali: ['--Select a Museum--', 'Manali Museum']
+            };
+
+            museums[selectedCity].forEach(museum => {
+                const option = document.createElement('option');
+                option.value = museum.toLowerCase().replace(/ /g, '_');
+                option.textContent = museum;
+                museumSelect.appendChild(option);
+            });
+        }
+
+        function calculatePrice() {
+            const totalPrice = ticketPrices[visitorType] * numberOfTickets;
+            const priceMessage = `The total price is ₹${totalPrice}.`;
+            document.getElementById('priceMessage').innerText = priceMessage;
+            showElement('priceDisplay');
+        }
+
+        function completePayment() {
+            appendMessage("Processing your payment...", 'bot');
+            setTimeout(() => {
+                document.getElementById('paymentButtonContainer').classList.add('hidden');
+                botReply();
+            }, 1500); // Simulating payment process delay
+        }
+
+        function showElement(elementId) {
+            document.getElementById(elementId).classList.remove('hidden');
+        }
+    </script>
+
+    <script>
+        function saveData() {
+            const userData = {
+                userName: document.getElementById('userName').value,
+                selectedCity: document.getElementById('selectedCity').value,
+                selectedMuseum: document.getElementById('selectedMuseum').value,
+                visitorType: document.getElementById('visitorType').value,
+                numberOfTickets: document.getElementById('numberOfTickets').value,
+                selectedDate: document.getElementById('selectedDate').value,
+                selectedTime: document.getElementById('selectedTime').value
+            };
+
+            localStorage.setItem('userData', JSON.stringify(userData));
+            window.location.href = 'ticket.html'; // Redirect to ticket page
+        }
+
+        function saveData() {
+            const userData = {
+                userName: document.getElementById('userName').value,
+                selectedCity: document.getElementById('selectedCity').value,
+                selectedMuseum: document.getElementById('selectedMuseum').value,
+                visitorType: document.getElementById('visitorType').value,
+                numberOfTickets: document.getElementById('numberOfTickets').value,
+                selectedDate: document.getElementById('selectedDate').value,
+                selectedTime: document.getElementById('selectedTime').value
+            };
+
+            console.log(userData);  // Log the data to the console for debugging
+
+            localStorage.setItem('userData', JSON.stringify(userData));
+            window.location.href = 'ticket.html';  // Redirect to ticket page
+        }
+
+        function completePayment() {
+            const userData = {
+                userName,
+                selectedCity,
+                selectedMuseum,
+                visitorType,
+                numberOfTickets,
+                selectedDate,
+                selectedTime
+            };
+
+            // Save data to localStorage
+            localStorage.setItem('userData', JSON.stringify(userData));
+
+            // Simulating payment and redirect to ticket.html
+            appendMessage("Processing your payment...", 'bot');
+            setTimeout(() => {
+                window.location.href = 'ticket.html'; // Redirect to ticket.html
+            }, 1500);
+        }
+    </script>
+
+</body>
+
+</html>

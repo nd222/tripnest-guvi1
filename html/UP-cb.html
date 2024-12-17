@@ -1,0 +1,655 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Museum Ticket Booking Chatbot</title>
+    <link rel="stylesheet" href="upchatcss.css">
+    <link href="https://db.onlinewebfonts.com/c/6bff5f8f85a7385fbdc21a8f724dd8ac?family=Rajasthan+Regular"
+        rel="stylesheet">
+    <style>
+        .right-text p {
+            padding-bottom: 40px;
+        }
+
+        .goog-te-gadget .goog-te-combo {
+            margin: 4px 0;
+            padding: 5px;
+            border-radius: 20px;
+        }
+        #timing{
+            margin-bottom: 15px;
+        }
+        .dropbtn {
+            background-color: #04AA6D;
+            color: white;
+            padding: 10px;
+            font-size: 16px;
+            margin-bottom: 10px;
+            border: none;
+        }
+
+        .dropdown {
+            position: relative;
+            display: inline-block;
+        }
+
+        .dropdown-content {
+            display: none;
+            position: absolute;
+            background-color: #f1f1f1;
+            min-width: 160px;
+            box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
+            z-index: 1;
+        }
+
+        .dropdown-content a {
+            color: black;
+            min-width: 200px;
+            padding: 0px;
+            font-size: 15px;
+            font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+            text-decoration: none;
+            display: block;
+        }
+
+
+        .dropdown:hover .dropdown-content {
+            display: block;
+        }
+
+    </style>
+</head>
+
+
+<body>
+    <div id="bg-img">
+        <header>
+            <div-1>
+                <img id="logo" src="photos/logo1.png" alt="">
+                <h1>ChatBot-Ticketing System </h1>
+            </div-1>
+            <div id="google_element"></div>
+        </header>
+
+
+        <div id="top">
+            <div class="chat-container">
+                <div id="chat-box" class="chat-box">
+                    <div class="message bot">Hello! Welcome to our museum. What is your name?</div>
+                </div>
+                <div id="nameInputContainer">
+                    <input type="text" id="user-input" placeholder="Enter your name..." autofocus>
+                    <button onclick="sendMessage()">Send</button>
+                </div>
+
+                <div id="cityPrompt" class="hidden">
+                    <label for="citySelect">Select City:</label>
+                    <select id="citySelect" onchange="botReply()">
+                        <option value="">--Select a City--</option>
+                        <option value="lucknow">Lucknow</option>
+                        <option value="mathura">Mathura</option>
+                        <option value="varansi">Varanasi</option>
+                        <option value="agra">Agra</option>
+                        <option value="praygraj">Prayagraj</option>
+                        <option value="ayodhya">Ayodhya</option>
+                    </select>
+                </div>
+
+                <div id="museumPrompt" class="hidden">
+                    <label for="museumSelect">Select Museum:</label>
+                    <select id="museumSelect" onchange="botReply()">
+                        <!-- Options will be populated dynamically -->
+                    </select>
+                </div>
+
+                <div id="visitorTypePrompt" class="hidden">
+                    <label for="visitorTypeSelect">Are you an Indian or Foreigner?</label>
+                    <select id="visitorTypeSelect" onchange="botReply()">
+                        <option value="">--Select--</option>
+                        <option value="indian">Indian</option>
+                        <option value="foreigner">Foreigner</option>
+                    </select>
+                </div>
+
+                <div id="ticketPrompt" class="hidden">
+                    <label for="ticketSelect">Number of Tickets:</label>
+                    <select id="ticketSelect" onchange="botReply()">
+                        <option value="">--Select Number of Tickets--</option>
+                        <option value="1">1</option>
+                        <option value="2">2</option>
+                        <option value="3">3</option>
+                        <option value="4">4</option>
+                        <option value="5">5</option>
+                        <option value="6">6</option>
+                        <option value="7">7</option>
+                        <option value="8">8</option>
+                        <option value="9">9</option>
+                        <option value="10">10</option>
+                    </select>
+                </div>
+
+                <div id="datePrompt" class="hidden">
+                    <label for="dateSelect">Select Date:</label>
+                    <input type="date" id="dateSelect" onchange="botReply()">
+                </div>
+
+                <div id="timePrompt" class="hidden">
+                    <label for="timeSelect">Select Time Slot:</label>
+                    <select id="timeSelect" onchange="botReply()">
+                        <option value="">--Select Time Slot--</option>
+                        <option value="09:00">09:00 AM</option>
+                        <option value="11:00">11:00 AM</option>
+                        <option value="14:00">02:00 PM</option>
+                    </select>
+                </div>
+
+                <div id="priceDisplay" class="hidden">
+                    <div id="priceMessage"></div>
+                </div>
+
+                <div id="paymentButtonContainer" class="hidden">
+                    <button id="payButton" onclick="completePayment()">Complete Payment</button>
+                </div>
+
+                <div id="confirmationMessage" class="hidden">
+                    <div class="message bot">Your ticket is booked. Thanks for visiting us!</div>
+                    <a id='download' href="ticket.html">Download your ticket</a>
+                </div>
+            </div>
+
+            <div class="right-text">
+                <h1>UTTAR PRADESH
+
+                </h1>
+                <p>
+                    Uttar Pradesh, the most populous state in India, is a land of immense historical, cultural, and
+                    spiritual significance. Located in the northern part of the country, Uttar Pradesh is often referred
+                    to as the heart of India due to its central role in the nation’s history. The state is home to some
+                    of India's most iconic landmarks, including the Taj Mahal in Agra, the holy cities of Varanasi and
+                    Prayagraj, and the ancient city of Ayodhya. With its rich cultural heritage, diverse landscapes, and
+                    vibrant traditions, Uttar Pradesh offers a captivating glimpse into the soul of India.
+
+                    <br>
+                    <br>
+
+                    The state’s museums serve as vital repositories of its extensive history and cultural heritage. The
+                    State Museum in Lucknow, the capital city, is one of the oldest and most prominent museums in Uttar
+                    Pradesh. It houses an extensive collection of artifacts, including ancient sculptures, coins,
+                    manuscripts, and a rich assortment of natural history exhibits. The museum also features a gallery
+                    dedicated to the freedom struggle, reflecting the state’s pivotal role in India’s quest for
+                    independence.
+                    <br>
+                    <br>
+
+                    In addition to the State Museum, Uttar Pradesh is home to several other notable museums that
+                    highlight different aspects of its heritage. The Sarnath Museum near Varanasi, for instance, is
+                    renowned for its collection of Buddhist art and artifacts, including the famous Lion Capital of
+                    Ashoka, which is India’s national emblem. The Allahabad Museum in Prayagraj showcases archaeological
+                    finds, paintings, and exhibits related to the region's history and culture. Together, these museums
+                    offer visitors a deep and varied understanding of Uttar Pradesh's significant contributions to
+                    India's cultural and historical tapestry.
+                </p>
+            </div>
+        </div>
+    </div>
+
+    <div class="bottom">
+        <div id="first">
+            <div class="text-content">
+                <h1 style="text-decoration: underline;">State Museum: Lucknow</h1>
+                <p id="museum-p">The State Museum in Lucknow is one of Uttar Pradesh’s most prominent and oldest
+                    museums, tracing its origins back to 1863. Originally established as a collection of antiquities, it
+                    has grown to become a major cultural institution in the state. The museum houses an extensive
+                    collection of artifacts that span centuries, including ancient sculptures, coins, paintings, and
+                    manuscripts. Its galleries are dedicated to various themes, such as archaeology, numismatics,
+                    anthropology, and natural history. The museum also features a unique gallery on the First War of
+                    Indian Independence in 1857, providing a vivid portrayal of the region's role in India’s struggle
+                    for freedom. The museum's diverse exhibits offer a comprehensive overview of the rich history and
+                    culture of Uttar Pradesh.</p>
+                <h3 style="text-decoration: underline;">Contact Number:</h3>
+                <p id="number">011 2222 3044</p>
+                <p id="timing">Timing: 10AM - 6PM</p>
+                <a href="https://maps.app.goo.gl/Hiorcqs4dYYLoXga7">📍 Directions</a>
+            </div>
+            <div class="image-content">
+                <img id="museum-img" src="photos/State_Museum_Lucknow.png" alt="State Museum: Lucknow">
+            </div>
+        </div>
+    </div>
+    <div class="bottom">
+        <div id="first">
+            <div class="text-content">
+                <h1 style="text-decoration: underline;">Government Museum: Mathura</h1>
+                <p id="museum-p">The Government Museum in Mathura, also known as the Mathura Museum, is one of the most
+                    significant archaeological museums in India. Established in 1874, the museum is renowned for its
+                    collection of ancient sculptures, particularly those from the Kushan and Gupta periods. Mathura,
+                    often referred to as the birthplace of Lord Krishna, is also an important center for the study of
+                    early Indian art, and the museum reflects this with its vast array of artifacts, including
+                    terracotta works, coins, and pottery. The museum's galleries are dedicated to different periods and
+                    styles of art, offering insights into the development of Indian sculpture and iconography. The
+                    Mathura Museum is especially famous for its representation of Buddhist and Jain art, making it an
+                    essential destination for anyone interested in ancient Indian culture and religion.
+
+                </p>
+                <h3 style="text-decoration: underline;">Contact Number:</h3>
+                <p id="number">011 2338 4446</p>
+                <p id="timing">Timing: 10AM - 6PM</p>
+                <a href="https://maps.app.goo.gl/TB7hA9HtShTW1xoL8">📍 Directions</a>
+            </div>
+            <div class="image-content">
+
+                <img id="museum-img" src="photos/1280px-Government_Museum_-_Mathura_2013-02-23_5014.jpeg.jpg"
+                    alt="Government Museum Mathura">
+            </div>
+        </div>
+    </div>
+
+    </div>
+    </div>
+    <div class="bottom">
+        <div id="first">
+            <div class="text-content">
+                <h1 style="text-decoration: underline;">Sarnath Museum: Varanasi</h1>
+                <p id="museum-p">Located in the sacred city of Varanasi, the Sarnath Museum is renowned for its
+                    unparalleled collection of Buddhist art and artifacts. Sarnath is one of the most important Buddhist
+                    pilgrimage sites, as it is where Gautama Buddha delivered his first sermon after attaining
+                    enlightenment. The museum, established in 1910, is home to the famous Lion Capital of Ashoka, which
+                    serves as India’s national emblem. The museum's galleries showcase a wide array of sculptures,
+                    inscriptions, and carvings from the Mauryan, Kushan, and Gupta periods, reflecting the rich Buddhist
+                    heritage of the region. The artifacts on display provide a deep insight into the evolution of
+                    Buddhist art and philosophy in India.</p>
+
+
+                <h3 style="text-decoration: underline;">Contact Us:</h3></a>
+                <p id="number">0542 259 5095</p>
+                <div class="dropdown">
+                    <button class="dropbtn">Timings</button>
+                    <div class="dropdown-content">
+                        <a href="#">Monday: CLOSED!</a>
+                        <a href="#">Tuesday: 10:00 - 18:00</a>
+                        <a href="#">Wednesday: 10:00 - 18:00</a>
+                        <a href="#">Thursday: 10:00 - 18:00</a>
+                        <a href="#">Friday: 10:00 - 18:00</a>
+                        <a href="#">Satuday: 10:30 - 18:00</a>
+                        <a href="#">Sunday: 10:30 - 18:00</a>
+                    </div>
+                </div>
+                <br>
+                <a href="https://maps.app.goo.gl/evZGgpGHswhJ4LP88">📍 Directions</a>
+            </div>
+            <div class="image-content">
+                <img id="museum-img" src="photos/Gallery-No-01.jpg " alt="Sarnath Museum Varanasi">
+            </div>
+        </div>
+    </div>
+    <div class="bottom">
+        <div id="first">
+            <div class="text-content">
+                <h1 style="text-decoration: underline;">Allahabad Museum: Prayagraj</h1>
+                <p id="museum-p">The Allahabad Museum, situated in the historic city of Prayagraj (formerly Allahabad),
+                    is one of the most important museums in Uttar Pradesh. Established in 1931, the museum is known for
+                    its vast collection of art, archaeology, and cultural heritage. It features galleries dedicated to
+                    ancient sculptures, paintings, and manuscripts, as well as exhibits on natural history and
+                    anthropology. The museum also has a unique section on the freedom struggle, highlighting Prayagraj’s
+                    role as a center of political activity during India’s independence movement. Additionally, the
+                    Allahabad Museum houses the personal belongings of famous personalities like Jawaharlal Nehru and
+                    Mahatma Gandhi, offering visitors a connection to India’s modern history.
+                </p>
+
+                <h3 style="text-decoration: underline;">Contact Us:</h3>
+                <p id="number">0532 2407 834</p>
+                <div class="dropdown">
+                    <button class="dropbtn">Timings</button>
+                    <div class="dropdown-content">
+                        <a href="#">Monday: CLOSED!</a>
+                        <a href="#">Tuesday: 10:00 - 18:00</a>
+                        <a href="#">Wednesday: 10:00 - 18:00</a>
+                        <a href="#">Thursday: 10:00 - 18:00</a>
+                        <a href="#">Friday: 10:00 - 18:00</a>
+                        <a href="#">Satuday: 10:30 - 18:00</a>
+                        <a href="#">Sunday: 10:30 - 18:00</a>
+                    </div>
+                </div>
+                <br>
+
+                <a href="https://maps.app.goo.gl/M5BmRoLcZkYDvbi76">📍 Directions</a>
+            </div>
+            <div class="image-content">
+                <img id="museum-img" src="photos/Allahabad_Museum_14 (1).jpg" alt="Allahabad Musueum Praygraj">
+            </div>
+        </div>
+    </div>
+    <div class="bottom">
+        <div id="first">
+            <div class="text-content">
+                <h1 style="text-decoration: underline;">Bharat Kala Bhavan: Varanasi</h1>
+                <p id="museum-p">
+                    Located within the Banaras Hindu University (BHU) campus in Varanasi, Bharat Kala Bhavan is a
+                    treasure trove of Indian art and culture. Established in 1920, this museum is particularly noted for
+                    its extensive collection of Indian miniature paintings, textiles, and decorative arts. It also
+                    houses a significant number of archaeological artifacts, including sculptures from various periods,
+                    terracotta figures, and coins. The museum's collections reflect the rich cultural heritage of
+                    Varanasi and the surrounding region, making it an important center for the study of Indian art
+                    history. Bharat Kala Bhavan also includes exhibits on folk art, contemporary art, and literary
+                    manuscripts, making it a diverse and educational experience for visitors.
+
+                </p>
+
+                <h3 style="text-decoration: underline;">Contact Number:</h3>
+                <p id="number">090058 06703</p>
+                <div class="dropdown">
+                    <button class="dropbtn">Timings</button>
+                    <div class="dropdown-content">
+                        <a href="#">Monday: CLOSED!</a>
+                        <a href="#">Tuesday: 10:00 - 18:00</a>
+                        <a href="#">Wednesday: 10:00 - 18:00</a>
+                        <a href="#">Thursday: 10:00 - 18:00</a>
+                        <a href="#">Friday: 10:00 - 18:00</a>
+                        <a href="#">Satuday: 10:30 - 18:00</a>
+                        <a href="#">Sunday: 10:30 - 18:00</a>
+                    </div>
+                </div>
+                <br>
+                <a href="https://maps.app.goo.gl/VGRbUHwHA9ycDvPB8">📍 Directions</a>
+            </div>
+            <div class="image-content">
+                <img id="museum-img" src="photos/Bharat_Kala_Bhavan_Museum,_Banaras_Hindu_University,_Varanasi.jpg"
+                    alt="Bharat Kala Bhavan Museum Varanasi">
+            </div>
+        </div>
+    </div>
+    <div class="bottom">
+        <div id="first">
+            <div class="text-content">
+                <h1 style="text-decoration: underline;">Ram Katha Sangrahalay: Ayodhya</h1>
+                <p id="museum-p">Situated in the sacred city of Ayodhya, the Ram Katha Sangrahalay is a museum dedicated
+                    to the life and times of Lord Rama, one of the most revered deities in Hinduism. Established in
+                    1988, the museum is an essential destination for those interested in the religious and cultural
+                    history of India. The exhibits include paintings, sculptures, and dioramas that depict scenes from
+                    the Ramayana, as well as artifacts related to the city’s history and its significance as the
+                    birthplace of Lord Rama. The museum also features rare manuscripts, textiles, and folk art from
+                    different parts of India, all centered around the Ramayana epic. The Ram Katha Sangrahalay provides
+                    visitors with a deep understanding of the cultural and religious importance of Ayodhya.</p>
+
+                <h3 style="text-decoration: underline;">Contact Number:</h3>
+                <p id="number">013 5255 9898</p>
+                <div class="dropdown">
+                    <button class="dropbtn">Timings</button>
+                    <div class="dropdown-content">
+                        <a href="#">Monday: CLOSED!</a>
+                        <a href="#">Tuesday: 10:00 - 18:00</a>
+                        <a href="#">Wednesday: 10:00 - 18:00</a>
+                        <a href="#">Thursday: 10:00 - 18:00</a>
+                        <a href="#">Friday: 10:00 - 18:00</a>
+                        <a href="#">Satuday: 10:30 - 18:00</a>
+                        <a href="#">Sunday: 10:30 - 18:00</a>
+                    </div>
+                </div>
+                <br>
+                <a href="https://maps.app.goo.gl/n1JCRav2Jf5Xc5sTA">📍 Directions</a>
+            </div>
+            <div class="image-content">
+                <img id="museum-img" src="photos/ram-katha.jpg" alt="Ram Katha Sangrahalay Ayodhya">
+            </div>
+        </div>
+    </div>
+    <div class="bottom">
+        <div id="first">
+            <div class="text-content">
+                <h1 style="text-decoration: underline;">Taj Museum: Agra</h1>
+                <p id="museum-p">
+                    Midway between the ornate gateway and the masjid at the Taj Mahal complex, on the western periphery
+                    of the complex, is the Jal Mahal. This is one of two pavilions built at either end of a water
+                    channel bisecting the charbagh gardens of the tomb. Jal Mahal houses the Taj Mahal Museum, a very
+                    small selection of exhibits. Some pertain to the Taj itself: layouts, including a beautiful 19th
+                    century one on cloth, a few paintings, mostly from the 20th century, farmans regarding the purchase
+                    and construction of the Taj, and some details about the semi-precious stones used in it others, like
+                    weapons, coins, and jade or celadon ware, are more generally Mughal.
+                </p>
+
+                <h3 style="text-decoration: underline;">Contact Us:</h3>
+                <p id="number">011 2311 7557</p>
+                <div class="dropdown">
+                    <button class="dropbtn">Timings</button>
+                    <div class="dropdown-content">
+                        <a href="#">Monday: CLOSED!</a>
+                        <a href="#">Tuesday: 10:00 - 18:00</a>
+                        <a href="#">Wednesday: 10:00 - 18:00</a>
+                        <a href="#">Thursday: 10:00 - 18:00</a>
+                        <a href="#">Friday: 10:00 - 18:00</a>
+                        <a href="#">Satuday: 10:30 - 18:00</a>
+                        <a href="#">Sunday: 10:30 - 18:00</a>
+                    </div>
+                </div>
+                <br>
+                <a href="https://maps.app.goo.gl/x88H2JBs1y3dmnFN7">📍 Directions</a>
+            </div>
+            <div class="image-content">
+                <img id="museum-img" src="photos/taj-museum (1).jpg" alt="Taj Museum Agra">
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function loadGoogleTranslate() {
+            new google.translate.TranslateElement({ pageLanguage: 'en' }, 'google_element');
+        }
+    </script>
+    <script src="https://translate.google.com/translate_a/element.js?cb=loadGoogleTranslate"></script>
+
+
+
+    <script>
+        let step = 0;
+        let userName = '';
+        let selectedCity = '';
+        let selectedMuseum = '';
+        let visitorType = '';
+        let numberOfTickets = 0;
+        let selectedDate = '';
+        let selectedTime = '';
+        const ticketPrices = { indian: 100, foreigner: 500 };
+
+        function sendMessage() {
+            const userInput = document.getElementById("user-input").value;
+            if (userInput === "") return;
+
+            appendMessage(userInput, 'user');
+            document.getElementById("user-input").value = '';
+
+            if (step === 0) {
+                // Hide the name input after entering the name
+                document.getElementById("nameInputContainer").style.display = "none";
+            }
+
+            setTimeout(() => {
+                botReply(userInput);
+            }, 500);
+        }
+
+
+        function appendMessage(text, sender) {
+            const chatBox = document.getElementById("chat-box");
+            const message = document.createElement("div");
+            message.className = `message ${sender}`;
+            message.innerText = text;
+            chatBox.appendChild(message);
+            chatBox.scrollTop = chatBox.scrollHeight;
+        }
+
+        function botReply(userInput = '') {
+            let botMessage = '';
+
+            switch (step) {
+                case 0:
+                    userName = userInput;
+                    botMessage = `Nice to meet you, ${userName}. Which city would you like to book tickets for?`;
+                    step++;
+                    showElement('cityPrompt');
+                    break;
+
+                case 1:
+                    selectedCity = document.getElementById('citySelect').value;
+                    if (selectedCity) {
+                        botMessage = `You've selected ${selectedCity.charAt(0).toUpperCase() + selectedCity.slice(1)}. Which museum would you like to visit?`;
+                        step++;
+                        updateMuseums();
+                        showElement('museumPrompt');
+                    }
+                    break;
+                case 2:
+                    selectedMuseum = document.getElementById('museumSelect').value;
+                    if (selectedMuseum) {
+                        botMessage = `You've chosen ${selectedMuseum.replace(/_/g, ' ').toUpperCase()}. Are you an Indian or Foreigner?`;
+                        step++;
+                        showElement('visitorTypePrompt');
+                    }
+                    break;
+                case 3:
+                    visitorType = document.getElementById('visitorTypeSelect').value;
+                    if (visitorType) {
+                        botMessage = `You've selected ${visitorType.charAt(0).toUpperCase() + visitorType.slice(1)}. How many tickets would you like to book?`;
+                        step++;
+                        showElement('ticketPrompt');
+                    }
+                    break;
+                case 4:
+                    numberOfTickets = parseInt(document.getElementById('ticketSelect').value);
+                    if (!isNaN(numberOfTickets) && numberOfTickets > 0) {
+                        botMessage = `You've chosen ${numberOfTickets} tickets. Please select a date.`;
+                        step++;
+                        showElement('datePrompt');
+                    }
+                    break;
+                case 5:
+                    selectedDate = document.getElementById('dateSelect').value;
+                    if (selectedDate) {
+                        botMessage = `You've selected ${selectedDate}. Please choose a time slot.`;
+                        step++;
+                        showElement('timePrompt');
+                    }
+                    break;
+                case 6:
+                    selectedTime = document.getElementById('timeSelect').value;
+                    if (selectedTime) {
+                        calculatePrice();
+                        botMessage = `You've chosen ${selectedTime}. The total price is ₹${ticketPrices[visitorType] * numberOfTickets}. Would you like to proceed with the payment?`;
+                        step++;
+                        showElement('paymentButtonContainer');
+                    }
+                    break;
+                case 7:
+                    botMessage = `Thank you, ${userName}! Your booking is confirmed.`;
+                    step++;
+                    document.getElementById('confirmationMessage').classList.remove('hidden');
+                    break;
+                default:
+                    botMessage = "Your ticket has already been booked. Thank you!";
+            }
+
+            if (botMessage) {
+                appendMessage(botMessage, 'bot');
+            }
+        }
+
+        function updateMuseums() {
+            const museumSelect = document.getElementById('museumSelect');
+            museumSelect.innerHTML = ''; // Clear previous options
+
+            const museums = {
+                lucknow: ['--Select a Museum--', 'State Museum'],
+                mathura: ['--Select a Museum--', 'Government Museum'],
+                varanasi: ['--Select a Museum--', 'Bharat Kala Bhavan', 'Sarnath Museum'],
+                agra: ['--Select a Museum--', 'Taj Museum'],
+                ayodhya: ['--Select a Museum--', 'Ram Katha Sangrahalay'],
+                prayagraj: ['--Select a Museum--', 'Allahabad Museum']
+            };
+
+            museums[selectedCity].forEach(museum => {
+                const option = document.createElement('option');
+                option.value = museum.toLowerCase().replace(/ /g, '_');
+                option.textContent = museum;
+                museumSelect.appendChild(option);
+            });
+        }
+
+        function calculatePrice() {
+            const totalPrice = ticketPrices[visitorType] * numberOfTickets;
+            const priceMessage = `The total price is ₹${totalPrice}.`;
+            document.getElementById('priceMessage').innerText = priceMessage;
+            showElement('priceDisplay');
+        }
+
+        function completePayment() {
+            appendMessage("Processing your payment...", 'bot');
+            setTimeout(() => {
+                document.getElementById('paymentButtonContainer').classList.add('hidden');
+                botReply();
+            }, 1500); // Simulating payment process delay
+        }
+
+        function showElement(elementId) {
+            document.getElementById(elementId).classList.remove('hidden');
+        }
+    </script>
+
+    <script>
+        function saveData() {
+            const userData = {
+                userName: document.getElementById('userName').value,
+                selectedCity: document.getElementById('selectedCity').value,
+                selectedMuseum: document.getElementById('selectedMuseum').value,
+                visitorType: document.getElementById('visitorType').value,
+                numberOfTickets: document.getElementById('numberOfTickets').value,
+                selectedDate: document.getElementById('selectedDate').value,
+                selectedTime: document.getElementById('selectedTime').value
+            };
+
+            localStorage.setItem('userData', JSON.stringify(userData));
+            window.location.href = 'ticket.html'; // Redirect to ticket page
+        }
+
+        function saveData() {
+            const userData = {
+                userName: document.getElementById('userName').value,
+                selectedCity: document.getElementById('selectedCity').value,
+                selectedMuseum: document.getElementById('selectedMuseum').value,
+                visitorType: document.getElementById('visitorType').value,
+                numberOfTickets: document.getElementById('numberOfTickets').value,
+                selectedDate: document.getElementById('selectedDate').value,
+                selectedTime: document.getElementById('selectedTime').value
+            };
+
+            console.log(userData);  // Log the data to the console for debugging
+
+            localStorage.setItem('userData', JSON.stringify(userData));
+            window.location.href = 'ticket.html';  // Redirect to ticket page
+        }
+
+        function completePayment() {
+            const userData = {
+                userName,
+                selectedCity,
+                selectedMuseum,
+                visitorType,
+                numberOfTickets,
+                selectedDate,
+                selectedTime
+            };
+
+            // Save data to localStorage
+            localStorage.setItem('userData', JSON.stringify(userData));
+
+            // Simulating payment and redirect to ticket.html
+            appendMessage("Processing your payment...", 'bot');
+            setTimeout(() => {
+                window.location.href = 'ticket.html'; // Redirect to ticket.html
+            }, 1500);
+        }
+    </script>
+
+</body>
+
+</html>

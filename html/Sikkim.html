@@ -1,0 +1,598 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Museum Ticket Booking Chatbot</title>
+    <link rel="stylesheet" href="sikkim_cb.css">
+    <link href="https://db.onlinewebfonts.com/c/6bff5f8f85a7385fbdc21a8f724dd8ac?family=Rajasthan+Regular"
+        rel="stylesheet">
+</head>
+<style>
+    .right-text p {
+        padding-bottom: 30px;
+    }
+
+    .goog-te-gadget .goog-te-combo {
+        margin: 4px 0;
+        padding: 5px;
+        border-radius: 20px;
+    }
+
+    #timing {
+        margin-bottom: 15px;
+    }
+    .dropbtn {
+        background-color: #04AA6D;
+        color: white;
+        padding: 10px;
+        font-size: 16px;
+        margin-bottom: 10px;
+        border: none;
+    }
+
+    .dropdown {
+        position: relative;
+        display: inline-block;
+    }
+
+    .dropdown-content {
+        display: none;
+        position: absolute;
+        background-color: #f1f1f1;
+        min-width: 160px;
+        box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
+        z-index: 1;
+    }
+
+    .dropdown-content a {
+        color: black;
+        min-width: 200px;
+        padding: 0px;
+        font-size: 15px;
+        font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+        text-decoration: none;
+        display: block;
+    }
+
+
+    .dropdown:hover .dropdown-content {
+        display: block;
+    }
+
+</style>
+
+<body>
+    <div id="bg-img">
+        <header>
+            <div-1>
+                <img id="logo" src="photos/logo1.png" alt="">
+                <h1>ChatBot-Ticketing System </h1>
+            </div-1>
+            <div id="google_element"></div>
+
+        </header>
+
+
+        <div id="top">
+            <div class="chat-container">
+                <div id="chat-box" class="chat-box">
+                    <div class="message bot">Hello! Welcome to our museum. What is your name?</div>
+                </div>
+                <div id="nameInputContainer">
+                    <input type="text" id="user-input" placeholder="Enter your name..." autofocus>
+                    <button onclick="sendMessage()">Send</button>
+                </div>
+
+                <div id="cityPrompt" class="hidden">
+                    <label for="citySelect">Select City:</label>
+                    <select id="citySelect" onchange="botReply()">
+                        <option value="">--Select a City--</option>
+                        <option value="gangtok">Gangtok</option>
+                        <option value="pelling">Pelling</option>
+                    </select>
+                </div>
+
+                <div id="museumPrompt" class="hidden">
+                    <label for="museumSelect">Select Museum:</label>
+                    <select id="museumSelect" onchange="botReply()">
+                        <!-- Options will be populated dynamically -->
+                    </select>
+                </div>
+
+                <div id="visitorTypePrompt" class="hidden">
+                    <label for="visitorTypeSelect">Are you an Indian or Foreigner?</label>
+                    <select id="visitorTypeSelect" onchange="botReply()">
+                        <option value="">--Select--</option>
+                        <option value="indian">Indian</option>
+                        <option value="foreigner">Foreigner</option>
+                    </select>
+                </div>
+
+                <div id="ticketPrompt" class="hidden">
+                    <label for="ticketSelect">Number of Tickets:</label>
+                    <select id="ticketSelect" onchange="botReply()">
+                        <option value="">--Select Number of Tickets--</option>
+                        <option value="1">1</option>
+                        <option value="2">2</option>
+                        <option value="3">3</option>
+                        <option value="4">4</option>
+                        <option value="5">5</option>
+                        <option value="6">6</option>
+                        <option value="7">7</option>
+                        <option value="8">8</option>
+                        <option value="9">9</option>
+                        <option value="10">10</option>
+                    </select>
+                </div>
+
+                <div id="datePrompt" class="hidden">
+                    <label for="dateSelect">Select Date:</label>
+                    <input type="date" id="dateSelect" onchange="botReply()">
+                </div>
+
+                <div id="timePrompt" class="hidden">
+                    <label for="timeSelect">Select Time Slot:</label>
+                    <select id="timeSelect" onchange="botReply()">
+                        <option value="">--Select Time Slot--</option>
+                        <option value="09:00">09:00 AM</option>
+                        <option value="11:00">11:00 AM</option>
+                        <option value="14:00">02:00 PM</option>
+                    </select>
+                </div>
+
+                <div id="priceDisplay" class="hidden">
+                    <div id="priceMessage"></div>
+                </div>
+
+                <div id="paymentButtonContainer" class="hidden">
+                    <button id="payButton" onclick="completePayment()">Complete Payment</button>
+                </div>
+
+                <div id="confirmationMessage" class="hidden">
+                    <div class="message bot">Your ticket is booked. Thanks for visiting us!</div>
+                </div>
+            </div>
+
+            <div class="right-text">
+                <h1>SIKKIM</h1>
+                <p>
+                    Sikkim, nestled in the eastern Himalayas, is India's second smallest state and one of its most
+                    picturesque. Bordered by Nepal to the west, Bhutan to the east, Tibet (China) to the north, and
+                    West Bengal to the south, Sikkim is known for its stunning landscapes, including lush valleys,
+                    alpine meadows, and snow-capped mountains. The state is home to the third-highest peak in
+                    the world, Kangchenjunga, which is revered by the people of Sikkim as both a sacred mountain
+                    and a symbol of their cultural identity. The capital, Gangtok, is a vibrant hill town that serves as
+                    the cultural and administrative heart of the state, offering a blend of modern amenities and
+                    traditional charm.
+                    <br>
+                    <br>
+                    Culturally, Sikkim is a melting pot of various ethnic groups, including the Lepchas, Bhutias, and
+                    Nepalese, each contributing to the state’s rich cultural tapestry. This diversity is reflected in
+                    Sikkim's festivals, cuisine, and religious practices, with Buddhism playing a particularly
+                    significant role. The state is dotted with ancient monasteries, including the Rumtek Monastery and
+                    Pemayangtse Monastery, which are centers of Tibetan Buddhism and attract pilgrims and tourists
+                    alike. Sikkim’s unique blend of cultures is also evident in its traditional music, dance, and arts,
+                    making it a vibrant and culturally rich region.
+                    <br>
+                    <br>
+                    Economically, Sikkim is primarily agrarian, with a focus on organic farming. In fact, it became
+                    thefirst fully organic state in India, emphasizing sustainable agricultural practices. The state is
+                    also known for its production of cardamom, tea, and orchids. Tourism is a major contributor to
+                    Sikkim's economy, with visitors drawn to its natural beauty, trekking routes, and cultural heritage
+                    sites. Additionally, Sikkim has made significant strides in education and healthcare, leading to
+                    high literacy rates and improved quality of life for its residents. Despite its small size, Sikkim
+                    stands out as a model of environmental sustainability and cultural preservation in India.
+                </p>
+            </div>
+        </div>
+    </div>
+
+    </div>
+    </div>
+    <div class="bottom">
+        <div id="first">
+            <div class="text-content">
+                <h1 style="text-decoration: underline;">Namgyal Institute of Tibetology:Gangtok</h1>
+                <p id="museum-p"> One of the most important centers for Tibetan
+                    studies in the world, the Namgyal Institute of Tibetology in Gangtok is a museum and research
+                    center dedicated to the preservation and study of Tibetan culture. The museum houses an
+                    impressive collection of Tibetan artifacts, including ancient manuscripts, statues, thangkas
+                    (Buddhist paintings on cloth), ritual objects, and relics related to Vajrayana Buddhism. The
+                    institute serves as a key resource for scholars and offers visitors a deep insight into the rich
+                    religious and cultural heritage of Tibet and its influence on Sikkim
+                </p>
+                <h3 style="text-decoration: underline;">Contact Us:</h3></a>
+                <p id="number">011 2301 1358</p>
+                <div class="dropdown">
+                    <button class="dropbtn">Timings</button>
+                    <div class="dropdown-content">
+                        <a href="#">Monday: CLOSED!</a>
+                        <a href="#">Tuesday: 10:00 - 17:30</a>
+                        <a href="#">Wednesday: 10:00 - 17:30</a>
+                        <a href="#">Thursday: 10:00 - 17:30</a>
+                        <a href="#">Friday: 10:00 - 17:30</a>
+                        <a href="#">Satuday: 10:30 - 17:30</a>
+                        <a href="#">Sunday: 10:30 - 17:30</a>
+                    </div>
+                </div>
+                <br>
+
+                <a
+                    href="https://www.google.co.in/maps/place/The+Partition+Museum/@31.6256922,74.860555,15z/data=!3m1!4b1!4m6!3m5!1s0x39197cab9b7d4cdb:0x11b099790ffc0924!8m2!3d31.6256935!4d74.8790091!16s%2Fg%2F11dxjmwjh6?entry=ttu&g_ep=EgoyMDI0MDkwMi4xIKXMDSoASAFQAw%3D%3D">📍
+                    Directions</a>
+            </div>
+            <div class="image-content">
+                <img id="museum-img" src="photos/Namgyal_Institute_of_Tibetology.jpg" alt="Namgyal Institute of Tibetology">
+            </div>
+        </div>
+    </div>
+    <div class="bottom">
+        <div id="first">
+            <div class="text-content">
+                <h1 style="text-decoration: underline;">Sikkim State Museum:Gangtok</h1>
+                <p id="museum-p"> Located in the capital city, Gangtok, the Sikkim State
+                    Museum showcases the history, culture, and traditions of the state. The museum features
+                    exhibits on Sikkim’s indigenous communities, including the Lepchas, Bhutias, and Nepalese.
+                    Artifacts on display include traditional costumes, musical instruments, religious objects, and
+                    historical documents. The museum also highlights Sikkim’s royal heritage, with exhibits related
+                    to the former monarchy. It provides a comprehensive overview of the state’s cultural diversity
+                    and historical evolution.
+
+                </p>
+
+                <h3 style="text-decoration: underline;">Contact Us:</h3>
+                <p id="number">011 2301 2843</p>
+                <div class="dropdown">
+                    <button class="dropbtn">Timings</button>
+                    <div class="dropdown-content">
+                        <a href="#">Monday: CLOSED!</a>
+                        <a href="#">Tuesday: 10:00 - 17:30</a>
+                        <a href="#">Wednesday: 10:00 - 17:30</a>
+                        <a href="#">Thursday: 10:00 - 17:30</a>
+                        <a href="#">Friday: 10:00 - 17:30</a>
+                        <a href="#">Satuday: 10:30 - 17:30</a>
+                        <a href="#">Sunday: 10:30 - 17:30</a>
+                    </div>
+                </div>
+                <br>
+
+
+
+                <a
+                    href="https://www.google.co.in/maps/place/Maharaja+Ranjit+Singh+Panaroma/@31.6402506,74.8757033,17z/data=!3m1!4b1!4m6!3m5!1s0x3919634b59c53e73:0x16e8f90cdcff3111!8m2!3d31.6402506!4d74.8782782!16s%2Fg%2F11mwzgbs20?entry=ttu&g_ep=EgoyMDI0MDkwMi4xIKXMDSoASAFQAw%3D%3D">📍
+                    Directions</a>
+            </div>
+            <div class="image-content">
+                <img id="museum-img" src="photos/Sikkim_State_Museum.jpg" alt="Sikkim State Museum">
+            </div>
+        </div>
+    </div>
+    <div class="bottom">
+        <div id="first">
+            <div class="text-content">
+                <h1 style="text-decoration: underline;"> Tashi Namgyal Memorial Institute:Gangtok</h1>
+                <p id="museum-p">This museum is dedicated to the memory of
+                    the 11th Chogyal (king) of Sikkim, Tashi Namgyal, who played a significant role in modernizing
+                    the state and preserving its cultural heritage. The museum houses a collection of artifacts
+                    related to the history of the Namgyal dynasty, including royal regalia, photographs, and personal
+                    belongings of the Chogyal. It also features exhibits on the history of Sikkim’s monarchy and its
+                    integration into India.
+                </p>
+                <h3 style="text-decoration: underline;">Contact Number:</h3>
+                <p id="number">011 2688 1826</p>
+                <div class="dropdown">
+                    <button class="dropbtn">Timings</button>
+                    <div class="dropdown-content">
+                        <a href="#">Monday: CLOSED!</a>
+                        <a href="#">Tuesday: 10:00 - 17:30</a>
+                        <a href="#">Wednesday: 10:00 - 17:30</a>
+                        <a href="#">Thursday: 10:00 - 17:30</a>
+                        <a href="#">Friday: 10:00 - 17:30</a>
+                        <a href="#">Satuday: 10:30 - 17:30</a>
+                        <a href="#">Sunday: 10:30 - 17:30</a>
+                    </div>
+                </div>
+                <br>
+
+                <a
+                    href="https://www.google.co.in/maps/place/Punjab+State+War+Heros'+Memorial+%26+Museum/@31.6245478,74.7737636,17z/data=!3m1!4b1!4m6!3m5!1s0x39196ff964f7e8d9:0x5eef68ca648cfe91!8m2!3d31.6245478!4d74.7763385!16s%2Fg%2F11c2j8fbnd?entry=ttu&g_ep=EgoyMDI0MDkwMi4xIKXMDSoASAFQAw%3D%3D">📍
+                    Directions</a>
+            </div>
+            <div class="image-content">
+                <img id="museum-img" src="photos/Tashi_Namgyal_Memorial_Institute.jpeg" alt="Tashi Namgyal Memorial Institute">
+            </div>
+        </div>
+    </div>
+    <div class="bottom">
+        <div id="first">
+            <div class="text-content">
+                <h1 style="text-decoration: underline;">Flower Exhibition Centre:Gangtok</h1>
+                <p id="museum-p"> While not a traditional museum, the Flower Exhibition
+                    Centre in Gangtok is a living museum dedicated to Sikkim’s rich biodiversity, particularly its
+                    famous orchids and other floral species. The center displays a wide variety of flowers, including
+                    rare and indigenous species that thrive in Sikkim’s unique climate. The exhibition highlights the
+                    importance of floriculture in the state’s economy and its commitment to environmental conservation.
+                    The annual flower show held here is a major attraction, drawing botanists, horticulturists, and
+                    nature enthusiasts from around the world.
+                </p>
+                <h3 style="text-decoration: underline;">Contact Number:</h3>
+                <p id="number">011 2337 1370</p>
+                <div class="dropdown">
+                    <button class="dropbtn">Timings</button>
+                    <div class="dropdown-content">
+                        <a href="#">Monday: CLOSED!</a>
+                        <a href="#">Tuesday: 10:00 - 17:30</a>
+                        <a href="#">Wednesday: 10:00 - 17:30</a>
+                        <a href="#">Thursday: 10:00 - 17:30</a>
+                        <a href="#">Friday: 10:00 - 17:30</a>
+                        <a href="#">Satuday: 10:30 - 17:30</a>
+                        <a href="#">Sunday: 10:30 - 17:30</a>
+                    </div>
+                </div>
+                <br>
+
+                <a
+                    href="https://www.google.co.in/maps/place/Virasat-e-Khalsa/@31.2341507,76.5049577,17z/data=!3m1!4b1!4m6!3m5!1s0x39054a54f1fb3fcd:0xcbbcecb3a1b8c8f0!8m2!3d31.2341507!4d76.5075326!16s%2Fm%2F05b2zf3?entry=ttu&g_ep=EgoyMDI0MDkwMi4xIKXMDSoASAFQAw%3D%3D">📍
+                    Directions</a>
+            </div>
+            <div class="image-content">
+                <img id="museum-img" src="photos/Flower_Exhibition_Centre.jpg" alt="Flower Exhibition Centre">
+            </div>
+        </div>
+    </div>
+    <div class="bottom">
+        <div id="first">
+            <div class="text-content">
+                <h1 style="text-decoration: underline;">Rabdentse Ruins Museum:Pelling</h1>
+                <p id="museum-p">Situated near the ruins of Rabdentse, the second
+                    capital of the former Kingdom of Sikkim, this museum offers insights into the history of the
+                    Namgyal dynasty and the ancient kingdom. The museum features archaeological finds,
+                    including artifacts from the palace and surrounding areas, which date back to the 17th and 18th
+                    centuries. Visitors can explore the remnants of the royal palace and monasteries, which provide
+                    a glimpse into the early history and culture of Sikkim.
+                </p>
+                <h3 style="text-decoration: underline;">Contact Number:</h3>
+                <p id="number">011 2337 1370</p>
+                <div class="dropdown">
+                    <button class="dropbtn">Timings</button>
+                    <div class="dropdown-content">
+                        <a href="#">Monday: CLOSED!</a>
+                        <a href="#">Tuesday: 10:00 - 17:30</a>
+                        <a href="#">Wednesday: 10:00 - 17:30</a>
+                        <a href="#">Thursday: 10:00 - 17:30</a>
+                        <a href="#">Friday: 10:00 - 17:30</a>
+                        <a href="#">Satuday: 10:30 - 17:30</a>
+                        <a href="#">Sunday: 10:30 - 17:30</a>
+                    </div>
+                </div>
+                <br>
+
+                <a
+                    href="https://www.google.co.in/maps/place/Sheesh+Mahal+Patiala/@30.3065513,76.3962248,3a,75y,90t/data=!3m8!1e2!3m6!1sAF1QipMppDYKdp214kpeWKWCaKDtPzIGEbzFSMB6QCVh!2e10!3e12!6shttps:%2F%2Flh5.googleusercontent.com%2Fp%2FAF1QipMppDYKdp214kpeWKWCaKDtPzIGEbzFSMB6QCVh%3Dw447-h298-k-no!7i1800!8i1200!4m9!3m8!1s0x3910296e17b1f89d:0xffa2cf7323d51e20!8m2!3d30.3065513!4d76.3962248!10e5!14m1!1BCgIgAQ!16s%2Fg%2F11sjxnbg0r?entry=ttu&g_ep=EgoyMDI0MDkwMi4xIKXMDSoASAFQAw%3D%3D">📍
+                    Directions</a>
+            </div>
+            <div class="image-content">
+                <img id="museum-img" src="photos/Rabdentse_Ruins_Museum.jpg" alt="Rabdentse Ruins Museum">
+            </div>
+        </div>
+    </div>
+    </div>
+
+    <script>
+        let step = 0;
+        let userName = '';
+        let selectedCity = '';
+        let selectedMuseum = '';
+        let visitorType = '';
+        let numberOfTickets = 0;
+        let selectedDate = '';
+        let selectedTime = '';
+        const ticketPrices = { indian: 100, foreigner: 500 };
+
+        function sendMessage() {
+            const userInput = document.getElementById("user-input").value;
+            if (userInput === "") return;
+
+            appendMessage(userInput, 'user');
+            document.getElementById("user-input").value = '';
+
+            if (step === 0) {
+                // Hide the name input after entering the name
+                document.getElementById("nameInputContainer").style.display = "none";
+            }
+
+            setTimeout(() => {
+                botReply(userInput);
+            }, 500);
+        }
+
+
+        function appendMessage(text, sender) {
+            const chatBox = document.getElementById("chat-box");
+            const message = document.createElement("div");
+            message.className = `message ${sender}`;
+            message.innerText = text;
+            chatBox.appendChild(message);
+            chatBox.scrollTop = chatBox.scrollHeight;
+        }
+
+        function botReply(userInput = '') {
+            let botMessage = '';
+
+            switch (step) {
+                case 0:
+                    userName = userInput;
+                    botMessage = `Nice to meet you, ${userName}. Which city would you like to book tickets for?`;
+                    step++;
+                    showElement('cityPrompt');
+                    break;
+
+                case 1:
+                    selectedCity = document.getElementById('citySelect').value;
+                    if (selectedCity) {
+                        botMessage = `You've selected ${selectedCity.charAt(0).toUpperCase() + selectedCity.slice(1)}. Which museum would you like to visit?`;
+                        step++;
+                        updateMuseums();
+                        showElement('museumPrompt');
+                    }
+                    break;
+                case 2:
+                    selectedMuseum = document.getElementById('museumSelect').value;
+                    if (selectedMuseum) {
+                        botMessage = `You've chosen ${selectedMuseum.replace(/_/g, ' ').toUpperCase()}. Are you an Indian or Foreigner?`;
+                        step++;
+                        showElement('visitorTypePrompt');
+                    }
+                    break;
+                case 3:
+                    visitorType = document.getElementById('visitorTypeSelect').value;
+                    if (visitorType) {
+                        botMessage = `You've selected ${visitorType.charAt(0).toUpperCase() + visitorType.slice(1)}. How many tickets would you like to book?`;
+                        step++;
+                        showElement('ticketPrompt');
+                    }
+                    break;
+                case 4:
+                    numberOfTickets = parseInt(document.getElementById('ticketSelect').value);
+                    if (!isNaN(numberOfTickets) && numberOfTickets > 0) {
+                        botMessage = `You've chosen ${numberOfTickets} tickets. Please select a date.`;
+                        step++;
+                        showElement('datePrompt');
+                    }
+                    break;
+                case 5:
+                    selectedDate = document.getElementById('dateSelect').value;
+                    if (selectedDate) {
+                        botMessage = `You've selected ${selectedDate}. Please choose a time slot.`;
+                        step++;
+                        showElement('timePrompt');
+                    }
+                    break;
+                case 6:
+                    selectedTime = document.getElementById('timeSelect').value;
+                    if (selectedTime) {
+                        calculatePrice();
+                        botMessage = `You've chosen ${selectedTime}. The total price is ₹${ticketPrices[visitorType] * numberOfTickets}. Would you like to proceed with the payment?`;
+                        step++;
+                        showElement('paymentButtonContainer');
+                    }
+                    break;
+                case 7:
+                    botMessage = `Thank you, ${userName}! Your booking is confirmed.`;
+                    step++;
+                    document.getElementById('confirmationMessage').classList.remove('hidden');
+                    break;
+                default:
+                    botMessage = "Your ticket has already been booked. Thank you!";
+            }
+
+            if (botMessage) {
+                appendMessage(botMessage, 'bot');
+            }
+        }
+
+        function updateMuseums() {
+            const museumSelect = document.getElementById('museumSelect');
+            museumSelect.innerHTML = ''; // Clear previous options
+
+            const museums = {
+                gangtok: ['--Select a Museum--', 'Namgyal Institute of Tibetology', 'Sikkim State Museum', 'Tashi Namgyal Memorial Institute', 'Flower Exhibition Centre'],
+                pelling: ['--Select a Museum--', 'Rabdentse Ruins Museum'],
+            };
+
+            museums[selectedCity].forEach(museum => {
+                const option = document.createElement('option');
+                option.value = museum.toLowerCase().replace(/ /g, '_');
+                option.textContent = museum;
+                museumSelect.appendChild(option);
+            });
+        }
+
+        function calculatePrice() {
+            const totalPrice = ticketPrices[visitorType] * numberOfTickets;
+            const priceMessage = `The total price is ₹${totalPrice}.`;
+            document.getElementById('priceMessage').innerText = priceMessage;
+            showElement('priceDisplay');
+        }
+
+        function completePayment() {
+            appendMessage("Processing your payment...", 'bot');
+            setTimeout(() => {
+                document.getElementById('paymentButtonContainer').classList.add('hidden');
+                botReply();
+            }, 1500); // Simulating payment process delay
+        }
+
+        function showElement(elementId) {
+            document.getElementById(elementId).classList.remove('hidden');
+        }
+    </script>
+
+    <script>
+        function saveData() {
+            const userData = {
+                userName: document.getElementById('userName').value,
+                selectedCity: document.getElementById('selectedCity').value,
+                selectedMuseum: document.getElementById('selectedMuseum').value,
+                visitorType: document.getElementById('visitorType').value,
+                numberOfTickets: document.getElementById('numberOfTickets').value,
+                selectedDate: document.getElementById('selectedDate').value,
+                selectedTime: document.getElementById('selectedTime').value
+            };
+
+            localStorage.setItem('userData', JSON.stringify(userData));
+            window.location.href = 'ticket.html'; // Redirect to ticket page
+        }
+
+        function saveData() {
+            const userData = {
+                userName: document.getElementById('userName').value,
+                selectedCity: document.getElementById('selectedCity').value,
+                selectedMuseum: document.getElementById('selectedMuseum').value,
+                visitorType: document.getElementById('visitorType').value,
+                numberOfTickets: document.getElementById('numberOfTickets').value,
+                selectedDate: document.getElementById('selectedDate').value,
+                selectedTime: document.getElementById('selectedTime').value
+            };
+        
+            console.log(userData);  // Log the data to the console for debugging
+        
+            localStorage.setItem('userData', JSON.stringify(userData));
+            window.location.href = 'ticket.html';  // Redirect to ticket page
+        }
+            
+        function completePayment() {
+            const userData = {
+                userName,
+                selectedCity,
+                selectedMuseum,
+                visitorType,
+                numberOfTickets,
+                selectedDate,
+                selectedTime
+            };
+        
+            // Save data to localStorage
+            localStorage.setItem('userData', JSON.stringify(userData));
+        
+            // Simulating payment and redirect to ticket.html
+            appendMessage("Processing your payment...", 'bot');
+            setTimeout(() => {
+                window.location.href = 'ticket.html'; // Redirect to ticket.html
+            }, 1500);
+        }
+    </script>
+
+    <script>
+        function loadGoogleTranslate() {
+            new google.translate.TranslateElement({ pageLanguage: 'en' }, 'google_element');
+        }
+    </script>
+    <script src="https://translate.google.com/translate_a/element.js?cb=loadGoogleTranslate"></script>
+
+
+</body>
+
+</html>

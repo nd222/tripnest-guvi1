@@ -1,0 +1,643 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Museum Ticket Booking Chatbot</title>
+    <link rel="stylesheet" href="Punjab_cb.css">
+    <link href="https://db.onlinewebfonts.com/c/6bff5f8f85a7385fbdc21a8f724dd8ac?family=Rajasthan+Regular"
+        rel="stylesheet">
+    <style>
+        .right-text p {
+            padding-bottom: 30px;
+        }
+
+        .goog-te-gadget .goog-te-combo {
+            margin: 4px 0;
+            padding: 5px;
+            border-radius: 20px;
+        }
+
+        #timing {
+            margin-bottom: 15px;
+        }
+
+        .dropbtn {
+            background-color: #04AA6D;
+            color: white;
+            padding: 10px;
+            font-size: 16px;
+            margin-bottom: 10px;
+            border: none;
+        }
+
+        .dropdown {
+            position: relative;
+            display: inline-block;
+        }
+
+        .dropdown-content {
+            display: none;
+            position: absolute;
+            background-color: #f1f1f1;
+            min-width: 160px;
+            box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
+            z-index: 1;
+        }
+
+        .dropdown-content a {
+            color: black;
+            min-width: 200px;
+            padding: 0px;
+            font-size: 15px;
+            font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+            text-decoration: none;
+            display: block;
+        }
+
+
+        .dropdown:hover .dropdown-content {
+            display: block;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="bg-img">
+        <header>
+            <div-1>
+                <img id="logo" src="photos/logo1.png" alt="">
+                <h1>ChatBot-Ticketing System </h1>
+            </div-1>
+            <div id="google_element"></div>
+
+        </header>
+
+
+        <div id="top">
+            <div class="chat-container">
+                <div id="chat-box" class="chat-box">
+                    <div class="message bot">Hello! Welcome to our museum. What is your name?</div>
+                </div>
+                <div id="nameInputContainer">
+                    <input type="text" id="user-input" placeholder="Enter your name..." autofocus>
+                    <button onclick="sendMessage()">Send</button>
+                </div>
+
+                <div id="cityPrompt" class="hidden">
+                    <label for="citySelect">Select City:</label>
+                    <select id="citySelect" onchange="botReply()">
+                        <option value="">--Select a City--</option>
+                        <option value="amritsar">Amritsar</option>
+                        <option value="anandpursahib">Anandpur Sahib</option>
+                        <option value="patiala">Patiala</option>
+                        <option value="sanghol">Sanghol</option>
+                    </select>
+                </div>
+
+                <div id="museumPrompt" class="hidden">
+                    <label for="museumSelect">Select Museum:</label>
+                    <select id="museumSelect" onchange="botReply()">
+                        <!-- Options will be populated dynamically -->
+                    </select>
+                </div>
+
+                <div id="visitorTypePrompt" class="hidden">
+                    <label for="visitorTypeSelect">Are you an Indian or Foreigner?</label>
+                    <select id="visitorTypeSelect" onchange="botReply()">
+                        <option value="">--Select--</option>
+                        <option value="indian">Indian</option>
+                        <option value="foreigner">Foreigner</option>
+                    </select>
+                </div>
+
+                <div id="ticketPrompt" class="hidden">
+                    <label for="ticketSelect">Number of Tickets:</label>
+                    <select id="ticketSelect" onchange="botReply()">
+                        <option value="">--Select Number of Tickets--</option>
+                        <option value="1">1</option>
+                        <option value="2">2</option>
+                        <option value="3">3</option>
+                        <option value="4">4</option>
+                        <option value="5">5</option>
+                        <option value="6">6</option>
+                        <option value="7">7</option>
+                        <option value="8">8</option>
+                        <option value="9">9</option>
+                        <option value="10">10</option>
+                    </select>
+                </div>
+
+                <div id="datePrompt" class="hidden">
+                    <label for="dateSelect">Select Date:</label>
+                    <input type="date" id="dateSelect" onchange="botReply()">
+                </div>
+
+                <div id="timePrompt" class="hidden">
+                    <label for="timeSelect">Select Time Slot:</label>
+                    <select id="timeSelect" onchange="botReply()">
+                        <option value="">--Select Time Slot--</option>
+                        <option value="09:00">09:00 AM</option>
+                        <option value="11:00">11:00 AM</option>
+                        <option value="14:00">02:00 PM</option>
+                    </select>
+                </div>
+
+                <div id="priceDisplay" class="hidden">
+                    <div id="priceMessage"></div>
+                </div>
+
+                <div id="paymentButtonContainer" class="hidden">
+                    <button id="payButton" onclick="completePayment()">Complete Payment</button>
+                </div>
+
+                <div id="confirmationMessage" class="hidden">
+                    <div class="message bot">Your ticket is booked. Thanks for visiting us!</div>
+                    <a id='download' href="ticket.html">Download your ticket</a>
+                </div>
+            </div>
+
+            <div class="right-text">
+                <h1>PUNJAB</h1>
+                <p>
+                    Punjab, located in the northwestern part of India, is a state known for its vibrant culture, rich
+                    history, and agricultural prosperity. Often referred to as the "Land of Five Rivers," Punjab is
+                    named after the five rivers—Beas, Chenab, Jhelum, Ravi, and Sutlej—that flow through the
+                    region, although only Beas and Sutlej remain in the Indian part of Punjab after the partition. The
+                    state shares its borders with Haryana, Himachal Pradesh, Jammu and Kashmir, and Pakistan,
+                    with Chandigarh serving as its capital, which is also a union territory and the shared capital with
+                    Haryana. Punjab's strategic location has historically made it a melting pot of various cultures
+                    and a gateway for invasions into the Indian subcontinent.
+                    <br>
+                    <br>
+                    Economically, Punjab is one of the most prosperous states in India, primarily due to its thriving
+                    agricultural sector. The state is often called the "Granary of India" or "India's Breadbasket"
+                    because of its significant contribution to the country's grain production, particularly wheat and
+                    rice. The Green Revolution in the 1960s played a pivotal role in transforming Punjab into an
+                    agricultural powerhouse, with advanced farming techniques and high-yield crops. Besides
+                    agriculture, Punjab also has a strong industrial base, with industries like textiles, sports goods,
+                    and machinery contributing to its economy.
+                    <br>
+                    <br>
+                    Culturally, Punjab is known for its vibrant traditions, lively music, dance forms like Bhangra and
+                    Giddha, and a deep sense of community. The state is the birthplace of Sikhism, with the Golden
+                    Temple in Amritsar being the most revered pilgrimage site for Sikhs worldwide. Punjabi cuisine,
+                    characterized by its rich and flavorful dishes like butter chicken, sarson da saag, and makki di
+                    roti, is popular across India and the world. Festivals such as Baisakhi, Lohri, and Diwali are
+                    celebrated with great enthusiasm, reflecting the state's spirit of joy and togetherness. Punjab's
+                    unique blend of historical significance, cultural richness, and economic vitality makes it one of
+                    India's most dynamic and influential states
+                </p>
+            </div>
+        </div>
+    </div>
+
+    </div>
+    </div>
+    <div class="bottom">
+        <div id="first">
+            <div class="text-content">
+                <h1 style="text-decoration: underline;">The Partition Museum: Amritsar</h1>
+                <p id="museum-p"> Located in the Town Hall of Amritsar, the Partition
+                    Museum is the first museum in the world dedicated to the memory of the Partition of India in
+                    1947. The museum chronicles the traumatic events of the Partition, which led to one of the
+                    largest mass migrations in human history. Through photographs, personal belongings, letters,
+                    and oral histories, the museum captures the stories of the millions affected by the division. It
+                    serves as a poignant reminder of the resilience of those who endured the upheaval and the
+                    impact it had on Punjab.
+                </p>
+                <h3 style="text-decoration: underline;">Contact Us:</h3></a>
+                <p id="number">011 2301 1358</p>
+                <div class="dropdown"></div>
+                <button class="dropbtn">Timings</button>
+                <div class="dropdown-content">
+                    <a href="#">Monday: CLOSED!</a>
+                    <a href="#">Tuesday: 10:00 - 17:30</a>
+                    <a href="#">Wednesday: 10:00 - 17:30</a>
+                    <a href="#">Thursday: 10:00 - 17:30</a>
+                    <a href="#">Friday: 10:00 - 17:30</a>
+                    <a href="#">Satuday: 10:30 - 17:30</a>
+                    <a href="#">Sunday: 10:30 - 17:30</a>
+                </div>
+            
+            <br>
+            <a
+                href="https://www.google.co.in/maps/place/The+Partition+Museum/@31.6256922,74.860555,15z/data=!3m1!4b1!4m6!3m5!1s0x39197cab9b7d4cdb:0x11b099790ffc0924!8m2!3d31.6256935!4d74.8790091!16s%2Fg%2F11dxjmwjh6?entry=ttu&g_ep=EgoyMDI0MDkwMi4xIKXMDSoASAFQAw%3D%3D">📍
+                Directions</a></div>
+        </div>
+        <div class="image-content">
+            <img id="museum-img" src="photos/Partition_Museum.jpg" alt="Partition Museum">
+        </div>
+    </div>
+    </div>
+    <div class="bottom">
+        <div id="first">
+            <div class="text-content">
+                <h1 style="text-decoration: underline;">Maharaja Ranjit Singh Museum:Amritsar</h1>
+                <p id="museum-p"> Housed in the summer palace of Maharaja
+                    Ranjit Singh, the "Lion of Punjab," this museum in Amritsar is dedicated to the life and legacy of
+                    the great Sikh ruler who founded the Sikh Empire in the early 19th century. The museum
+                    displays a collection of artifacts, including weapons, coins, paintings, and manuscripts from the
+                    Maharaja’s era. It also showcases the history of Punjab during the Sikh Empire, highlighting the
+                    region's cultural and military achievements under Maharaja Ranjit Singh’s rule.
+
+                </p>
+
+                <h3 style="text-decoration: underline;">Contact Us:</h3>
+                <p id="number">011 2301 2843</p>
+                <div class="dropdown"></div>
+                <button class="dropbtn">Timings</button>
+                <div class="dropdown-content">
+                    <a href="#">Monday: CLOSED!</a>
+                    <a href="#">Tuesday: 10:00 - 17:30</a>
+                    <a href="#">Wednesday: 10:00 - 17:30</a>
+                    <a href="#">Thursday: 10:00 - 17:30</a>
+                    <a href="#">Friday: 10:00 - 17:30</a>
+                    <a href="#">Satuday: 10:30 - 17:30</a>
+                    <a href="#">Sunday: 10:30 - 17:30</a>
+                </div>
+            
+            <br>
+
+
+            <a
+                href="https://www.google.co.in/maps/place/Maharaja+Ranjit+Singh+Panaroma/@31.6402506,74.8757033,17z/data=!3m1!4b1!4m6!3m5!1s0x3919634b59c53e73:0x16e8f90cdcff3111!8m2!3d31.6402506!4d74.8782782!16s%2Fg%2F11mwzgbs20?entry=ttu&g_ep=EgoyMDI0MDkwMi4xIKXMDSoASAFQAw%3D%3D">📍
+                Directions</a></div>
+        </div>
+        <div class="image-content">
+            <img id="museum-img" src="photos/Maharaja_Ranjit_Singh_Museum.jpg" alt="Maharaja Ranjit Singh Museum">
+        </div>
+    </div>
+    </div>
+    <div class="bottom">
+        <div id="first">
+            <div class="text-content">
+                <h1 style="text-decoration: underline;"> Punjab State War Heroes' Memorial and Museum:Amritsar*</h1>
+                <p id="museum-p">
+                    This museum is dedicated to the soldiers of Punjab who have laid down their lives in various wars
+                    fought by India. Located on
+                    the Amritsar-Attari road, the museum honors the bravery and sacrifices of Punjabi soldiers
+                    through a series of exhibits, including weaponry, uniforms, medals, and interactive displays. A
+                    central feature of the museum is a 45-meter-high sword, symbolizing the valor of the Indian
+                    armed forces. The museum offers a detailed account of the various conflicts India has been
+                    involved in, with a special focus on Punjab’s contribution.
+                </p>
+
+                <h3 style="text-decoration: underline;">Contact Number:</h3>
+                <p id="number">011 2688 1826</p>
+                <div class="dropdown"></div>
+                <button class="dropbtn">Timings</button>
+                <div class="dropdown-content">
+                    <a href="#">Monday: CLOSED!</a>
+                    <a href="#">Tuesday: 10:00 - 17:30</a>
+                    <a href="#">Wednesday: 10:00 - 17:30</a>
+                    <a href="#">Thursday: 10:00 - 17:30</a>
+                    <a href="#">Friday: 10:00 - 17:30</a>
+                    <a href="#">Satuday: 10:30 - 17:30</a>
+                    <a href="#">Sunday: 10:30 - 17:30</a>
+                </div>
+            
+            <br>
+            <a
+                href="https://www.google.co.in/maps/place/Punjab+State+War+Heros'+Memorial+%26+Museum/@31.6245478,74.7737636,17z/data=!3m1!4b1!4m6!3m5!1s0x39196ff964f7e8d9:0x5eef68ca648cfe91!8m2!3d31.6245478!4d74.7763385!16s%2Fg%2F11c2j8fbnd?entry=ttu&g_ep=EgoyMDI0MDkwMi4xIKXMDSoASAFQAw%3D%3D">📍
+                Directions</a></div>
+        </div>
+        <div class="image-content">
+            <img id="museum-img" src="photos/Punjab_State_War_Heroes_Memorial_and_Museum.jpg"
+                alt="Punjab State War Heroes' Memorial and Museum">
+        </div>
+    </div>
+    </div>
+    <div class="bottom">
+        <div id="first">
+            <div class="text-content">
+                <h1 style="text-decoration: underline;">Virasat-e-Khalsa:Anandpur Sahib</h1>
+                <p id="museum-p">Located in the holy town of Anandpur Sahib, Virasat-e-Khalsa is a state-of-the-art
+                    museum that celebrates the history and culture of Sikhism.
+                    The museum's design, by renowned architect Moshe Safdie, is a modern architectural marvel.
+                    Inside, the museum uses innovative exhibits, including immersive multimedia presentations, to
+                    narrate the story of the Sikh religion from its inception by Guru Nanak to the present day. It also
+                    explores the cultural, social, and political history of Punjab, making it a must-visit for anyone
+                    interested in Sikh heritage.
+                </p>
+                <h3 style="text-decoration: underline;">Contact Number:</h3>
+                <p id="number">011 2337 1370</p>
+                <div class="dropdown"></div>
+                <button class="dropbtn">Timings</button>
+                <div class="dropdown-content">
+                    <a href="#">Monday: CLOSED!</a>
+                    <a href="#">Tuesday: 10:00 - 17:30</a>
+                    <a href="#">Wednesday: 10:00 - 17:30</a>
+                    <a href="#">Thursday: 10:00 - 17:30</a>
+                    <a href="#">Friday: 10:00 - 17:30</a>
+                    <a href="#">Satuday: 10:30 - 17:30</a>
+                    <a href="#">Sunday: 10:30 - 17:30</a>
+                </div>
+            
+            <br>
+            <a
+                href="https://www.google.co.in/maps/place/Virasat-e-Khalsa/@31.2341507,76.5049577,17z/data=!3m1!4b1!4m6!3m5!1s0x39054a54f1fb3fcd:0xcbbcecb3a1b8c8f0!8m2!3d31.2341507!4d76.5075326!16s%2Fm%2F05b2zf3?entry=ttu&g_ep=EgoyMDI0MDkwMi4xIKXMDSoASAFQAw%3D%3D">📍
+                Directions</a></div>
+        </div>
+        <div class="image-content">
+            <img id="museum-img" src="photos/Virasat-e-Khalsa.jpg" alt="Virasat-e-Khalsa">
+        </div>
+    </div>
+    </div>
+    <div class="bottom">
+        <div id="first">
+            <div class="text-content">
+                <h1 style="text-decoration: underline;">Sheesh Mahal Museum:Patiala</h1>
+                <p id="museum-p">The Sheesh Mahal, or "Palace of Mirrors," is part of the
+                    Qila Mubarak complex in Patiala. Built by Maharaja Narinder Singh in the 19th century, the
+                    palace houses a museum that showcases an eclectic collection of artifacts, including miniature
+                    paintings, sculptures, medals, and manuscripts. The museum is particularly famous for its
+                    collection of rare Janamsakhis, which narrate the life of Guru Nanak. The Sheesh Mahal’s
+                    ornate interiors, decorated with mirror work and frescoes, add to the museum's charm, offering
+                    a glimpse into the opulent lifestyle of the Patiala royals.
+                </p>
+                <h3 style="text-decoration: underline;">Contact Number:</h3>
+                <p id="number">011 2337 1370</p>
+                <div class="dropdown"></div>
+                <button class="dropbtn">Timings</button>
+                <div class="dropdown-content">
+                    <a href="#">Monday: CLOSED!</a>
+                    <a href="#">Tuesday: 10:00 - 17:30</a>
+                    <a href="#">Wednesday: 10:00 - 17:30</a>
+                    <a href="#">Thursday: 10:00 - 17:30</a>
+                    <a href="#">Friday: 10:00 - 17:30</a>
+                    <a href="#">Satuday: 10:30 - 17:30</a>
+                    <a href="#">Sunday: 10:30 - 17:30</a>
+                </div>
+           
+            <br>
+            <a
+                href="https://www.google.co.in/maps/place/Sheesh+Mahal+Patiala/@30.3065513,76.3962248,3a,75y,90t/data=!3m8!1e2!3m6!1sAF1QipMppDYKdp214kpeWKWCaKDtPzIGEbzFSMB6QCVh!2e10!3e12!6shttps:%2F%2Flh5.googleusercontent.com%2Fp%2FAF1QipMppDYKdp214kpeWKWCaKDtPzIGEbzFSMB6QCVh%3Dw447-h298-k-no!7i1800!8i1200!4m9!3m8!1s0x3910296e17b1f89d:0xffa2cf7323d51e20!8m2!3d30.3065513!4d76.3962248!10e5!14m1!1BCgIgAQ!16s%2Fg%2F11sjxnbg0r?entry=ttu&g_ep=EgoyMDI0MDkwMi4xIKXMDSoASAFQAw%3D%3D">📍
+                Directions</a> </div>
+        </div>
+        <div class="image-content">
+            <img id="museum-img" src="photos/Sheesh_Mahal_Museum.jpg" alt="Sheesh Mahal Museum">
+        </div>
+    </div>
+    </div>
+    </div>
+    <div class="bottom">
+        <div id="first">
+            <div class="text-content">
+                <h1 style="text-decoration: underline;">Sanghol Museum:Sanghol</h1>
+                <p id="museum-p">Located in the small village of Sanghol near Ludhiana, the
+                    Sanghol Museum is an archaeological museum that houses artifacts from the ancient Harappan
+                    civilization and later periods. The museum’s collection includes pottery, coins, seals, sculptures,
+                    and other relics unearthed from the Sanghol archaeological site, which dates back to the Indus
+                    Valley Civilization. The museum offers a fascinating insight into the early history of Punjab and
+                    its connections with one of the world’s oldest civilizations.
+                    These museums collectively provide a comprehensive understanding of Punjab's rich history,
+                    culture, and contributions to the broader Indian narrative, making them essential destinations for
+                    anyone interested in the heritage of this vibrant state.
+                </p>
+                <h3 style="text-decoration: underline;">Contact Number:</h3>
+                <p id="number">011 2337 1370</p>
+                <div class="dropdown"></div>
+                <button class="dropbtn">Timings</button>
+                <div class="dropdown-content">
+                    <a href="#">Monday: CLOSED!</a>
+                    <a href="#">Tuesday: 10:00 - 17:30</a>
+                    <a href="#">Wednesday: 10:00 - 17:30</a>
+                    <a href="#">Thursday: 10:00 - 17:30</a>
+                    <a href="#">Friday: 10:00 - 17:30</a>
+                    <a href="#">Satuday: 10:30 - 17:30</a>
+                    <a href="#">Sunday: 10:30 - 17:30</a>
+                </div>
+            
+            <br>
+            <a
+                href="https://www.google.co.in/maps/place/Sanghol+Buddhist+Archaeological+Museum/@30.7902087,76.3986093,17z/data=!3m1!4b1!4m6!3m5!1s0x391003b7aaf6c095:0xc7a754a88aec988c!8m2!3d30.7902087!4d76.4011842!16s%2Fm%2F04y7vwc?entry=ttu&g_ep=EgoyMDI0MDkwMi4xIKXMDSoASAFQAw%3D%3D">📍
+                Directions</a></div>
+        </div>
+        <div class="image-content">
+            <img id="museum-img" src="photos/Sanghol_Museum.jpg" alt="Sanghol Museum">
+        </div>
+    </div>
+    </div>
+    </div>
+
+
+
+    <script>
+        let step = 0;
+        let userName = '';
+        let selectedCity = '';
+        let selectedMuseum = '';
+        let visitorType = '';
+        let numberOfTickets = 0;
+        let selectedDate = '';
+        let selectedTime = '';
+        const ticketPrices = { indian: 100, foreigner: 500 };
+
+        function sendMessage() {
+            const userInput = document.getElementById("user-input").value;
+            if (userInput === "") return;
+
+            appendMessage(userInput, 'user');
+            document.getElementById("user-input").value = '';
+
+            if (step === 0) {
+                // Hide the name input after entering the name
+                document.getElementById("nameInputContainer").style.display = "none";
+            }
+
+            setTimeout(() => {
+                botReply(userInput);
+            }, 500);
+        }
+
+
+        function appendMessage(text, sender) {
+            const chatBox = document.getElementById("chat-box");
+            const message = document.createElement("div");
+            message.className = `message ${sender}`;
+            message.innerText = text;
+            chatBox.appendChild(message);
+            chatBox.scrollTop = chatBox.scrollHeight;
+        }
+
+        function botReply(userInput = '') {
+            let botMessage = '';
+
+            switch (step) {
+                case 0:
+                    userName = userInput;
+                    botMessage = `Nice to meet you, ${userName}. Which city would you like to book tickets for?`;
+                    step++;
+                    showElement('cityPrompt');
+                    break;
+
+                case 1:
+                    selectedCity = document.getElementById('citySelect').value;
+                    if (selectedCity) {
+                        botMessage = `You've selected ${selectedCity.charAt(0).toUpperCase() + selectedCity.slice(1)}. Which museum would you like to visit?`;
+                        step++;
+                        updateMuseums();
+                        showElement('museumPrompt');
+                    }
+                    break;
+                case 2:
+                    selectedMuseum = document.getElementById('museumSelect').value;
+                    if (selectedMuseum) {
+                        botMessage = `You've chosen ${selectedMuseum.replace(/_/g, ' ').toUpperCase()}. Are you an Indian or Foreigner?`;
+                        step++;
+                        showElement('visitorTypePrompt');
+                    }
+                    break;
+                case 3:
+                    visitorType = document.getElementById('visitorTypeSelect').value;
+                    if (visitorType) {
+                        botMessage = `You've selected ${visitorType.charAt(0).toUpperCase() + visitorType.slice(1)}. How many tickets would you like to book?`;
+                        step++;
+                        showElement('ticketPrompt');
+                    }
+                    break;
+                case 4:
+                    numberOfTickets = parseInt(document.getElementById('ticketSelect').value);
+                    if (!isNaN(numberOfTickets) && numberOfTickets > 0) {
+                        botMessage = `You've chosen ${numberOfTickets} tickets. Please select a date.`;
+                        step++;
+                        showElement('datePrompt');
+                    }
+                    break;
+                case 5:
+                    selectedDate = document.getElementById('dateSelect').value;
+                    if (selectedDate) {
+                        botMessage = `You've selected ${selectedDate}. Please choose a time slot.`;
+                        step++;
+                        showElement('timePrompt');
+                    }
+                    break;
+                case 6:
+                    selectedTime = document.getElementById('timeSelect').value;
+                    if (selectedTime) {
+                        calculatePrice();
+                        botMessage = `You've chosen ${selectedTime}. The total price is ₹${ticketPrices[visitorType] * numberOfTickets}. Would you like to proceed with the payment?`;
+                        step++;
+                        showElement('paymentButtonContainer');
+                    }
+                    break;
+                case 7:
+                    botMessage = `Thank you, ${userName}! Your booking is confirmed.`;
+                    step++;
+                    document.getElementById('confirmationMessage').classList.remove('hidden');
+                    break;
+                default:
+                    botMessage = "Your ticket has already been booked. Thank you!";
+            }
+
+            if (botMessage) {
+                appendMessage(botMessage, 'bot');
+            }
+        }
+
+        function updateMuseums() {
+            const museumSelect = document.getElementById('museumSelect');
+            museumSelect.innerHTML = ''; // Clear previous options
+
+            const museums = {
+                amritsar: ['--Select a Museum--', 'The Partition Museum', 'Maharaja Ranjit Singh Museum', 'Punjab State War Heroes Memorial and Museum'],
+                anandpursahib: ['--Select a Museum--', 'Virasat-e-Khalsa'],
+                patiala: ['--Select a Museum--', 'Sheesh Mahal Museum'],
+                sanghol: ['--Select a Museum--', 'Sanghol Museum']
+            };
+
+            museums[selectedCity].forEach(museum => {
+                const option = document.createElement('option');
+                option.value = museum.toLowerCase().replace(/ /g, '_');
+                option.textContent = museum;
+                museumSelect.appendChild(option);
+            });
+        }
+
+        function calculatePrice() {
+            const totalPrice = ticketPrices[visitorType] * numberOfTickets;
+            const priceMessage = `The total price is ₹${totalPrice}.`;
+            document.getElementById('priceMessage').innerText = priceMessage;
+            showElement('priceDisplay');
+        }
+
+        function completePayment() {
+            appendMessage("Processing your payment...", 'bot');
+            setTimeout(() => {
+                document.getElementById('paymentButtonContainer').classList.add('hidden');
+                botReply();
+            }, 1500); // Simulating payment process delay
+        }
+
+        function showElement(elementId) {
+            document.getElementById(elementId).classList.remove('hidden');
+        }
+    </script>
+
+    <script>
+        function saveData() {
+            const userData = {
+                userName: document.getElementById('userName').value,
+                selectedCity: document.getElementById('selectedCity').value,
+                selectedMuseum: document.getElementById('selectedMuseum').value,
+                visitorType: document.getElementById('visitorType').value,
+                numberOfTickets: document.getElementById('numberOfTickets').value,
+                selectedDate: document.getElementById('selectedDate').value,
+                selectedTime: document.getElementById('selectedTime').value
+            };
+
+            localStorage.setItem('userData', JSON.stringify(userData));
+            window.location.href = 'ticket.html'; // Redirect to ticket page
+        }
+
+        function saveData() {
+            const userData = {
+                userName: document.getElementById('userName').value,
+                selectedCity: document.getElementById('selectedCity').value,
+                selectedMuseum: document.getElementById('selectedMuseum').value,
+                visitorType: document.getElementById('visitorType').value,
+                numberOfTickets: document.getElementById('numberOfTickets').value,
+                selectedDate: document.getElementById('selectedDate').value,
+                selectedTime: document.getElementById('selectedTime').value
+            };
+
+            console.log(userData);  // Log the data to the console for debugging
+
+            localStorage.setItem('userData', JSON.stringify(userData));
+            window.location.href = 'ticket.html';  // Redirect to ticket page
+        }
+
+        function completePayment() {
+            const userData = {
+                userName,
+                selectedCity,
+                selectedMuseum,
+                visitorType,
+                numberOfTickets,
+                selectedDate,
+                selectedTime
+            };
+
+            // Save data to localStorage
+            localStorage.setItem('userData', JSON.stringify(userData));
+
+            // Simulating payment and redirect to ticket.html
+            appendMessage("Processing your payment...", 'bot');
+            setTimeout(() => {
+                window.location.href = 'ticket.html'; // Redirect to ticket.html
+            }, 1500);
+        }
+    </script>
+
+    <script>
+        function loadGoogleTranslate() {
+            new google.translate.TranslateElement({ pageLanguage: 'en' }, 'google_element');
+        }
+    </script>
+    <script src="https://translate.google.com/translate_a/element.js?cb=loadGoogleTranslate"></script>
+
+</body>
+
+</html>

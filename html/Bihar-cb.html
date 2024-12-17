@@ -1,0 +1,716 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Museum Ticket Booking Chatbot</title>
+    <link rel="stylesheet" href="Bihar_cb.css">
+    <link href="https://db.onlinewebfonts.com/c/6bff5f8f85a7385fbdc21a8f724dd8ac?family=Rajasthan+Regular"
+        rel="stylesheet">
+    <style>
+        .goog-te-gadget .goog-te-combo {
+            margin: 4px 0;
+            padding: 5px;
+            border-radius: 20px;
+        }
+
+        #timing {
+            margin-bottom: 15px;
+        }
+        .dropbtn {
+            background-color: #04AA6D;
+            color: white;
+            padding: 10px;
+            font-size: 16px;
+            margin-bottom: 10px;
+            border: none;
+        }
+
+        .dropdown {
+            position: relative;
+            display: inline-block;
+        }
+
+        .dropdown-content {
+            display: none;
+            position: absolute;
+            background-color: #f1f1f1;
+            min-width: 160px;
+            box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
+            z-index: 1;
+        }
+
+        .dropdown-content a {
+            color: black;
+            min-width: 200px;
+            padding: 0px;
+            font-size: 15px;
+            font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+            text-decoration: none;
+            display: block;
+        }
+
+
+        .dropdown:hover .dropdown-content {
+            display: block;
+        }
+
+    </style>
+</head>
+
+<body>
+    <div id="bg-img">
+        <header>
+            <div-1>
+                <img id="logo" src="photos/logo1.png" alt="">
+                <h1>ChatBot-Ticketing System </h1>
+            </div-1>
+            <div id="google_element"></div>
+
+        </header>
+
+
+        <div id="top">
+            <div class="chat-container">
+                <div id="chat-box" class="chat-box">
+                    <div class="message bot">Hello! Welcome to our museum. What is your name?</div>
+                </div>
+                <div id="nameInputContainer">
+                    <input type="text" id="user-input" placeholder="Enter your name..." autofocus>
+                    <button onclick="sendMessage()">Send</button>
+                </div>
+
+                <div id="cityPrompt" class="hidden">
+                    <label for="citySelect">Select City:</label>
+                    <select id="citySelect" onchange="botReply()">
+                        <option value="">--Select a City--</option>
+                        <option value="patna">Patna</option>
+                        <option value="gaya">Gaya</option>
+                        <option value="vaishali">Vaishali</option>
+                    </select>
+                </div>
+
+                <div id="museumPrompt" class="hidden">
+                    <label for="museumSelect">Select Museum:</label>
+                    <select id="museumSelect" onchange="botReply()">
+                        <!-- Options will be populated dynamically -->
+                    </select>
+                </div>
+
+                <div id="visitorTypePrompt" class="hidden">
+                    <label for="visitorTypeSelect">Are you an Indian or Foreigner?</label>
+                    <select id="visitorTypeSelect" onchange="botReply()">
+                        <option value="">--Select--</option>
+                        <option value="indian">Indian</option>
+                        <option value="foreigner">Foreigner</option>
+                    </select>
+                </div>
+
+                <div id="ticketPrompt" class="hidden">
+                    <label for="ticketSelect">Number of Tickets:</label>
+                    <select id="ticketSelect" onchange="botReply()">
+                        <option value="">--Select Number of Tickets--</option>
+                        <option value="1">1</option>
+                        <option value="2">2</option>
+                        <option value="3">3</option>
+                        <option value="4">4</option>
+                        <option value="5">5</option>
+                        <option value="6">6</option>
+                        <option value="7">7</option>
+                        <option value="8">8</option>
+                        <option value="9">9</option>
+                        <option value="10">10</option>
+                    </select>
+                </div>
+
+                <div id="datePrompt" class="hidden">
+                    <label for="dateSelect">Select Date:</label>
+                    <input type="date" id="dateSelect" onchange="botReply()">
+                </div>
+
+                <div id="timePrompt" class="hidden">
+                    <label for="timeSelect">Select Time Slot:</label>
+                    <select id="timeSelect" onchange="botReply()">
+                        <option value="">--Select Time Slot--</option>
+                        <option value="09:00">09:00 AM</option>
+                        <option value="11:00">11:00 AM</option>
+                        <option value="14:00">02:00 PM</option>
+                    </select>
+                </div>
+
+                <div id="priceDisplay" class="hidden">
+                    <div id="priceMessage"></div>
+                </div>
+
+                <div id="paymentButtonContainer" class="hidden">
+                    <button id="payButton" onclick="completePayment()">Complete Payment</button>
+                </div>
+
+                <div id="confirmationMessage" class="hidden">
+                    <div class="message bot">Your ticket is booked. Thanks for visiting us!</div>
+                    <a id='download' href="ticket.html">Download your ticket</a>
+                </div>
+            </div>
+
+            <div class="right-text">
+                <h1>BIHAR</h1>
+                <p>
+                    Bihar, located in eastern India, is a state with a rich historical and cultural heritage. Known for
+                    its ancient educational institutions like Nalanda University, Bihar has been a center of learning
+                    and spirituality. The state is the birthplace of Buddhism and Jainism, with significant sites like
+                    Bodh Gaya, where Buddha attained enlightenment, and Vaishali, associated with Lord Mahavira.
+                    <br>
+                    <br>
+                    Patna, the capital city, is one of the oldest continuously inhabited cities in the world and has
+                    played a pivotal role in Indian history. The city is known for its historical monuments, including
+                    the Golghar, Patna Sahib Gurudwara, and the ancient ruins of Pataliputra.
+                    <br>
+                    <br>
+                    Bihar's vibrant festivals, traditional music, and dance forms such as Bidesia and Jat-Jatin, as well
+                    as its rich culinary heritage featuring dishes like litti-chokha and sattu, reflect the state’s
+                    cultural diversity. The Ganges River, which flows through Bihar, adds to the state's natural beauty
+                    and supports its agricultural economy.
+                </p>
+            </div>
+        </div>
+    </div>
+
+    <div class="bottom">
+        <div id="first">
+            <div class="text-content">
+                <h1 style="text-decoration: underline;">Patna Museum: Patna</h1>
+                <p id="museum-p">The Patna Museum, located in Patna, Bihar, is one of the oldest museums in India.
+                    Established in
+                    1917, it houses a rich collection of artifacts, including sculptures, paintings, coins, and
+                    manuscripts.
+                    The museum is renowned for its display of ancient relics from the Mauryan and Gupta periods, as well
+                    as
+                    its collection of fossils and historical maps. The museum's architecture reflects a blend of
+                    colonial
+                    and Indian styles, making it an important landmark in Patna.</p>
+                <h3 style="text-decoration: underline;">Contact Number:</h3>
+                <p id="number">0392 245 2598</p>
+                <div class="dropdown">
+                    <button class="dropbtn">Timings</button>
+                    <div class="dropdown-content">
+                        <a href="#">Monday: CLOSED!</a>
+                        <a href="#">Tuesday: 10:00 - 17:30</a>
+                        <a href="#">Wednesday: 10:00 - 17:30</a>
+                        <a href="#">Thursday: 10:00 - 17:30</a>
+                        <a href="#">Friday: 10:00 - 17:30</a>
+                        <a href="#">Satuday: 10:30 - 17:30</a>
+                        <a href="#">Sunday: 10:30 - 17:30</a>
+                    </div>
+                </div>
+                <br>
+                <a
+                    href="https://www.google.co.in/maps/place/Patna+Museum/@25.612727,85.1306985,17z/data=!3m1!4b1!4m6!3m5!1s0x39ed58446df97609:0xa3a4580463faf378!8m2!3d25.612727!4d85.1332734!16zL20vMDdoa2Yz?entry=ttu&g_ep=EgoyMDI0MDgyOC4wIKXMDSoASAFQAw%3D%3D">📍
+                    Directions</a>
+            </div>
+            <div class="image-content">
+                <img id="museum-img" src="photos/Patna Museum.jpg" alt="Patna Museum">
+            </div>
+        </div>
+    </div>
+    <div class="bottom">
+        <div id="first">
+            <div class="text-content">
+                <h1 style="text-decoration: underline;">Bihar Museum: Patna</h1>
+                <p id="museum-p">The Bihar Museum, situated in Patna, is a modern museum dedicated to showcasing the
+                    rich cultural
+                    heritage of Bihar. Opened in 2015, it features a diverse collection of artifacts ranging from
+                    ancient
+                    sculptures to contemporary art. The museum's design combines traditional and modern elements, with
+                    spacious galleries that house exhibits on Bihar's history, art, and archaeology. It provides an
+                    immersive experience into the state's vibrant past.</p>
+                <h3 style="text-decoration: underline;">Contact Number:</h3>
+                <p id="number">0392 245 2598</p>
+                <div class="dropdown">
+                    <button class="dropbtn">Timings</button>
+                    <div class="dropdown-content">
+                        <a href="#">Monday: CLOSED!</a>
+                        <a href="#">Tuesday: 10:00 - 17:30</a>
+                        <a href="#">Wednesday: 10:00 - 17:30</a>
+                        <a href="#">Thursday: 10:00 - 17:30</a>
+                        <a href="#">Friday: 10:00 - 17:30</a>
+                        <a href="#">Satuday: 10:30 - 17:30</a>
+                        <a href="#">Sunday: 10:30 - 17:30</a>
+                    </div>
+                </div>
+                <br>
+                <a
+                    href="https://www.google.co.in/maps/place/Bihar+Museum/@25.5991556,85.1062199,14.5z/data=!4m6!3m5!1s0x39ed583dcb8fdcc1:0x7d8b8723cdf39b3a!8m2!3d25.6080856!4d85.1209857!16s%2Fm%2F0zwn8bt?entry=ttu&g_ep=EgoyMDI0MDgyOC4wIKXMDSoASAFQAw%3D%3D">📍
+                    Directions</a>
+            </div>
+            <div class="image-content">
+
+                <img id="museum-img" src="photos/Bihar Museum.jpg" alt="Bihar Museum: Patna">
+            </div>
+        </div>
+    </div>
+
+    <div class="bottom">
+        <div id="first">
+            <div class="text-content">
+                <h1 style="text-decoration: underline;">Gandhi Sangrahalaya: Patna</h1>
+                <p id="museum-p">Gandhi Sangrahalaya, located in Patna, Bihar, is a museum dedicated to Mahatma Gandhi
+                    and his association with Bihar. The museum showcases a wide range of photographs, documents, and
+                    personal items related to Gandhi's life and the Indian freedom movement. It provides insights into
+                    Gandhi's campaigns and his close connections with Bihar, highlighting his philosophy of non-violence
+                    and civil rights. The museum serves as an educational resource and a place of inspiration for those
+                    who wish to learn about Gandhi's legacy.</p>
+                <h3 style="text-decoration: underline;">Contact Number:</h3>
+                <p id="number">0612 221 9134</p>
+                <div class="dropdown">
+                    <button class="dropbtn">Timings</button>
+                    <div class="dropdown-content">
+                        <a href="#">Monday: CLOSED!</a>
+                        <a href="#">Tuesday: 10:00 - 17:30</a>
+                        <a href="#">Wednesday: 10:00 - 17:30</a>
+                        <a href="#">Thursday: 10:00 - 17:30</a>
+                        <a href="#">Friday: 10:00 - 17:30</a>
+                        <a href="#">Satuday: 10:30 - 17:30</a>
+                        <a href="#">Sunday: 10:30 - 17:30</a>
+                    </div>
+                </div>
+                <br>
+                <a
+                    href="https://www.google.com/maps/place/Gandhi+Sangrahalaya/@25.6208879,85.1398956,17z/data=!3m1!4b1!4m6!3m5!1s0x39ed5859d0000003:0x33b4fdaba809915e!8m2!3d25.6208879!4d85.1424705!16s%2Fm%2F010ql479?entry=ttu&g_ep=EgoyMDI0MDgyOC4wIKXMDSoASAFQAw%3D%3D">📍
+                    Directions</a>
+            </div>
+            <div class="image-content">
+                <img id="museum-img" src="photos/Gandhi Sangrahalaya.jpg" alt="Gandhi Sangrahalaya">
+            </div>
+        </div>
+    </div>
+
+    <div class="bottom">
+        <div id="first">
+            <div class="text-content">
+                <h1 style="text-decoration: underline;">Archaeological Museum: Gaya</h1>
+                <p id="museum-p">The Archaeological Museum, located in Bodh Gaya, Bihar, is a significant repository of
+                    Buddhist artifacts and relics. Established to preserve the heritage of this sacred site, the museum
+                    houses a vast collection of sculptures, carvings, and inscriptions from the Mauryan and Gupta
+                    periods. The exhibits include ancient statues of Buddha, terracotta items, and other historical
+                    objects that provide a deep insight into the cultural and religious history of Bodh Gaya. The museum
+                    is an essential destination for those interested in the archaeological and spiritual significance of
+                    the region.</p>
+                <h3 style="text-decoration: underline;">Contact Number:</h3>
+                <p id="number">0631 220 0734</p>
+                <div class="dropdown">
+                    <button class="dropbtn">Timings</button>
+                    <div class="dropdown-content">
+                        <a href="#">Monday: CLOSED!</a>
+                        <a href="#">Tuesday: 10:00 - 17:30</a>
+                        <a href="#">Wednesday: 10:00 - 17:30</a>
+                        <a href="#">Thursday: 10:00 - 17:30</a>
+                        <a href="#">Friday: 10:00 - 17:30</a>
+                        <a href="#">Satuday: 10:30 - 17:30</a>
+                        <a href="#">Sunday: 10:30 - 17:30</a>
+                    </div>
+                </div>
+                <br>
+                <a
+                    href="https://www.google.com/maps/place/Archaeological+Museum+Bodhgaya/@24.6949135,84.9848664,17z/data=!3m1!4b1!4m6!3m5!1s0x39f32c5be64bf77d:0x8f7aefe1040a4f2e!8m2!3d24.6949135!4d84.9874413!16s%2Fg%2F12hmy4mrz?entry=ttu&g_ep=EgoyMDI0MDgyOC4wIKXMDSoASAFQAw%3D%3D">📍
+                    Directions</a>
+            </div>
+            <div class="image-content">
+                <img id="museum-img" src="photos/Archaeological Museum.jpg" alt="Archaeological Museum, Bodh Gaya">
+            </div>
+        </div>
+    </div>
+
+    <div class="bottom">
+        <div id="first">
+            <div class="text-content">
+                <h1 style="text-decoration: underline;">Indosan Nippon Japanese Temple Museum: Gaya</h1>
+                <p id="museum-p">The Indosan Nippon Japanese Temple Museum, located in Bodh Gaya, Bihar, is a serene
+                    space dedicated to showcasing the cultural and spiritual connections between Japan and India through
+                    Buddhism. The museum features artifacts, photographs, and exhibits that reflect the spread of
+                    Buddhism from India to Japan. The architecture of the temple and museum is traditional Japanese,
+                    providing a peaceful environment for reflection and learning about the Buddhist heritage and its
+                    influence on Japanese culture.</p>
+                <h3 style="text-decoration: underline;">Contact Number:</h3>
+                <p id="number">0631 220 1040</p>
+                <div class="dropdown">
+                    <button class="dropbtn">Timings</button>
+                    <div class="dropdown-content">
+                        <a href="#">Monday: CLOSED!</a>
+                        <a href="#">Tuesday: 10:00 - 17:30</a>
+                        <a href="#">Wednesday: 10:00 - 17:30</a>
+                        <a href="#">Thursday: 10:00 - 17:30</a>
+                        <a href="#">Friday: 10:00 - 17:30</a>
+                        <a href="#">Satuday: 10:30 - 17:30</a>
+                        <a href="#">Sunday: 10:30 - 17:30</a>
+                    </div>
+                </div>
+                <br>
+                <a
+                    href="https://www.google.com/maps/search/Indosan+Nippon+Japanese+Temple+Museum:+Bodh+Gaya/@24.6934757,84.9832801,16z?entry=ttu&g_ep=EgoyMDI0MDgyOC4wIKXMDSoASAFQAw%3D%3D">📍
+                    Directions</a>
+            </div>
+            <div class="image-content">
+                <img id="museum-img" src="photos/Indosan Nippon Japanese Temple Museum.jpg"
+                    alt="Indosan Nippon Japanese Temple Museum">
+            </div>
+        </div>
+    </div>
+
+    <div class="bottom">
+        <div id="first">
+            <div class="text-content">
+                <h1 style="text-decoration: underline;">Vishnupad Temple Museum: Gaya</h1>
+                <p id="museum-p">The Vishnupad Temple Museum, located near the Vishnupad Temple in Gaya, Bihar, is
+                    dedicated to showcasing artifacts related to the temple's rich history. The museum features a
+                    collection of sculptures, inscriptions, and religious artifacts that reflect the temple's
+                    significance in the region. Visitors can explore the cultural and historical context of the
+                    Vishnupad Temple, which is a prominent pilgrimage site for Hindus. The museum offers a glimpse into
+                    the artistic and religious heritage associated with the temple.</p>
+                <h3 style="text-decoration: underline;">Contact Number:</h3>
+                <p id="number">Not Available</p>
+                <div class="dropdown">
+                    <button class="dropbtn">Timings</button>
+                    <div class="dropdown-content">
+                        <a href="#">Monday: CLOSED!</a>
+                        <a href="#">Tuesday: 10:00 - 17:30</a>
+                        <a href="#">Wednesday: 10:00 - 17:30</a>
+                        <a href="#">Thursday: 10:00 - 17:30</a>
+                        <a href="#">Friday: 10:00 - 17:30</a>
+                        <a href="#">Satuday: 10:30 - 17:30</a>
+                        <a href="#">Sunday: 10:30 - 17:30</a>
+                    </div>
+                </div>
+                <br>
+                <a
+                    href="https://www.google.com/maps/place/Devghat,+Vishnupad/@24.7781888,85.0038781,17z/data=!4m6!3m5!1s0x39f32a33c8fdb51b:0xb3abb0624fee9d96!8m2!3d24.7781888!4d85.006453!16s%2Fg%2F11cn5nts5t?entry=ttu&g_ep=EgoyMDI0MDgyOC4wIKXMDSoASAFQAw%3D%3D">📍
+                    Directions</a>
+            </div>
+            <div class="image-content">
+                <img id="museum-img" src="photos/Vishnupad Temple Museum.jpg" alt="Vishnupad Temple Museum">
+            </div>
+        </div>
+    </div>
+
+
+    <div class="bottom">
+        <div id="first">
+            <div class="text-content">
+                <h1 style="text-decoration: underline;">Vaishali Archaeological Museum: Vaishali</h1>
+                <p id="museum-p">The Vaishali Archaeological Museum, situated in Vaishali, Bihar, showcases the
+                    archaeological treasures of the ancient city, which was an important center of the Licchavi
+                    republic. The museum houses artifacts, including pottery, coins, sculptures, and inscriptions,
+                    dating back to ancient times. These exhibits provide a glimpse into the rich historical and cultural
+                    legacy of Vaishali, which is considered to be one of the earliest democracies in the world.</p>
+                <h3 style="text-decoration: underline;">Contact Number:</h3>
+                <p id="number">0622 825 2910</p>
+                <div class="dropdown">
+                    <button class="dropbtn">Timings</button>
+                    <div class="dropdown-content">
+                        <a href="#">Monday: CLOSED!</a>
+                        <a href="#">Tuesday: 10:00 - 17:30</a>
+                        <a href="#">Wednesday: 10:00 - 17:30</a>
+                        <a href="#">Thursday: 10:00 - 17:30</a>
+                        <a href="#">Friday: 10:00 - 17:30</a>
+                        <a href="#">Satuday: 10:30 - 17:30</a>
+                        <a href="#">Sunday: 10:30 - 17:30</a>
+                    </div>
+                </div>
+                <br>
+                <a
+                    href="https://www.google.com/maps/place/Vaishali+Museum/@25.9947003,85.1151875,21z/data=!4m10!1m2!2m1!1svaishali+archeological!3m6!1s0x39ed382f8af2a703:0xd89612e9c793683d!8m2!3d25.9947003!4d85.1154852!15sChZ2YWlzaGFsaSBhcmNoZW9sb2dpY2FsWhgiFnZhaXNoYWxpIGFyY2hlb2xvZ2ljYWySAQZtdXNldW2aASRDaGREU1VoTk1HOW5TMFZKUTBGblNVTlhOR0V6TlhOUlJSQULgAQA!16s%2Fg%2F1hd_v9nst?entry=ttu&g_ep=EgoyMDI0MDgyOC4wIKXMDSoASAFQAw%3D%3D">📍
+                    Directions</a>
+            </div>
+            <div class="image-content">
+                <img id="museum-img" src="photos/Vaishali Archaeological Museum.jpg"
+                    alt="Vaishali Archaeological Museum">
+            </div>
+        </div>
+    </div>
+
+    <div class="bottom">
+        <div id="first">
+            <div class="text-content">
+                <h1 style="text-decoration: underline;">Kesariya Archaeological Museum: Vaishali</h1>
+                <p id="museum-p">The Kesariya Archaeological Museum, located near the Kesariya Stupa in Vaishali, Bihar,
+                    is dedicated to the historical findings from the Kesariya region. The museum displays relics and
+                    artifacts, including ancient pottery, coins, and statues, that highlight the historical and cultural
+                    significance of Kesariya as a Buddhist pilgrimage site. The nearby Kesariya Stupa is considered one
+                    of the tallest Buddhist stupas in the world, making this museum a vital point of interest for
+                    history enthusiasts and pilgrims alike.</p>
+                <h3 style="text-decoration: underline;">Contact Number:</h3>
+                <p id="number">0620 426 4107</p>
+                <div class="dropdown">
+                    <button class="dropbtn">Timings</button>
+                    <div class="dropdown-content">
+                        <a href="#">Monday: CLOSED!</a>
+                        <a href="#">Tuesday: 10:00 - 17:30</a>
+                        <a href="#">Wednesday: 10:00 - 17:30</a>
+                        <a href="#">Thursday: 10:00 - 17:30</a>
+                        <a href="#">Friday: 10:00 - 17:30</a>
+                        <a href="#">Satuday: 10:30 - 17:30</a>
+                        <a href="#">Sunday: 10:30 - 17:30</a>
+                    </div>
+                </div>
+                <br>
+                <a
+                    href="https://www.google.com/maps/place/Kesariya+Buddha+Stupa/@26.3341824,84.8548311,3a,75y/data=!3m8!1e2!3m6!1sAF1QipO0dV409N6qYw7hQ6DyMsfXlEmOPYdZL_NAW8Oq!2e10!3e12!6shttps:%2F%2Flh5.googleusercontent.com%2Fp%2FAF1QipO0dV409N6qYw7hQ6DyMsfXlEmOPYdZL_NAW8Oq%3Dw203-h133-k-no!7i3018!8i1987!4m9!3m8!1s0x399329f8dc0cc10b:0x259396406c2d4427!8m2!3d26.3341804!4d84.8548314!10e5!14m1!1BCgIgAQ!16s%2Fg%2F122n5z0q?entry=ttu&g_ep=EgoyMDI0MDgyOC4wIKXMDSoASAFQAw%3D%3D">📍
+                    Directions</a>
+            </div>
+            <div class="image-content">
+                <img id="museum-img" src="photos/Kesariya Archaeological Museum.jpg"
+                    alt="Kesariya Archaeological Museum">
+            </div>
+        </div>
+    </div>
+
+    <div class="bottom">
+        <div id="first">
+            <div class="text-content">
+                <h1 style="text-decoration: underline;">Barabar Caves Museum: Vaishali</h1>
+                <p id="museum-p">The Barabar Caves Museum, located near the Barabar Caves in Vaishali, Bihar, showcases
+                    artifacts and information related to one of India's oldest rock-cut cave complexes. The museum
+                    provides insights into the Mauryan period and the early spread of Buddhism, featuring relics,
+                    ancient inscriptions, and other historical items that depict the significance of the Barabar Caves
+                    as a historical and architectural marvel of ancient India.</p>
+                <h3 style="text-decoration: underline;">Contact Number:</h3>
+                <p id="number">0612 345 6789</p>
+                <div class="dropdown">
+                    <button class="dropbtn">Timings</button>
+                    <div class="dropdown-content">
+                        <a href="#">Monday: CLOSED!</a>
+                        <a href="#">Tuesday: 10:00 - 17:30</a>
+                        <a href="#">Wednesday: 10:00 - 17:30</a>
+                        <a href="#">Thursday: 10:00 - 17:30</a>
+                        <a href="#">Friday: 10:00 - 17:30</a>
+                        <a href="#">Satuday: 10:30 - 17:30</a>
+                        <a href="#">Sunday: 10:30 - 17:30</a>
+                    </div>
+                </div>
+                <br>
+                <a
+                    href="https://www.google.com/maps/search/Barabar+Caves+Museum/@25.005549,85.0530267,15z?entry=ttu&g_ep=EgoyMDI0MDgyOC4wIKXMDSoASAFQAw%3D%3D">📍
+                    Directions</a>
+            </div>
+            <div class="image-content">
+                <img id="museum-img" src="photos/Barabar Caves Museum.jpg" alt="Barabar Caves Museum">
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function loadGoogleTranslate() {
+            new google.translate.TranslateElement({ pageLanguage: 'en' }, 'google_element');
+        }
+    </script>
+    <script src="https://translate.google.com/translate_a/element.js?cb=loadGoogleTranslate"></script>
+
+
+    <script>
+        let step = 0;
+        let userName = '';
+        let selectedCity = '';
+        let selectedMuseum = '';
+        let visitorType = '';
+        let numberOfTickets = 0;
+        let selectedDate = '';
+        let selectedTime = '';
+        const ticketPrices = { indian: 100, foreigner: 500 };
+
+        function sendMessage() {
+            const userInput = document.getElementById("user-input").value;
+            if (userInput === "") return;
+
+            appendMessage(userInput, 'user');
+            document.getElementById("user-input").value = '';
+
+            if (step === 0) {
+                // Hide the name input after entering the name
+                document.getElementById("nameInputContainer").style.display = "none";
+            }
+
+            setTimeout(() => {
+                botReply(userInput);
+            }, 500);
+        }
+
+
+        function appendMessage(text, sender) {
+            const chatBox = document.getElementById("chat-box");
+            const message = document.createElement("div");
+            message.className = `message ${sender}`;
+            message.innerText = text;
+            chatBox.appendChild(message);
+            chatBox.scrollTop = chatBox.scrollHeight;
+        }
+
+        function botReply(userInput = '') {
+            let botMessage = '';
+
+            switch (step) {
+                case 0:
+                    userName = userInput;
+                    botMessage = `Nice to meet you, ${userName}. Which city would you like to book tickets for?`;
+                    step++;
+                    showElement('cityPrompt');
+                    break;
+
+                case 1:
+                    selectedCity = document.getElementById('citySelect').value;
+                    if (selectedCity) {
+                        botMessage = `You've selected ${selectedCity.charAt(0).toUpperCase() + selectedCity.slice(1)}. Which museum would you like to visit?`;
+                        step++;
+                        updateMuseums();
+                        showElement('museumPrompt');
+                    }
+                    break;
+                case 2:
+                    selectedMuseum = document.getElementById('museumSelect').value;
+                    if (selectedMuseum) {
+                        botMessage = `You've chosen ${selectedMuseum.replace(/_/g, ' ').toUpperCase()}. Are you an Indian or Foreigner?`;
+                        step++;
+                        showElement('visitorTypePrompt');
+                    }
+                    break;
+                case 3:
+                    visitorType = document.getElementById('visitorTypeSelect').value;
+                    if (visitorType) {
+                        botMessage = `You've selected ${visitorType.charAt(0).toUpperCase() + visitorType.slice(1)}. How many tickets would you like to book?`;
+                        step++;
+                        showElement('ticketPrompt');
+                    }
+                    break;
+                case 4:
+                    numberOfTickets = parseInt(document.getElementById('ticketSelect').value);
+                    if (!isNaN(numberOfTickets) && numberOfTickets > 0) {
+                        botMessage = `You've chosen ${numberOfTickets} tickets. Please select a date.`;
+                        step++;
+                        showElement('datePrompt');
+                    }
+                    break;
+                case 5:
+                    selectedDate = document.getElementById('dateSelect').value;
+                    if (selectedDate) {
+                        botMessage = `You've selected ${selectedDate}. Please choose a time slot.`;
+                        step++;
+                        showElement('timePrompt');
+                    }
+                    break;
+                case 6:
+                    selectedTime = document.getElementById('timeSelect').value;
+                    if (selectedTime) {
+                        calculatePrice();
+                        botMessage = `You've chosen ${selectedTime}. The total price is ₹${ticketPrices[visitorType] * numberOfTickets}. Would you like to proceed with the payment?`;
+                        step++;
+                        showElement('paymentButtonContainer');
+                    }
+                    break;
+                case 7:
+                    botMessage = `Thank you, ${userName}! Your booking is confirmed.`;
+                    step++;
+                    document.getElementById('confirmationMessage').classList.remove('hidden');
+                    break;
+                default:
+                    botMessage = "Your ticket has already been booked. Thank you!";
+            }
+
+            if (botMessage) {
+                appendMessage(botMessage, 'bot');
+            }
+        }
+
+        function updateMuseums() {
+            const museumSelect = document.getElementById('museumSelect');
+            museumSelect.innerHTML = ''; // Clear previous options
+
+            const museums = {
+                patna: ['--Select a Museum--', 'Patna Museum', 'Bihar Museum', 'Gandhi Sangrahalaya'],
+                gaya: ['--Select a Museum--', 'Archaeological Museum: Gaya', 'Indosan Nippon Japanese Temple Museum', 'Vishnupad Temple Museum'],
+                vaishali: ['--Select a Museum--', 'Vaishali Archaeological Museum', 'Kesariya Archaeological Museum', 'Barabar Caves Museum']
+            };
+
+            museums[selectedCity].forEach(museum => {
+                const option = document.createElement('option');
+                option.value = museum.toLowerCase().replace(/ /g, '_');
+                option.textContent = museum;
+                museumSelect.appendChild(option);
+            });
+        }
+
+        function calculatePrice() {
+            const totalPrice = ticketPrices[visitorType] * numberOfTickets;
+            const priceMessage = `The total price is ₹${totalPrice}.`;
+            document.getElementById('priceMessage').innerText = priceMessage;
+            showElement('priceDisplay');
+        }
+
+        function completePayment() {
+            appendMessage("Processing your payment...", 'bot');
+            setTimeout(() => {
+                document.getElementById('paymentButtonContainer').classList.add('hidden');
+                botReply();
+            }, 1500); // Simulating payment process delay
+        }
+
+        function showElement(elementId) {
+            document.getElementById(elementId).classList.remove('hidden');
+        }
+    </script>
+
+    <script>
+        function saveData() {
+            const userData = {
+                userName: document.getElementById('userName').value,
+                selectedCity: document.getElementById('selectedCity').value,
+                selectedMuseum: document.getElementById('selectedMuseum').value,
+                visitorType: document.getElementById('visitorType').value,
+                numberOfTickets: document.getElementById('numberOfTickets').value,
+                selectedDate: document.getElementById('selectedDate').value,
+                selectedTime: document.getElementById('selectedTime').value
+            };
+
+            localStorage.setItem('userData', JSON.stringify(userData));
+            window.location.href = 'ticket.html'; // Redirect to ticket page
+        }
+
+        function saveData() {
+            const userData = {
+                userName: document.getElementById('userName').value,
+                selectedCity: document.getElementById('selectedCity').value,
+                selectedMuseum: document.getElementById('selectedMuseum').value,
+                visitorType: document.getElementById('visitorType').value,
+                numberOfTickets: document.getElementById('numberOfTickets').value,
+                selectedDate: document.getElementById('selectedDate').value,
+                selectedTime: document.getElementById('selectedTime').value
+            };
+
+            console.log(userData);  // Log the data to the console for debugging
+
+            localStorage.setItem('userData', JSON.stringify(userData));
+            window.location.href = 'ticket.html';  // Redirect to ticket page
+        }
+
+        function completePayment() {
+            const userData = {
+                userName,
+                selectedCity,
+                selectedMuseum,
+                visitorType,
+                numberOfTickets,
+                selectedDate,
+                selectedTime
+            };
+
+            // Save data to localStorage
+            localStorage.setItem('userData', JSON.stringify(userData));
+
+            // Simulating payment and redirect to ticket.html
+            appendMessage("Processing your payment...", 'bot');
+            setTimeout(() => {
+                window.location.href = 'ticket.html'; // Redirect to ticket.html
+            }, 1500);
+        }
+    </script>
+</body>
+
+</html>

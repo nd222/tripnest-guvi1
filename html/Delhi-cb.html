@@ -1,0 +1,728 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Museum Ticket Booking Chatbot</title>
+    <link rel="stylesheet" href="chatcss.css">
+    <link href="https://db.onlinewebfonts.com/c/6bff5f8f85a7385fbdc21a8f724dd8ac?family=Rajasthan+Regular"
+        rel="stylesheet">
+    <style>
+        #bg-img {
+            background: url("photos/delhi-bg.jpg") center no-repeat;
+            min-height: 750px;
+
+        }
+
+        .right-text p {
+            padding-bottom: 30px;
+        }
+
+        .goog-te-gadget .goog-te-combo {
+            margin: 4px 0;
+            padding: 5px;
+            border-radius: 20px;
+        }
+
+        #timing {
+            margin-bottom: 15px;
+        }
+
+        .dropbtn {
+            background-color: #04AA6D;
+            color: white;
+            padding: 10px;
+            font-size: 16px;
+            margin-bottom: 10px;
+            border: none;
+        }
+
+        .dropdown {
+            position: relative;
+            display: inline-block;
+        }
+
+        .dropdown-content {
+            display: none;
+            position: absolute;
+            background-color: #f1f1f1;
+            min-width: 160px;
+            box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
+            z-index: 1;
+        }
+
+        .dropdown-content a {
+            color: black;
+            min-width: 200px;
+            padding: 0px;
+            font-size: 15px;
+            font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+            text-decoration: none;
+            display: block;
+        }
+
+
+        .dropdown:hover .dropdown-content {
+            display: block;
+        }
+
+    </style>
+</head>
+
+<body>
+    <div id="bg-img">
+        <header>
+            <div-1>
+                <img id="logo" src="photos/logo1.png" alt="">
+                <h1>ChatBot-Ticketing System </h1>
+            </div-1>
+            <div id="google_element"></div>
+
+        </header>
+
+
+        <div id="top">
+            <div class="chat-container">
+                <div id="chat-box" class="chat-box">
+                    <div class="message bot">Hello! Welcome to our museum. What is your name?</div>
+                </div>
+                <div id="nameInputContainer">
+                    <input type="text" id="user-input" placeholder="Enter your name..." autofocus>
+                    <button onclick="sendMessage()">Send</button>
+                </div>
+
+                <div id="cityPrompt" class="hidden">
+                    <label for="citySelect">Select City:</label>
+                    <select id="citySelect" onchange="botReply()">
+                        <option value="">--Select a City--</option>
+                        <option value="New_Delhi">New Delhi</option>
+                        <!-- <option value="udaipur">Udaipur</option>
+                        <option value="jodhpur">Jodhpur</option> -->
+                    </select>
+                </div>
+
+                <div id="museumPrompt" class="hidden">
+                    <label for="museumSelect">Select Museum:</label>
+                    <select id="museumSelect" onchange="botReply()">
+                        <!-- Options will be populated dynamically -->
+                    </select>
+                </div>
+
+                <div id="visitorTypePrompt" class="hidden">
+                    <label for="visitorTypeSelect">Are you an Indian or Foreigner?</label>
+                    <select id="visitorTypeSelect" onchange="botReply()">
+                        <option value="">--Select--</option>
+                        <option value="indian">Indian</option>
+                        <option value="foreigner">Foreigner</option>
+                    </select>
+                </div>
+
+                <div id="ticketPrompt" class="hidden">
+                    <label for="ticketSelect">Number of Tickets:</label>
+                    <select id="ticketSelect" onchange="botReply()">
+                        <option value="">--Select Number of Tickets--</option>
+                        <option value="1">1</option>
+                        <option value="2">2</option>
+                        <option value="3">3</option>
+                        <option value="4">4</option>
+                        <option value="5">5</option>
+                        <option value="6">6</option>
+                        <option value="7">7</option>
+                        <option value="8">8</option>
+                        <option value="9">9</option>
+                        <option value="10">10</option>
+                    </select>
+                </div>
+
+                <div id="datePrompt" class="hidden">
+                    <label for="dateSelect">Select Date:</label>
+                    <input type="date" id="dateSelect" onchange="botReply()">
+                </div>
+
+                <div id="timePrompt" class="hidden">
+                    <label for="timeSelect">Select Time Slot:</label>
+                    <select id="timeSelect" onchange="botReply()">
+                        <option value="">--Select Time Slot--</option>
+                        <option value="09:00">09:00 AM</option>
+                        <option value="11:00">11:00 AM</option>
+                        <option value="14:00">02:00 PM</option>
+                    </select>
+                </div>
+
+                <div id="priceDisplay" class="hidden">
+                    <div id="priceMessage"></div>
+                </div>
+
+                <div id="paymentButtonContainer" class="hidden">
+                    <button id="payButton" onclick="completePayment()">Complete Payment</button>
+                </div>
+
+                <div id="confirmationMessage" class="hidden">
+                    <div class="message bot">Your ticket is booked ✅. Thanks for visiting us!</div>
+                    <a id='download' href="ticket.html">Download your ticket</a>
+                </div>
+            </div>
+
+            <div class="right-text">
+                <h1>DELHI</h1>
+                <p>
+                    Delhi, the capital city of India, is a vibrant blend of history and modernity. As one of the oldest
+                    cities in the world, Delhi has seen the rise and fall of various empires, each leaving behind a rich
+                    cultural and architectural legacy. The city is divided into two parts: Old Delhi, with its narrow
+                    lanes and historical monuments like the Red Fort and Jama Masjid, and New Delhi, which is
+                    characterized by its wide avenues, colonial-era buildings, and government institutions. Delhi’s
+                    charm lies in its ability to seamlessly merge the old with the new, offering a unique experience to
+                    visitors.
+
+                    <br>
+                    <br>
+
+                    The city is home to a plethora of museums that reflect its diverse cultural heritage. The National
+                    Museum, one of the largest in India, houses an extensive collection of artifacts ranging from the
+                    prehistoric era to modern times. The museum's exhibits include ancient manuscripts, sculptures, and
+                    decorative arts from various periods of Indian history. The Indian Museum of Natural History,
+                    another major attraction, offers insights into the natural world with its vast collection of flora
+                    and fauna, fossils, and geological samples. <br>
+                    <br>
+
+                    In addition to these, Delhi also boasts several specialized museums that cater to different
+                    interests. The National Gallery of Modern Art showcases a vast collection of contemporary Indian
+                    art, while the Gandhi Smriti and Nehru Memorial Museum offer a glimpse into the lives of India’s
+                    iconic leaders. The Crafts Museum, with its traditional textiles and crafts from across India,
+                    provides a platform for artisans to showcase their skills.
+                </p>
+            </div>
+        </div>
+    </div>
+
+    <div class="bottom">
+        <div id="first">
+            <div class="text-content">
+                <h1 style="text-decoration: underline;">National Museum: New Delhi</h1>
+                <p id="museum-p">National Museum is considered to be one of the largest and most comprehensive museums
+                    in India, the National Museum in Delhi offers an extensive collection that covers 5,000 years of
+                    Indian history. Its exhibits range from prehistoric artifacts to contemporary art, showcasing
+                    sculptures, manuscripts, decorative arts, arms and armor, and more. Located near India Gate, it
+                    serves as a key cultural institution, providing deep insights into India's diverse heritage.</p>
+                <h3 style="text-decoration: underline;">Contact Number:</h3>
+                <p id="number">011 2301 9272</p>
+                <div class="dropdown">
+                    <button class="dropbtn">Timings</button>
+                    <div class="dropdown-content">
+                        <a href="#">Monday: 10:00 - 18:00</a>
+                        <a href="#">Tuesday: 10:00 - 18:00</a>
+                        <a href="#">Wednesday: 10:00 - 18:00</a>
+                        <a href="#">Thursday: 10:00 - 18:00</a>
+                        <a href="#">Friday: 10:00 - 18:00</a>
+                        <a href="#">Satuday: 10:30 - 15:00</a>
+                        <a href="#">Sunday: 10:30 - 15:00</a>
+                    </div>
+                </div>
+                <br>
+                <a href="https://maps.app.goo.gl/jHQp5sjzvoptbV8D8">📍 Directions</a>
+            </div>
+            <div class="image-content">
+                <img id="museum-img" src="photos/national_museum-delhi.png" alt="National Museum: New Delhi">
+            </div>
+        </div>
+    </div>
+    <div class="bottom">
+        <div id="first">
+            <div class="text-content">
+                <h1 style="text-decoration: underline;">National Gallery of Modern Art (NGMA)</h1>
+                <p id="museum-p">National Gallery of Modern Art is situated near India Gate, the NGMA is dedicated to
+                    modern and contemporary Indian art. Established in 1954, it houses a vast collection of artworks,
+                    including paintings, sculptures, and photographs by leading Indian artists. The museum's exhibits
+                    reflect the evolution of Indian art from the 19th century to the present, making it a vital center
+                    for art lovers and historians alike.
+                </p>
+                <h3 style="text-decoration: underline;">Contact Number:</h3>
+                <p id="number">011 2338 4640</p>
+                <div class="dropdown">
+                    <button class="dropbtn">Timings</button>
+                    <div class="dropdown-content">
+                        <a href="#">Monday: CLOSED!</a>
+                        <a href="#">Tuesday: 10:00 - 18:00</a>
+                        <a href="#">Wednesday: 10:00 - 18:00</a>
+                        <a href="#">Thursday: 10:00 - 18:00</a>
+                        <a href="#">Friday: 10:00 - 18:00</a>
+                        <a href="#">Satuday: 10:30 - 18:00</a>
+                        <a href="#">Sunday: 10:30 - 18:00</a>
+                    </div>
+                </div>
+                <br>
+                <a href="https://maps.app.goo.gl/9TrV9xBY94vyxaVY9">📍 Directions</a>
+            </div>
+            <div class="image-content">
+
+                <img id="museum-img" src="photos/National-Gallery-Modern-Art-New-Delhi.jpg"
+                    alt="National Gallery of Modern Art (NGMA)">
+            </div>
+        </div>
+    </div>
+
+    </div>
+    </div>
+    <div class="bottom">
+        <div id="first">
+            <div class="text-content">
+                <h1 style="text-decoration: underline;">Indira Gandhi Memorial Museum</h1>
+                <p id="museum-p">Indira Gnadhi Memorial Museum is housed in the former residence of Indira Gandhi,
+                    India's first female Prime Minister. The museum provides a personal glimpse into her life and times,
+                    featuring photographs, newspaper clippings, and personal belongings. The museum also poignantly
+                    displays the spot where she was assassinated in 1984, making it a place of both historical and
+                    emotional significance.</p>
+
+
+                <h3 style="text-decoration: underline;">Contact Us:</h3></a>
+                <p id="number">011 2301 1358</p>
+                <div class="dropdown">
+                    <button class="dropbtn">Timings</button>
+                    <div class="dropdown-content">
+                        <a href="#">Monday: CLOSED!</a>
+                        <a href="#">Tuesday: 09:30 - 16:45</a>
+                        <a href="#">Wednesday: 09:30 - 16:45</a>
+                        <a href="#">Thursday: 09:30 - 16:45</a>
+                        <a href="#">Friday: 09:30 - 16:45</a>
+                        <a href="#">Satuday: 09:30 - 16:45</a>
+                        <a href="#">Sunday: 09:30 - 16:45</a>
+                    </div>
+                </div>
+                <br>
+                <a href="https://maps.app.goo.gl/p9v3ELBrRQodnGNSA">📍
+                    Directions</a>
+            </div>
+            <div class="image-content">
+                <img id="museum-img" src="photos/indira-gandhi-memorial-museum.jpg" alt="Indira Gandhi Memorial Museum">
+            </div>
+        </div>
+    </div>
+    <div class="bottom">
+        <div id="first">
+            <div class="text-content">
+                <h1 style="text-decoration: underline;">Gandhi Smriti Musuem</h1>
+                <p id="museum-p"> Gandhi Smriti Museum is also known as Birla House, Gandhi Smriti is the site where
+                    Mahatma Gandhi spent the last 144 days of his life and was assassinated in 1948. The museum offers
+                    an intimate view of Gandhi's life, philosophy, and his role in India's independence movement. It
+                    includes photographs, artifacts, and multimedia exhibits, as well as the Martyr's Column, which
+                    marks the spot where Gandhi was shot.
+
+                </p>
+
+                <h3 style="text-decoration: underline;">Contact Us:</h3>
+                <p id="number">011 2301 2843</p>
+                <div class="dropdown">
+                    <button class="dropbtn">Timings</button>
+                    <div class="dropdown-content">
+                        <a href="#">Monday: CLOSED!</a>
+                        <a href="#">Tuesday: 10:00 - 18:30</a>
+                        <a href="#">Wednesday: 10:00 - 18:30</a>
+                        <a href="#">Thursday: 10:00 - 18:30</a>
+                        <a href="#">Friday: 10:00 - 18:30</a>
+                        <a href="#">Satuday: 10:00 - 18:30</a>
+                        <a href="#">Sunday: 10:00 - 18:30</a>
+                    </div>
+                </div>
+                <br>
+
+                <a href="https://maps.app.goo.gl/AaAY149qMPgv2MhJ7">📍 Directions</a>
+            </div>
+            <div class="image-content">
+                <img id="museum-img" src="photos/gandhi-smriti.jpg" alt="Gandhi Smriti Museum">
+            </div>
+        </div>
+    </div>
+    <div class="bottom">
+        <div id="first">
+            <div class="text-content">
+                <h1 style="text-decoration: underline;">National Rail Museum</h1>
+                <p id="museum-p">
+                    National Rail Musuem is located in Chanakyapuri, the National Rail Museum is a must-visit for train
+                    enthusiasts and history buffs. The museum showcases India's rich railway heritage, with a
+                    fascinating collection of vintage locomotives, carriages, and railway artifacts. The outdoor
+                    exhibits include a toy train ride, which is particularly popular with children. The museum provides
+                    a unique insight into the development of railways in India, which played a crucial role in shaping
+                    the nation’s history.
+                </p>
+
+                <h3 style="text-decoration: underline;">Contact Number:</h3>
+                <p id="number">011 2688 1826</p>
+                <div class="dropdown">
+                    <button class="dropbtn">Timings</button>
+                    <div class="dropdown-content">
+                        <a href="#">Monday: CLOSED!</a>
+                        <a href="#">Tuesday: 10:00 - 16:30</a>
+                        <a href="#">Wednesday: 10:00 - 16:30</a>
+                        <a href="#">Thursday: 10:00 - 16:30</a>
+                        <a href="#">Friday: 10:00 - 16:30</a>
+                        <a href="#">Satuday: 10:00 - 16:30</a>
+                        <a href="#">Sunday: 10:00 - 16:30</a>
+                    </div>
+                </div>
+                <br>
+                 <a href="https://maps.app.goo.gl/igRyoo4cZ2MWurd4A">📍
+                    Directions</a>
+            </div>
+            <div class="image-content">
+                <img id="museum-img" src="photos/national-rail-museum.jpg" alt="Natinal Railway Museum">
+            </div>
+        </div>
+    </div>
+    <div class="bottom">
+        <div id="first">
+            <div class="text-content">
+                <h1 style="text-decoration: underline;">National Handicrafts and Handlooms Museum(Crafts Museum)</h1>
+                <p id="museum-p">National Handicrafts and Handlooms Museum is located near Pragati Maidan, the Crafts
+                    Museum is dedicated to preserving and showcasing India’s rich tradition of crafts and handlooms.
+                    Established in 1956, the museum features a vast collection of traditional textiles, folk and tribal
+                    art, and handcrafted items from different regions of India. The museum also includes a recreated
+                    rural village complex, where artisans demonstrate their craft-making techniques, offering visitors a
+                    glimpse into the country’s living craft traditions.</p>
+
+                <h3 style="text-decoration: underline;">Contact Number:</h3>
+                <p id="number">011 2337 1370</p>
+                <div class="dropdown">
+                    <button class="dropbtn">Timings</button>
+                    <div class="dropdown-content">
+                        <a href="#">Monday: CLOSED!</a>
+                        <a href="#">Tuesday: 09:30 - 18:00</a>
+                        <a href="#">Wednesday: 09:30 - 18:00</a>
+                        <a href="#">Thursday: 09:30 - 18:00</a>
+                        <a href="#">Friday: 09:30 - 18:00</a>
+                        <a href="#">Satuday: 09:30 - 18:00</a>
+                        <a href="#">Sunday: 09:30 - 18:00</a>
+                    </div>
+                </div>
+                <br>
+                 <a href="https://maps.app.goo.gl/E5FW8VC9AmBohvpF9">📍
+                    Directions</a>
+            </div>
+            <div class="image-content">
+                <img id="museum-img" src="photos/national-handicaft.png" alt="National Handicrafts">
+            </div>
+        </div>
+    </div>
+    <div class="bottom">
+        <div id="first">
+            <div class="text-content">
+                <h1 style="text-decoration: underline;">Nehru Memorial Museum & Library (Teen Murti Bhavan)</h1>
+                <p id="museum-p"> Situated in the former residence of India’s first Prime Minister, Jawaharlal Nehru,
+                    the Nehru Memorial Museum and Library is a significant institution for those interested in modern
+                    Indian history. The museum chronicles Nehru’s life and his role in the Indian independence movement,
+                    featuring photographs, documents, and personal belongings. The library houses an extensive
+                    collection of books and archives related to India’s political history, making it a major center for
+                    historical research.</p>
+
+                <h3 style="text-decoration: underline;">Contact Us:</h3>
+                <p id="number">011 2301 7587</p>
+                <div class="dropdown">
+                    <button class="dropbtn">Timings</button>
+                    <div class="dropdown-content">
+                        <a href="#">Monday: CLOSED!</a>
+                        <a href="#">Tuesday: 09:00 - 17:30</a>
+                        <a href="#">Wednesday: 09:00 - 17:30</a>
+                        <a href="#">Thursday: 09:00 - 17:30</a>
+                        <a href="#">Friday: 09:00 - 17:30</a>
+                        <a href="#">Satuday: 09:00 - 17:30</a>
+                        <a href="#">Sunday: 09:00 - 17:30</a>
+                    </div>
+                </div>
+                <br>
+                 <a href="https://maps.app.goo.gl/6NTBzQStCZLZNE1r7">📍
+                    Directions</a>
+            </div>
+            <div class="image-content">
+                <img id="museum-img" src="photos/Teen-Murti-Bhawan-DDR-2.jpg"
+                    alt="Nehru Memorial Museum & Library (Teen Murti Bhavan)">
+            </div>
+        </div>
+    </div>
+    <div class="bottom">
+        <div id="first">
+            <div class="text-content">
+                <h1 style="text-decoration: underline;">Museum of Illusions: Delhi</h1>
+                <p id="museum-p">The Museum of Illusions in Delhi, located in Connaught Place, is an interactive and
+                    mind-bending attraction that offers visitors a fascinating exploration of optical illusions and
+                    sensory experiences. With over 50 exhibits, including holograms, the Ames Room, and the Vortex
+                    Tunnel, the museum plays with perception, challenging the way we see and understand the world. It
+                    provides a unique, fun, and educational experience for all ages, making it a popular destination for
+                    both locals and tourists.</p>
+
+                <h3 style="text-decoration: underline;">Contact Number:</h3>
+                <p id="number">085957 53885</p>
+                <div class="dropdown">
+                    <button class="dropbtn">Timings</button>
+                    <div class="dropdown-content">
+                        <a href="#">Monday: 11:00- 20:00</a>
+                        <a href="#">Tuesday: 11:00 - 20:00</a>
+                        <a href="#">Wednesday: 11:00 - 20:00</a>
+                        <a href="#">Thursday: 11:00 - 20:00</a>
+                        <a href="#">Friday: 11:00 - 20:00</a>
+                        <a href="#">Satuday: 11:00 - 20:00</a>
+                        <a href="#">Sunday: 11:00 - 20:00</a>
+                    </div>
+                </div>
+                <br>
+                 <a href="https://maps.app.goo.gl/ysS98zWhvm8A7NML6">📍
+                    Directions</a>
+            </div>
+            <div class="image-content">
+                <img id="museum-img" src="photos/museum-of-illusion.png" alt="Museum of Illusions">
+            </div>
+        </div>
+    </div>
+    <div class="bottom">
+        <div id="first">
+            <div class="text-content">
+                <h1 style="text-decoration: underline;">National Science Centre</h1>
+                <p id="museum-p"> National Science Centre is located near Pragati Maidan, the National Science Centre is
+                    one of the largest science centers in India. Established in 1992, it aims to popularize science and
+                    technology among the public, particularly students. The museum’s exhibits cover a wide range of
+                    topics, including space science, human biology, ancient Indian science, and emerging technologies.
+                    The interactive displays, 3D films, and hands-on exhibits make it an engaging and educational
+                    destination for visitors of all ages.</p>
+
+                <h3 style="text-decoration: underline;">Contact Number:</h3>
+                <p id="number">074286 93710</p>
+                <div class="dropdown">
+                    <button class="dropbtn">Timings</button>
+                    <div class="dropdown-content">
+                        <a href="#">Monday: 09:30 - 18:00</a>
+                        <a href="#">Tuesday: 09:30 - 18:00</a>
+                        <a href="#">Wednesday: 09:30 - 18:00</a>
+                        <a href="#">Thursday: 09:30 - 18:00</a>
+                        <a href="#">Friday: 09:30 - 18:00</a>
+                        <a href="#">Satuday: 09:30 - 18:00</a>
+                        <a href="#">Sunday: 09:30 - 18:00</a>
+                    </div>
+                </div>
+                <br>
+                 <a href="https://maps.app.goo.gl/2ynuiQk5GEdStENQ6">📍
+                    Directions</a>
+            </div>
+            <div class="image-content">
+                <img id="museum-img" src="photos/national-science.jpg" alt="National Science Center">
+            </div>
+        </div>
+    </div>
+
+
+
+    </div>
+
+    <script>
+        function loadGoogleTranslate() {
+            new google.translate.TranslateElement({ pageLanguage: 'en' }, 'google_element');
+        }
+    </script>
+    <script src="https://translate.google.com/translate_a/element.js?cb=loadGoogleTranslate"></script>
+
+    <script>
+        let step = 0;
+        let userName = '';
+        let selectedCity = '';
+        let selectedMuseum = '';
+        let visitorType = '';
+        let numberOfTickets = 0;
+        let selectedDate = '';
+        let selectedTime = '';
+        const ticketPrices = { indian: 100, foreigner: 500 };
+
+        function sendMessage() {
+            const userInput = document.getElementById("user-input").value;
+            if (userInput === "") return;
+
+            appendMessage(userInput, 'user');
+            document.getElementById("user-input").value = '';
+
+            if (step === 0) {
+                // Hide the name input after entering the name
+                document.getElementById("nameInputContainer").style.display = "none";
+            }
+
+            setTimeout(() => {
+                botReply(userInput);
+            }, 500);
+        }
+
+
+        function appendMessage(text, sender) {
+            const chatBox = document.getElementById("chat-box");
+            const message = document.createElement("div");
+            message.className = `message ${sender}`;
+            message.innerText = text;
+            chatBox.appendChild(message);
+            chatBox.scrollTop = chatBox.scrollHeight;
+        }
+
+        function botReply(userInput = '') {
+            let botMessage = '';
+
+            switch (step) {
+                case 0:
+                    userName = userInput;
+                    botMessage = `Nice to meet you, ${userName}. Which city would you like to book tickets for?`;
+                    step++;
+                    showElement('cityPrompt');
+                    break;
+
+                case 1:
+                    selectedCity = document.getElementById('citySelect').value;
+                    if (selectedCity) {
+                        botMessage = `You've selected ${selectedCity.charAt(0).toUpperCase() + selectedCity.slice(1)}. Which museum would you like to visit?`;
+                        step++;
+                        updateMuseums();
+                        showElement('museumPrompt');
+                    }
+                    break;
+                case 2:
+                    selectedMuseum = document.getElementById('museumSelect').value;
+                    if (selectedMuseum) {
+                        botMessage = `You've chosen ${selectedMuseum.replace(/_/g, ' ').toUpperCase()}. Are you an Indian or Foreigner?`;
+                        step++;
+                        showElement('visitorTypePrompt');
+                    }
+                    break;
+                case 3:
+                    visitorType = document.getElementById('visitorTypeSelect').value;
+                    if (visitorType) {
+                        botMessage = `You've selected ${visitorType.charAt(0).toUpperCase() + visitorType.slice(1)}. How many tickets would you like to book?`;
+                        step++;
+                        showElement('ticketPrompt');
+                    }
+                    break;
+                case 4:
+                    numberOfTickets = parseInt(document.getElementById('ticketSelect').value);
+                    if (!isNaN(numberOfTickets) && numberOfTickets > 0) {
+                        botMessage = `You've chosen ${numberOfTickets} tickets. Please select a date.`;
+                        step++;
+                        showElement('datePrompt');
+                    }
+                    break;
+                case 5:
+                    selectedDate = document.getElementById('dateSelect').value;
+                    if (selectedDate) {
+                        botMessage = `You've selected ${selectedDate}. Please choose a time slot.`;
+                        step++;
+                        showElement('timePrompt');
+                    }
+                    break;
+                case 6:
+                    selectedTime = document.getElementById('timeSelect').value;
+                    if (selectedTime) {
+                        calculatePrice();
+                        botMessage = `You've chosen ${selectedTime}. The total price is ₹${ticketPrices[visitorType] * numberOfTickets}. Would you like to proceed with the payment?`;
+                        step++;
+                        showElement('paymentButtonContainer');
+                    }
+                    break;
+                case 7:
+                    botMessage = `Thank you, ${userName}! Your booking is confirmed.`;
+                    step++;
+                    document.getElementById('confirmationMessage').classList.remove('hidden');
+                    break;
+                default:
+                    botMessage = "Your ticket has already been booked. Thank you!";
+            }
+
+            if (botMessage) {
+                appendMessage(botMessage, 'bot');
+            }
+        }
+
+        function updateMuseums() {
+            const museumSelect = document.getElementById('museumSelect');
+            museumSelect.innerHTML = ''; // Clear previous options
+
+            const museums = {
+                New_Delhi: ['--Select a Museum--', 'National Museum', 'National Gallery of Modern Art', 'Indira Gandhi Memorial Museum', 'Gandhi Smriti Musuem', 'National Rail Museum', 'National Handicrafts and Handlooms Museum', 'Nehru Memorial Museum & Library', 'Museum of Illusions', 'National Science Centre'],
+                // udaipur: ['--Select a Museum--', 'City Palace Museum', 'Bagore Ki Haveli', 'Vintage Car Museum'],
+                // jodhpur: ['--Select a Museum--', 'Mehrangarh Museum', 'Umaid Bhawan Palace Museum', 'Rao Jodha Desert Rock Park']
+            };
+
+            museums[selectedCity].forEach(museum => {
+                const option = document.createElement('option');
+                option.value = museum.toLowerCase().replace(/ /g, '_');
+                option.textContent = museum;
+                museumSelect.appendChild(option);
+            });
+        }
+
+        function calculatePrice() {
+            const totalPrice = ticketPrices[visitorType] * numberOfTickets;
+            const priceMessage = `The total price is ₹${totalPrice}.`;
+            document.getElementById('priceMessage').innerText = priceMessage;
+            showElement('priceDisplay');
+        }
+
+        function completePayment() {
+            appendMessage("Processing your payment...", 'bot');
+            setTimeout(() => {
+                document.getElementById('paymentButtonContainer').classList.add('hidden');
+                botReply();
+            }, 1500); // Simulating payment process delay
+        }
+
+        function showElement(elementId) {
+            document.getElementById(elementId).classList.remove('hidden');
+        }
+    </script>
+
+    <script>
+        function saveData() {
+            const userData = {
+                userName: document.getElementById('userName').value,
+                selectedCity: document.getElementById('selectedCity').value,
+                selectedMuseum: document.getElementById('selectedMuseum').value,
+                visitorType: document.getElementById('visitorType').value,
+                numberOfTickets: document.getElementById('numberOfTickets').value,
+                selectedDate: document.getElementById('selectedDate').value,
+                selectedTime: document.getElementById('selectedTime').value
+            };
+
+            localStorage.setItem('userData', JSON.stringify(userData));
+            window.location.href = 'ticket.html'; // Redirect to ticket page
+        }
+
+        function saveData() {
+            const userData = {
+                userName: document.getElementById('userName').value,
+                selectedCity: document.getElementById('selectedCity').value,
+                selectedMuseum: document.getElementById('selectedMuseum').value,
+                visitorType: document.getElementById('visitorType').value,
+                numberOfTickets: document.getElementById('numberOfTickets').value,
+                selectedDate: document.getElementById('selectedDate').value,
+                selectedTime: document.getElementById('selectedTime').value
+            };
+
+            console.log(userData);  // Log the data to the console for debugging
+
+            localStorage.setItem('userData', JSON.stringify(userData));
+            window.location.href = 'ticket.html';  // Redirect to ticket page
+        }
+
+        function completePayment() {
+            const userData = {
+                userName,
+                selectedCity,
+                selectedMuseum,
+                visitorType,
+                numberOfTickets,
+                selectedDate,
+                selectedTime
+            };
+
+            // Save data to localStorage
+            localStorage.setItem('userData', JSON.stringify(userData));
+
+            // Simulating payment and redirect to ticket.html
+            appendMessage("Processing your payment...", 'bot');
+            setTimeout(() => {
+                window.location.href = 'ticket.html'; // Redirect to ticket.html
+            }, 1500);
+        }
+    </script>
+</body>
+
+</html>

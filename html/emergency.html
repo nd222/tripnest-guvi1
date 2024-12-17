@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Indian Emergency Services</title>
+    <link rel="stylesheet" href="emergency.css">
+</head>
+<body>
+    <header>
+        <h1>Indian Emergency Services</h1>
+        <p>Get help instantly by contacting the right emergency service</p>
+    </header>
+
+    <section class="emergency-contacts">
+        <div class="contact-card">
+            <h2>Police</h2>
+            <p>Dial: <strong>100</strong></p>
+            <button onclick="callService('100')">Call Now</button>
+        </div>
+        <div class="contact-card">
+            <h2>Ambulance</h2>
+            <p>Dial: <strong>102</strong></p>
+            <button onclick="callService('102')">Call Now</button>
+        </div>
+        <div class="contact-card">
+            <h2>Fire Brigade</h2>
+            <p>Dial: <strong>101</strong></p>
+            <button onclick="callService('101')">Call Now</button>
+        </div>
+        <div class="contact-card">
+            <h2>Disaster Management</h2>
+            <p>Dial: <strong>108</strong></p>
+            <button onclick="callService('108')">Call Now</button>
+        </div>
+        <div class="contact-card">
+            <h2>Women Helpline</h2>
+            <p>Dial: <strong>1091</strong></p>
+            <button onclick="callService('1091')">Call Now</button>
+        </div>
+        <div class="contact-card">
+            <h2>Child Helpline</h2>
+            <p>Dial: <strong>1098</strong></p>
+            <button onclick="callService('1098')">Call Now</button>
+        </div>
+    </section>
+
+    <section-2>
+            <header id="header-2"> Our Helpline Services</header>
+            <div class="contact-card">
+                <h2>Customer Care</h2>
+                <p>Dial: <strong>111-222-333</strong></p>
+                <button onclick="callService('111-222-333')">Call Now</button>
+            </div>
+    </section-2>
+
+    <footer>
+        <p>Stay Safe | Reach Help Anytime</p>
+    </footer>
+
+    <script>
+        function callService(number) {
+            alert("Dialing Emergency Number: " + number);
+            // In a real-world scenario, you'd redirect to the phone dialer with tel: link
+            window.location.href = "tel:" + number;
+        }
+        
+    </script>
+</body>
+</html>

@@ -1,0 +1,705 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Museum Ticket Booking Chatbot</title>
+    <link rel="stylesheet" href="chat_gujrat_css.css">
+    <link href="https://db.onlinewebfonts.com/c/6bff5f8f85a7385fbdc21a8f724dd8ac?family=Rajasthan+Regular"
+        rel="stylesheet">
+</head>
+
+<style>
+    .goog-te-gadget .goog-te-combo {
+        margin: 4px 0;
+        padding: 5px;
+        border-radius: 20px;
+    }
+
+    #timing {
+        margin-bottom: 15px;
+    }
+
+    #m-h1 {
+        margin-top: 50px;
+    }
+    .dropbtn {
+        background-color: #04AA6D;
+        color: white;
+        padding: 10px;
+        font-size: 16px;
+        margin-bottom: 10px;
+        border: none;
+    }
+
+    .dropdown {
+        position: relative;
+        display: inline-block;
+    }
+
+    .dropdown-content {
+        display: none;
+        position: absolute;
+        background-color: #f1f1f1;
+        min-width: 160px;
+        box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
+        z-index: 1;
+    }
+
+    .dropdown-content a {
+        color: black;
+        min-width: 200px;
+        padding: 0px;
+        font-size: 15px;
+        font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+        text-decoration: none;
+        display: block;
+    }
+
+
+    .dropdown:hover .dropdown-content {
+        display: block;
+    }
+
+</style>
+
+<body>
+    <div id="bg-img">
+        <header>
+            <div-1>
+                <img id="logo" src="photos/logo1.png" alt="">
+                <h1>ChatBot-Ticketing System</h1>
+            </div-1>
+            <div id="google_element"></div>
+        </header>
+        <div id="top">
+            <div class="chat-container">
+                <div id="chat-box" class="chat-box">
+                    <div class="message bot">Hello! Welcome to our museum. What is your name?</div>
+                </div>
+                <div id="nameInputContainer">
+                    <input type="text" id="user-input" placeholder="Enter your name..." autofocus>
+                    <button onclick="sendMessage()">Send</button>
+                </div>
+
+                <div id="cityPrompt" class="hidden">
+                    <label for="citySelect">Select City:</label>
+                    <select id="citySelect" onchange="botReply()">
+                        <option value="">--Select a City--</option>
+                        <option value="ahmedabad">Ahmedabad</option>
+                        <option value="vadodara">Vadodara</option>
+                        <option value="surat">Surat</option>
+                    </select>
+                </div>
+
+                <div id="museumPrompt" class="hidden">
+                    <label for="museumSelect">Select Museum:</label>
+                    <select id="museumSelect" onchange="botReply()">
+                        <!-- Options will be populated dynamically -->
+                    </select>
+                </div>
+
+                <div id="visitorTypePrompt" class="hidden">
+                    <label for="visitorTypeSelect">Are you an Indian or Foreigner?</label>
+                    <select id="visitorTypeSelect" onchange="botReply()">
+                        <option value="">--Select--</option>
+                        <option value="indian">Indian</option>
+                        <option value="foreigner">Foreigner</option>
+                    </select>
+                </div>
+
+                <div id="ticketPrompt" class="hidden">
+                    <label for="ticketSelect">Number of Tickets:</label>
+                    <select id="ticketSelect" onchange="botReply()">
+                        <option value="">--Select Number of Tickets--</option>
+                        <option value="1">1</option>
+                        <option value="2">2</option>
+                        <option value="3">3</option>
+                        <option value="4">4</option>
+                        <option value="5">5</option>
+                        <option value="6">6</option>
+                        <option value="7">7</option>
+                        <option value="8">8</option>
+                        <option value="9">9</option>
+                        <option value="10">10</option>
+                    </select>
+                </div>
+
+                <div id="datePrompt" class="hidden">
+                    <label for="dateSelect">Select Date:</label>
+                    <input type="date" id="dateSelect" onchange="botReply()">
+                </div>
+
+                <div id="timePrompt" class="hidden">
+                    <label for="timeSelect">Select Time Slot:</label>
+                    <select id="timeSelect" onchange="botReply()">
+                        <option value="">--Select Time Slot--</option>
+                        <option value="09:00">09:00 AM</option>
+                        <option value="11:00">11:00 AM</option>
+                        <option value="14:00">02:00 PM</option>
+                    </select>
+                </div>
+
+                <div id="priceDisplay" class="hidden">
+                    <div id="priceMessage"></div>
+                </div>
+
+                <div id="paymentButtonContainer" class="hidden">
+                    <button id="payButton" onclick="completePayment()">Complete Payment</button>
+                </div>
+
+                <div id="confirmationMessage" class="hidden">
+                    <div class="message bot">Your ticket is booked. Thanks for visiting us!</div>
+                    <a id='download' href="ticket.html">Download your ticket</a>
+                </div>
+            </div>
+
+            <div class="right-text">
+                <h1>GUJARAT</h1>
+                <p>
+                    Gujarat, located in western India, is a state known for its diverse culture, historical
+                    significance, and industrial prowess. It boasts a rich heritage that includes ancient civilizations,
+                    majestic palaces, and remarkable temples. Gujarat is a land where traditions and modernity blend
+                    seamlessly, offering visitors a unique experience.
+                    <br><br>
+                    Ahmedabad, the largest city, is a vibrant metropolis known for its architectural marvels such as the
+                    Sabarmati Ashram and the intricate Adalaj Stepwell. Vadodara, often referred to as the cultural
+                    capital of Gujarat, is famous for the Lakshmi Vilas Palace and the Vadodara Museum. Surat, a rapidly
+                    growing city, is known for its diamond cutting and polishing industry and has sites like the Dutch
+                    Garden and Sardar Patel Museum. <br><br>
+                    Gujarat also celebrates its rich cultural traditions through festivals like Navratri, where Garba
+                    and Dandiya Raas dance forms are performed with great fervor. The state's culinary delights,
+                    including Dhokla, Thepla, and Fafda, are a treat for food lovers.
+                </p>
+            </div>
+        </div>
+    </div>
+
+    <div class="bottom">
+        <!-- Museum Information Sections -->
+        <div id="first">
+            <div class="text-content">
+                <h1 id="m-h1" style="text-decoration: underline;">Sabarmati Ashram</h1>
+                <p id="museum-p">Located in Ahmedabad, Gujarat, Sabarmati Ashram is a historical site and an important
+                    landmark in India's struggle for independence. Founded by Mahatma Gandhi in 1917, it served as his
+                    residence and the headquarters for the Indian freedom movement. The ashram is situated on the banks
+                    of the Sabarmati River and was a place of great significance for Gandhi's philosophy of non-violence
+                    and simple living. Visitors can explore the museum that houses Gandhi's personal artifacts, letters,
+                    and photographs, providing insight into his life and work. The ashram remains a symbol of India's
+                    enduring legacy of peace and resilience.
+
+                </p>
+                <h3 style="text-decoration: underline;">Contact Number:</h3>
+                <p id="number">0141 257 0099</p>
+                <div class="dropdown">
+                    <button class="dropbtn">Timings</button>
+                    <div class="dropdown-content">
+                        <a href="#">Monday: 10:00 - 18:00</a>
+                        <a href="#">Tuesday: 10:00 - 18:00</a>
+                        <a href="#">Wednesday: 10:00 - 18:00</a>
+                        <a href="#">Thursday: 10:00 - 18:00</a>
+                        <a href="#">Friday: 10:00 - 18:00</a>
+                        <a href="#">Satuday: 10:00 - 18:00</a>
+                        <a href="#">Sunday: 10:00 - 18:00</a>
+                    </div>
+                </div>
+                <br>
+                <a href="https://maps.app.goo.gl/yYRPnT51YkcwGZrH8">📍 Directions</a>
+            </div>
+            <div class="image-content">
+                <img id="museum-img" src="photos/Sabarmati-Ashram.jpg" alt="Sabarmati Ashram">
+            </div>
+        </div>
+
+        <!-- Museum Information Sections -->
+        <div id="first">
+            <div class="text-content">
+                <h1 id="m-h1" style="text-decoration: underline;">Calico Museum of Textiles </h1>
+                <p id="museum-p">Calico Museum of Textiles
+                    Situated in Ahmedabad, Gujarat, the Calico Museum of Textiles is renowned for its extensive
+                    collection of Indian textiles. Established in 1949, the museum features a wide array of traditional
+                    textiles, including exquisite fabrics, embroidery, and tapestries from various regions of India. It
+                    showcases textiles from ancient to contemporary times, highlighting the rich heritage and artistry
+                    of Indian weaving. The museum’s collection includes rare and valuable pieces, offering insights into
+                    the historical and cultural significance of textiles in India. It is considered one of the most
+                    comprehensive textile museums globally, attracting enthusiasts and scholars alike.
+
+                </p>
+                <h3 style="text-decoration: underline;">Contact Number:</h3>
+                <p id="number">0141 257 0099</p>
+                <div class="dropdown">
+                    <button class="dropbtn">Timings</button>
+                    <div class="dropdown-content">
+                        <a href="#">Monday: CLOSED!</a>
+                        <a href="#">Tuesday: 10:30 - 16:30</a>
+                        <a href="#">Wednesday: 10:30 - 16:30</a>
+                        <a href="#">Thursday: 10:30 - 16:30</a>
+                        <a href="#">Friday: 10:30 - 16:30</a>
+                        <a href="#">Satuday: 10:30 - 16:30</a>
+                        <a href="#">Sunday: 10:30 - 16:30</a>
+                    </div>
+                </div>
+                <br>
+                <a href="https://maps.app.goo.gl/2MXvpKJVegqAWE3C6">📍 Directions</a>
+            </div>
+            <div class="image-content">
+                <img id="museum-img" src="photos/Calico Museum of Textiles.jpg" alt="Calico Museum of Textiles">
+            </div>
+        </div>
+
+
+        <div id="first">
+            <div class="text-content">
+                <h1 id="m-h1" style="text-decoration: underline;">Auto world Vintage Car Museum </h1>
+                <p id="museum-p">
+                    Located in Ahmedabad, Gujarat, the Auto World Vintage Car Museum is a treasure trove for automobile
+                    enthusiasts. It houses an impressive collection of over 100 vintage and classic cars, including
+                    Rolls Royces, Bentleys, and Cadillacs, dating back to the early 20th century. The museum was
+                    established by Pranlal Bhogilal, a passionate car collector, and showcases beautifully restored
+                    vehicles that reflect the grandeur of a bygone era. Visitors can explore a wide range of
+                    automobiles, from luxury sedans to convertibles, offering a unique glimpse into automotive history.
+                    The museum is a popular attraction for both car lovers and history buffs.
+
+                </p>
+                <h3 style="text-decoration: underline;">Contact Number:</h3>
+                <p id="number">0141 257 0099</p>
+                <div class="dropdown">
+                    <button class="dropbtn">Timings</button>
+                    <div class="dropdown-content">
+                        <a href="#">Monday: 08:00 - 21:00</a>
+                        <a href="#">Tuesday: 08:00 - 21:00</a>
+                        <a href="#">Wednesday: 08:00 - 21:00</a>
+                        <a href="#">Thursday: 08:00 - 21:00</a>
+                        <a href="#">Friday: 08:00 - 21:00</a>
+                        <a href="#">Satuday: 08:00 - 21:00</a>
+                        <a href="#">Sunday: 08:00 - 21:00</a>
+                    </div>
+                </div>
+                <br>
+                <a href="https://maps.app.goo.gl/jVQQ6k1mAfmEne7U8">📍 Directions</a>
+            </div>
+            <div class="image-content">
+                <img id="museum-img" src="photos/Auto-World-Vintage-Car-Museum-Banner.jpg"
+                    alt="Auto world Vintage Car Museum">
+            </div>
+        </div>
+        <div id="first">
+            <div class="text-content">
+                <h1 id="m-h1" style="text-decoration: underline;">Laxmi Vilas Palace </h1>
+                <p id="museum-p">
+                    Laxmi Vilas Palace, located in Vadodara, Gujarat, is one of the largest private residences in
+                    the world and a stunning example of Indo-Saracenic architecture. Built in 1890 by Maharaja
+                    Sayajirao Gaekwad III, the palace is four times the size of Buckingham Palace and is still the
+                    residence of the royal family of Vadodara. The palace complex includes the main building, a
+                    museum, a golf course, and several other structures. The interiors are lavishly decorated with
+                    ornate carvings, stained glass windows, and a collection of art and artifacts. Laxmi Vilas
+                    Palace is a symbol of the grandeur and heritage of the Gaekwad dynasty.
+
+                </p>
+                <h3 style="text-decoration: underline;">Contact Number:</h3>
+                <p id="number">0141 257 0099</p>
+                <div class="dropdown">
+                    <button class="dropbtn">Timings</button>
+                    <div class="dropdown-content">
+                        <a href="#">Monday: 10:00 - 18:30</a>
+                        <a href="#">Tuesday: 10:00 - 18:30</a>
+                        <a href="#">Wednesday: 10:00 - 18:30</a>
+                        <a href="#">Thursday: 10:00 - 18:30</a>
+                        <a href="#">Friday: 10:00 - 18:30</a>
+                        <a href="#">Satuday: 10:00 - 18:30</a>
+                        <a href="#">Sunday: 10:00 - 18:30</a>
+                    </div>
+                </div>
+                <br>
+                <a href="https://maps.app.goo.gl/25UjiK9oHn3K7Luf6">📍 Directions</a>
+            </div>
+            <div class="image-content">
+                <img id="museum-img" src="photos/laxmi vilas palace.jpg" alt="Laxmi Vilas Palace">
+            </div>
+        </div>
+
+        <div id="first">
+            <div class="text-content">
+                <h1 id="m-h1" style="text-decoration: underline;">Vadodara Museum </h1>
+                <p id="museum-p">The Vadodara Museum and Picture Gallery, located in Sayajibaug, Vadodara, is a
+                    treasure trove of history, art, and culture. Established in 1894 by Maharaja Sayajirao
+                    Gaekwad III, the museum houses a diverse collection of artifacts, including Indian
+                    sculptures, textiles, and paintings, as well as Egyptian mummies and Japanese art. The
+                    Picture Gallery displays works by European masters alongside Indian artists. The museum's
+                    architecture is a blend of Indian and European styles, reflecting the city's rich cultural
+                    heritage. It remains one of Vadodara's most significant cultural landmarks.
+
+                </p>
+                <h3 style="text-decoration: underline;">Contact Number:</h3>
+                <p id="number">0141 257 0099</p>
+                <div class="dropdown">
+                    <button class="dropbtn">Timings</button>
+                    <div class="dropdown-content">
+                        <a href="#">Monday: 10:00 - 17:00</a>
+                        <a href="#">Tuesday: 10:00 - 17:00</a>
+                        <a href="#">Wednesday: 10:00 - 17:00</a>
+                        <a href="#">Thursday: CLOSED!</a>
+                        <a href="#">Friday: 10:00 - 17:00</a>
+                        <a href="#">Satuday: 10:00 - 17:00</a>
+                        <a href="#">Sunday: 10:00 - 17:00</a>
+                    </div>
+                </div>
+                <br>
+                <a href="https://maps.app.goo.gl/2MXvpKJVegqAWE3C6">📍 Directions</a>
+            </div>
+            <div class="image-content">
+                <img id="museum-img" src="photos/Vadodara Museum.jpg" alt="Vadodara Museum ">
+            </div>
+        </div>
+
+        <div id="first">
+            <div class="text-content">
+                <h1 id="m-h1" style="text-decoration: underline;">The Maharaja Fateh Singh Museum </h1>
+                <p id="museum-p">
+                    The Maharaja Fateh Singh Museum, located within the Laxmi Vilas Palace in Vadodara, is a
+                    splendid repository of art and history. Originally built as a school for the royal
+                    children, it now houses an extensive collection of European paintings, including works
+                    by Raphael and Murillo, as well as Indian miniature paintings. The museum also features
+                    sculptures in marble and bronze, many of which were collected by Maharaja Sayajirao
+                    Gaekwad III during his travels abroad. This museum offers a glimpse into the opulent
+                    lifestyle and refined tastes of the Gaekwad dynasty.
+
+                </p>
+                <h3 style="text-decoration: underline;">Contact Number:</h3>
+                <p id="number">0141 257 0099</p>
+                <div class="dropdown">
+                    <button class="dropbtn">Timings</button>
+                    <div class="dropdown-content">
+                        <a href="#">Monday: CLOSED!</a>
+                        <a href="#">Tuesday: 09:30 - 17:00</a>
+                        <a href="#">Wednesday: 09:30 - 17:00</a>
+                        <a href="#">Thursday: 09:30 - 17:00</a>
+                        <a href="#">Friday: 09:30 - 17:00</a>
+                        <a href="#">Satuday: 09:30 - 17:00</a>
+                        <a href="#">Sunday: 09:30 - 17:00</a>
+                    </div>
+                </div>
+                <br>
+                <a href="https://maps.app.goo.gl/GCn3Y9UQ1kYRUsp76">📍 Directions</a>
+            </div>
+            <div class="image-content">
+                <img id="museum-img" src="photos/The Maharaja Fateh Singh Museum.jpg"
+                    alt="The Maharaja Fateh Singh Museum ">
+            </div>
+        </div>
+
+        <div id="first">
+            <div class="text-content">
+                <h1 id="m-h1" style="text-decoration: underline;">Sarder Patel Museum </h1>
+                <p id="museum-p">The Sardar Patel Museum, located in Ahmedabad, is dedicated to the life and
+                    legacy of Sardar Vallabhbhai Patel, one of India's foremost leaders. The museum is
+                    housed in Moti Shahi Mahal, a historical palace built by Shah Jahan. It showcases a rich
+                    collection of artifacts, photographs, and documents that trace Sardar Patel's role in
+                    India's freedom struggle and his contributions to the country's unification. Interactive
+                    exhibits and multimedia presentations make the museum an engaging experience for
+                    visitors, offering deep insights into Patel's pivotal role in shaping modern India.
+
+                </p>
+                <h3 style="text-decoration: underline;">Contact Number:</h3>
+                <p id="number">0141 257 0099</p>
+                <div class="dropdown">
+                    <button class="dropbtn">Timings</button>
+                    <div class="dropdown-content">
+                        <a href="#">Monday: 09:00 - 17:00</a>
+                        <a href="#">Tuesday: 09:00 - 17:00</a>
+                        <a href="#">Wednesday: 09:00 - 17:00</a>
+                        <a href="#">Thursday: 09:00 - 17:00</a>
+                        <a href="#">Friday: 09:00 - 17:00</a>
+                        <a href="#">Satuday: 09:00 - 17:00</a>
+                        <a href="#">Sunday: 09:00 - 17:00</a>
+                    </div>
+                </div>
+                <br>
+                <a href="https://maps.app.goo.gl/j82TEibUYAUXkDhf9">📍 Directions</a>
+            </div>
+            <div class="image-content">
+                <img id="museum-img" src="photos/Sarder Patel Museum.jpg" alt="Sarder Patel Museum">
+            </div>
+        </div>
+
+        <div id="first">
+            <div class="text-content">
+                <h1 id="m-h1" style="text-decoration: underline;">Science Centre </h1>
+                <p id="museum-p">The Science Centre in Surat is a state-of-the-art educational facility
+                    that aims to promote scientific knowledge and curiosity among visitors of all ages.
+                    It features various galleries, including those dedicated to space, energy, and life
+                    sciences, as well as interactive exhibits and hands-on activities. The centre also
+                    houses a planetarium, offering immersive shows about astronomy and the universe.
+                    Additionally, the 3D theatre and the Diamond Gallery are notable attractions that
+                    highlight Surat's rich diamond industry and technological advancements. It's a
+                    popular destination for students, educators, and science enthusiasts.
+
+                </p>
+                <h3 style="text-decoration: underline;">Contact Number:</h3>
+                <p id="number">0141 257 0099</p>
+                <div class="dropdown">
+                    <button class="dropbtn">Timings</button>
+                    <div class="dropdown-content">
+                        <a href="#">Monday: CLOSED!</a>
+                        <a href="#">Tuesday: 09:30 - 16:30</a>
+                        <a href="#">Wednesday: 09:30 - 16:30</a>
+                        <a href="#">Thursday: 09:30 - 16:30</a>
+                        <a href="#">Friday: 09:30 - 16:30</a>
+                        <a href="#">Satuday: 09:30 - 16:30</a>
+                        <a href="#">Sunday: 09:30 - 16:30</a>
+                    </div>
+                </div>
+                <br>
+                <a href="https://maps.app.goo.gl/zRRMm4Zc3QMLhAvt8">📍 Directions</a>
+            </div>
+            <div class="image-content">
+                <img id="museum-img" src="photos/science-center.jpg" alt="Science Centre">
+            </div>
+        </div>
+
+        <div id="first">
+            <div class="text-content">
+                <h1 id="m-h1" style="text-decoration: underline;">Dutch Garden </h1>
+                <p id="museum-p">The Dutch Garden in Surat is a beautifully landscaped historical garden
+                    that reflects the city's colonial past. It was originally the burial site for Dutch
+                    and British officials from the 17th century, marked by impressive tombs and
+                    mausoleums with European-style architecture. The garden is known for its
+                    well-maintained lawns, serene pathways, and a peaceful ambiance, making it a popular
+                    spot for visitors to relax and unwind. The lush greenery and the heritage structures
+                    create a unique blend of nature and history. It serves as a reminder of Surat's
+                    historical significance as a trading hub during the colonial era.
+
+                </p>
+                <h3 style="text-decoration: underline;">Contact Number:</h3>
+                <p id="number">0141 257 0099</p>
+                <div class="dropdown">
+                    <button class="dropbtn">Timings</button>
+                    <div class="dropdown-content">
+                        <a href="#">Monday: 06:00 - 22:00</a>
+                        <a href="#">Tuesday: 06:00 - 22:00</a>
+                        <a href="#">Wednesday: 06:00 - 22:00</a>
+                        <a href="#">Thursday: 06:00 - 22:00</a>
+                        <a href="#">Friday: 06:00 - 22:00</a>
+                        <a href="#">Satuday: 06:00 - 22:00</a>
+                        <a href="#">Sunday: 06:00 - 22:00</a>
+                    </div>
+                </div>
+                <br>
+                <a href="https://maps.app.goo.gl/ykzWcB82TPMRgdiY8">📍 Directions</a>
+            </div>
+            <div class="image-content">
+                <img id="museum-img" src="photos/Dutch Garden.jpg" alt="Dutch Garden">
+            </div>
+            <!-- Repeat similar sections for other museums... -->
+        </div>
+
+        <script>
+            function loadGoogleTranslate() {
+                new google.translate.TranslateElement({ pageLanguage: 'en' }, 'google_element');
+            }
+        </script>
+        <script src="https://translate.google.com/translate_a/element.js?cb=loadGoogleTranslate"></script>
+
+        <script>
+            let step = 0;
+            let userName = '';
+            let selectedCity = '';
+            let selectedMuseum = '';
+            let visitorType = '';
+            let numberOfTickets = 0;
+            let selectedDate = '';
+            let selectedTime = '';
+            const ticketPrices = { indian: 100, foreigner: 500 };
+
+            function sendMessage() {
+                const userInput = document.getElementById("user-input").value;
+                if (userInput === "") return;
+
+                appendMessage(userInput, 'user');
+                document.getElementById("user-input").value = '';
+
+                if (step === 0) {
+                    document.getElementById("nameInputContainer").style.display = "none";
+                }
+
+                setTimeout(() => {
+                    botReply(userInput);
+                }, 500);
+            }
+
+            function appendMessage(text, sender) {
+                const chatBox = document.getElementById("chat-box");
+                const message = document.createElement("div");
+                message.className = `message ${sender}`;
+                message.innerText = text;
+                chatBox.appendChild(message);
+                chatBox.scrollTop = chatBox.scrollHeight;
+            }
+
+            function botReply(userInput = '') {
+                let botMessage = '';
+
+                switch (step) {
+                    case 0:
+                        userName = userInput;
+                        botMessage = `Nice to meet you, ${userName}. Which city would you like to book tickets for?`;
+                        step++;
+                        showElement('cityPrompt');
+                        break;
+
+                    case 1:
+                        selectedCity = document.getElementById('citySelect').value;
+                        if (selectedCity) {
+                            botMessage = `You've selected ${selectedCity.charAt(0).toUpperCase() + selectedCity.slice(1)}. Which museum would you like to visit?`;
+                            step++;
+                            updateMuseums();
+                            showElement('museumPrompt');
+                        }
+                        break;
+                    case 2:
+                        selectedMuseum = document.getElementById('museumSelect').value;
+                        if (selectedMuseum) {
+                            botMessage = `You've chosen ${selectedMuseum.replace(/_/g, ' ').toUpperCase()}. Are you an Indian or Foreigner?`;
+                            step++;
+                            showElement('visitorTypePrompt');
+                        }
+                        break;
+                    case 3:
+                        visitorType = document.getElementById('visitorTypeSelect').value;
+                        if (visitorType) {
+                            botMessage = `How many tickets would you like to book?`;
+                            step++;
+                            showElement('ticketPrompt');
+                        }
+                        break;
+                    case 4:
+                        numberOfTickets = document.getElementById('ticketSelect').value;
+                        if (numberOfTickets) {
+                            botMessage = `What date would you like to visit?`;
+                            step++;
+                            showElement('datePrompt');
+                        }
+                        break;
+                    case 5:
+                        selectedDate = document.getElementById('dateSelect').value;
+                        if (selectedDate) {
+                            botMessage = `What time slot would you prefer?`;
+                            step++;
+                            showElement('timePrompt');
+                        }
+                        break;
+                    case 6:
+                        selectedTime = document.getElementById('timeSelect').value;
+                        if (selectedTime) {
+                            const price = ticketPrices[visitorType] * numberOfTickets;
+                            botMessage = `The total price is ₹${price}. Would you like to proceed to payment?`;
+                            step++;
+                            document.getElementById('priceMessage').innerText = `Total Price: ₹${price}`;
+                            showElement('priceDisplay');
+                            showElement('paymentButtonContainer');
+                        }
+                        break;
+                    case 7:
+                        // Handle payment completion here
+                        botMessage = `Your ticket is booked. Thanks for visiting us!`;
+                        step++;
+                        showElement('confirmationMessage');
+                        break;
+
+                    default:
+                        botMessage = "Your ticket has already been booked. Thank you!";
+                }
+
+                if (botMessage) {
+                    appendMessage(botMessage, 'bot');
+                }
+            }
+
+            function updateMuseums() {
+                const museumSelect = document.getElementById('museumSelect');
+                museumSelect.innerHTML = ''; // Clear previous options
+
+                const museums = {
+                    ahmedabad: ['--Select a Museum--', 'Sabarmati Ashram', 'Calico Museum of Textiles', 'Auto world vintage car museum'],
+                    vadodara: ['--Select a Museum--', 'Laxmi vilas palace', 'Vadodra museum', 'Maharaja fateh singh museum'],
+                    surat: ['--Select a Museum--', 'Sarder Patel  museum', 'science centre surat', 'dutch garden']
+                };
+
+                museums[selectedCity].forEach(museum => {
+                    const option = document.createElement('option');
+                    option.value = museum.toLowerCase().replace(/ /g, '_');
+                    option.textContent = museum;
+                    museumSelect.appendChild(option);
+                });
+            }
+
+            function showElement(id) {
+                document.querySelectorAll('.hidden').forEach(el => el.style.display = 'none');
+                document.getElementById(id).style.display = 'block';
+            }
+
+            function completePayment() {
+                // Handle payment logic here
+                botReply();
+            }
+        </script>
+
+        <script>
+            function saveData() {
+                const userData = {
+                    userName: document.getElementById('userName').value,
+                    selectedCity: document.getElementById('selectedCity').value,
+                    selectedMuseum: document.getElementById('selectedMuseum').value,
+                    visitorType: document.getElementById('visitorType').value,
+                    numberOfTickets: document.getElementById('numberOfTickets').value,
+                    selectedDate: document.getElementById('selectedDate').value,
+                    selectedTime: document.getElementById('selectedTime').value
+                };
+
+                localStorage.setItem('userData', JSON.stringify(userData));
+                window.location.href = 'ticket.html'; // Redirect to ticket page
+            }
+
+            function saveData() {
+                const userData = {
+                    userName: document.getElementById('userName').value,
+                    selectedCity: document.getElementById('selectedCity').value,
+                    selectedMuseum: document.getElementById('selectedMuseum').value,
+                    visitorType: document.getElementById('visitorType').value,
+                    numberOfTickets: document.getElementById('numberOfTickets').value,
+                    selectedDate: document.getElementById('selectedDate').value,
+                    selectedTime: document.getElementById('selectedTime').value
+                };
+
+                console.log(userData);  // Log the data to the console for debugging
+
+                localStorage.setItem('userData', JSON.stringify(userData));
+                window.location.href = 'ticket.html';  // Redirect to ticket page
+            }
+
+            function completePayment() {
+                const userData = {
+                    userName,
+                    selectedCity,
+                    selectedMuseum,
+                    visitorType,
+                    numberOfTickets,
+                    selectedDate,
+                    selectedTime
+                };
+
+                // Save data to localStorage
+                localStorage.setItem('userData', JSON.stringify(userData));
+
+                // Simulating payment and redirect to ticket.html
+                appendMessage("Processing your payment...", 'bot');
+                setTimeout(() => {
+                    window.location.href = 'ticket.html'; // Redirect to ticket.html
+                }, 1500);
+            }
+        </script>
+
+</body>
+
+</html>

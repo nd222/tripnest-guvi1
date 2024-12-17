@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Authentication Page</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: url(photos/login-bg.jpg);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+
+        .container {
+            background-color: #fff;
+            padding: 50px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            width: 300px;
+            text-align: center;
+            align-items: center;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+
+        h2 {
+            margin-top: 0;
+        }
+
+        input[type="text"],
+        input[type="password"],
+        input[type="tel"] {
+            padding: 10px;
+            margin: 10px 0;
+            width: 100%;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+
+        button {
+            padding: 10px;
+            width: 100%;
+            background-color: #28a745;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            margin-top: 10px;
+        }
+
+        button:hover {
+            background-color: #218838;
+        }
+
+        .link {
+            color: #007bff;
+            cursor: pointer;
+            display: block;
+            margin: 10px 0;
+        }
+
+        .link:hover {
+            text-decoration: underline;
+        }
+
+        .error {
+            color: red;
+            display: none;
+            margin-top: 10px;
+        }
+
+        #google_element {
+            position: absolute;
+            float: right;
+            margin: 0;
+            margin-left: 1200px;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="container" id="loginPage">
+        <h2>Login</h2>
+        <input type="text" id="loginUsername" placeholder="Username" required>
+        <input type="tel" id="loginMobile" placeholder="Mobile Number" required>
+        <input type="password" id="loginPassword" placeholder="Password" required>
+        <button onclick="login()">Login</button>
+        <p class="link" onclick="showSignUp()">Don't have an account? Sign Up</p>
+        <p class="link" onclick="continueAsGuest()">Continue as Guest</p>
+        <p class="error" id="loginError">Invalid username or password</p>
+    </div>
+
+    <div class="container" id="signUpPage" style="display: none;">
+        <h2>Sign Up</h2>
+        <input type="text" id="signUpUsername" placeholder="Username" required>
+        <input type="tel" id="signUpMobile" placeholder="Mobile Number" required>
+        <input type="password" id="signUpPassword" placeholder="Password" required>
+        <button onclick="signUp()">Sign Up</button>
+        <p class="link" onclick="showLogin()">Already have an account? Login</p>
+        <p class="error" id="signUpError">Username already exists</p>
+    </div>
+
+    <div class="container" id="guestPage" style="display: none;">
+        <h2>Welcome, Guest!</h2>
+        <p>You are continuing as a guest. Limited features are available.</p>
+        <button onclick="showLogin()">Go to Login</button>
+        <button onclick="showSignUp()">Sign Up</button>
+    </div>
+
+    <div id="google_element"></div>
+
+    <script>
+        function loadGoogleTranslate() {
+            new google.translate.TranslateElement({ pageLanguage: 'en' }, 'google_element');
+        }
+    </script>
+    <script src="https://translate.google.com/translate_a/element.js?cb=loadGoogleTranslate"></script>
+    <script>
+        const users = {};
+
+        function showSignUp() {
+            document.getElementById('loginPage').style.display = 'none';
+            document.getElementById('signUpPage').style.display = 'block';
+            document.getElementById('guestPage').style.display = 'none';
+            document.getElementById('signUpError').style.display = 'none';
+        }
+
+        function showLogin() {
+            document.getElementById('loginPage').style.display = 'block';
+            document.getElementById('signUpPage').style.display = 'none';
+            document.getElementById('guestPage').style.display = 'none';
+            document.getElementById('loginError').style.display = 'none';
+        }
+
+        function continueAsGuest() {
+            document.getElementById('loginPage').style.display = 'none';
+            document.getElementById('signUpPage').style.display = 'none';
+            document.getElementById('guestPage').style.display = 'block';
+        }
+
+        function signUp() {
+            const username = document.getElementById('signUpUsername').value;
+            const mobile = document.getElementById('signUpMobile').value;
+            const password = document.getElementById('signUpPassword').value;
+
+            if (users[username]) {
+                document.getElementById('signUpError').style.display = 'block';
+            } else {
+                users[username] = { mobile, password };
+                alert('Sign-up successful! You can now log in.');
+                showLogin();
+            }
+        }
+
+        function login() {
+            const username = document.getElementById('loginUsername').value;
+            const mobile = document.getElementById('loginMobile').value;
+            const password = document.getElementById('loginPassword').value;
+
+            if (users[username] && users[username].password === password && users[username].mobile === mobile) {
+                localStorage.setItem('username', username); // Store the username in localStorage
+                window.location.href = 'index.html'; // Redirect to home page after successful login
+            } else {
+                document.getElementById('loginError').style.display = 'block';
+            }
+        }
+
+        function logout() {
+            localStorage.removeItem('username');
+            window.location.href = 'login.html';
+        }
+    </script>
+</body>
+
+</html>

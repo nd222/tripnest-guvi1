@@ -1,0 +1,718 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Museum Ticket Booking Chatbot</title>
+    <link rel="stylesheet" href="wbchatcss.css">
+    <link href="https://db.onlinewebfonts.com/c/6bff5f8f85a7385fbdc21a8f724dd8ac?family=Rajasthan+Regular"
+        rel="stylesheet">
+    <style>
+        .right-text p {
+            padding-bottom: 30px;
+        }
+
+        .goog-te-gadget .goog-te-combo {
+            margin: 4px 0;
+            padding: 5px;
+            border-radius: 20px;
+        }
+        #timing{
+            margin-bottom: 15px;
+        }
+        .dropbtn {
+            background-color: #04AA6D;
+            color: white;
+            padding: 10px;
+            font-size: 16px;
+            margin-bottom: 10px;
+            border: none;
+        }
+
+        .dropdown {
+            position: relative;
+            display: inline-block;
+        }
+
+        .dropdown-content {
+            display: none;
+            position: absolute;
+            background-color: #f1f1f1;
+            min-width: 160px;
+            box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
+            z-index: 1;
+        }
+
+        .dropdown-content a {
+            color: black;
+            min-width: 200px;
+            padding: 0px;
+            font-size: 15px;
+            font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+            text-decoration: none;
+            display: block;
+        }
+
+
+        .dropdown:hover .dropdown-content {
+            display: block;
+        }
+
+    </style>
+</head>
+
+<body>
+    <div id="bg-img">
+        <header>
+            <div-1>
+                <img id="logo" src="photos/logo1.png" alt="">
+                <h1>ChatBot-Ticketing System </h1>
+            </div-1>
+            <div id="google_element"></div>
+
+        </header>
+
+
+        <div id="top">
+            <div class="chat-container">
+                <div id="chat-box" class="chat-box">
+                    <div class="message bot">Hello! Welcome to our museum. What is your name?</div>
+                </div>
+                <div id="nameInputContainer">
+                    <input type="text" id="user-input" placeholder="Enter your name..." autofocus>
+                    <button onclick="sendMessage()">Send</button>
+                </div>
+
+                <div id="cityPrompt" class="hidden">
+                    <label for="citySelect">Select City:</label>
+                    <select id="citySelect" onchange="botReply()">
+                        <option value="">--Select a City--</option>
+                        <option value="kolkata">Kolkata</option>
+                        <option value="barrackpore">Barrackpore</option>
+                        <option value="bankura">Bankura</option>
+                    </select>
+                </div>
+
+                <div id="museumPrompt" class="hidden">
+                    <label for="museumSelect">Select Museum:</label>
+                    <select id="museumSelect" onchange="botReply()">
+                        <!-- Options will be populated dynamically -->
+                    </select>
+                </div>
+
+                <div id="visitorTypePrompt" class="hidden">
+                    <label for="visitorTypeSelect">Are you an Indian or Foreigner?</label>
+                    <select id="visitorTypeSelect" onchange="botReply()">
+                        <option value="">--Select--</option>
+                        <option value="indian">Indian</option>
+                        <option value="foreigner">Foreigner</option>
+                    </select>
+                </div>
+
+                <div id="ticketPrompt" class="hidden">
+                    <label for="ticketSelect">Number of Tickets:</label>
+                    <select id="ticketSelect" onchange="botReply()">
+                        <option value="">--Select Number of Tickets--</option>
+                        <option value="1">1</option>
+                        <option value="2">2</option>
+                        <option value="3">3</option>
+                        <option value="4">4</option>
+                        <option value="5">5</option>
+                        <option value="6">6</option>
+                        <option value="7">7</option>
+                        <option value="8">8</option>
+                        <option value="9">9</option>
+                        <option value="10">10</option>
+                    </select>
+                </div>
+
+                <div id="datePrompt" class="hidden">
+                    <label for="dateSelect">Select Date:</label>
+                    <input type="date" id="dateSelect" onchange="botReply()">
+                </div>
+
+                <div id="timePrompt" class="hidden">
+                    <label for="timeSelect">Select Time Slot:</label>
+                    <select id="timeSelect" onchange="botReply()">
+                        <option value="">--Select Time Slot--</option>
+                        <option value="09:00">09:00 AM</option>
+                        <option value="11:00">11:00 AM</option>
+                        <option value="14:00">02:00 PM</option>
+                    </select>
+                </div>
+
+                <div id="priceDisplay" class="hidden">
+                    <div id="priceMessage"></div>
+                </div>
+
+                <div id="paymentButtonContainer" class="hidden">
+                    <button id="payButton" onclick="completePayment()">Complete Payment</button>
+                </div>
+
+                <div id="confirmationMessage" class="hidden">
+                    <div class="message bot">Your ticket is booked. Thanks for visiting us!</div>
+                    <a id='download' href="ticket.html">Download your ticket</a>
+                </div>
+            </div>
+
+            <div class="right-text">
+                <h1>WEST BENGAL</h1>
+                <p>
+                    West Bengal, located in the eastern part of India, is a state steeped in rich cultural heritage and
+                    history. Known for its vibrant art, literature, and music, West Bengal has been a cradle of
+                    intellectual and cultural movements that have significantly shaped modern India. The capital city,
+                    Kolkata, often referred to as the "Cultural Capital of India," has been home to luminaries like
+                    Rabindranath Tagore, Satyajit Ray, and Subhas Chandra Bose. The state's diverse landscape ranges
+                    from the scenic beauty of the Darjeeling hills to the serene Sunderbans mangroves, reflecting its
+                    geographical and cultural diversity.
+                    <br>
+                    <br>
+
+                    The museums of West Bengal serve as vital custodians of this rich heritage, offering deep insights
+                    into the state's history, art, and culture. The Indian Museum in Kolkata, the oldest and largest
+                    museum in India, is a prominent cultural institution that showcases an extensive collection of
+                    artifacts, including ancient sculptures, fossils, and archaeological relics. The museum's diverse
+                    exhibits cover various disciplines, such as art, anthropology, and natural history, making it a key
+                    destination for anyone interested in the cultural history of the region. <br>
+                    <br>
+                    Apart from the Indian Museum, West Bengal is home to several other significant museums that
+                    highlight different aspects of the state’s cultural legacy. The Victoria Memorial Hall, also in
+                    Kolkata, stands as a monumental tribute to British India's colonial past, housing a vast collection
+                    of paintings, manuscripts, and memorabilia.
+                </p>
+            </div>
+        </div>
+    </div>
+
+    <div class="bottom">
+        <div id="first">
+            <div class="text-content">
+                <h1 style="text-decoration: underline;">Indian Museum, Kolkata</h1>
+                <p id="museum-p">The Indian Museum in Kolkata, established in 1814, is not only the oldest museum in
+                    India but also one of the largest in the country. Often referred to as the "Jadughar" (House of
+                    Magic) by locals, this iconic institution houses an extensive and diverse collection that spans
+                    several disciplines. Its vast galleries include artifacts from archaeology, art, anthropology,
+                    geology, and natural history. Notable exhibits include the Ashokan Rock Edicts, the Egyptian mummy,
+                    and the Bharhut Stupa relics. The museum's rich collection of fossils, ancient sculptures, coins,
+                    and textiles provides a comprehensive overview of India's cultural and natural heritage, making it
+                    an essential destination for history and culture enthusiasts.</p>
+                <h3 style="text-decoration: underline;">Contact Number:</h3>
+                <p id="number">033 2252 1790</p>
+                <div class="dropdown">
+                    <button class="dropbtn">Timings</button>
+                    <div class="dropdown-content">
+                        <a href="#">Monday: CLOSED!</a>
+                        <a href="#">Tuesday: 10:00 - 17:30</a>
+                        <a href="#">Wednesday: 10:00 - 17:30</a>
+                        <a href="#">Thursday: 10:00 - 17:30</a>
+                        <a href="#">Friday: 10:00 - 17:30</a>
+                        <a href="#">Satuday: 10:30 - 17:30</a>
+                        <a href="#">Sunday: 10:30 - 17:30</a>
+                    </div>
+                </div>
+                <br>
+                <a href="https://maps.app.goo.gl/FMgELkKVsGrfiNow8">📍 Directions</a>
+            </div>
+            <div class="image-content">
+                <img id="museum-img" src="photos/indian-museum-kolkata_78361-2685.jpg" alt="Indian Museum Kolkata">
+            </div>
+        </div>
+    </div>
+    <div class="bottom">
+        <div id="first">
+            <div class="text-content">
+                <h1 style="text-decoration: underline;">Bankura Museum (Acharya Jogesh Chandra Purakriti Bhavan):
+                    Bankura</h1>
+                <p id="museum-p"> Located in the town of Bankura, this museum is dedicated to the art, culture, and
+                    history of the Bankura district in West Bengal. Named after Acharya Jogesh Chandra Roy Vidyanidhi, a
+                    scholar and historian, the museum was established in 1951. The collection includes terracotta
+                    sculptures, stone carvings, ancient manuscripts, coins, and ethnographic objects that reflect the
+                    region's rich cultural traditions. The museum also showcases the famous Bankura horses, a
+                    traditional form of terracotta art that has become a symbol of Bengal’s folk culture. The Bankura
+                    Museum is an important cultural institution in the region, offering visitors an in-depth
+                    understanding of the local heritage.
+                </p>
+                <h3 style="text-decoration: underline;">Contact Number:</h3>
+                <p id="number">03244 252 697</p>
+                <div class="dropdown">
+                    <button class="dropbtn">Timings</button>
+                    <div class="dropdown-content">
+                        <a href="#">Monday: CLOSED!</a>
+                        <a href="#">Tuesday: 10:00 - 17:30</a>
+                        <a href="#">Wednesday: 10:00 - 17:30</a>
+                        <a href="#">Thursday: 10:00 - 17:30</a>
+                        <a href="#">Friday: 10:00 - 17:30</a>
+                        <a href="#">Satuday: 10:30 - 17:30</a>
+                        <a href="#">Sunday: 10:30 - 17:30</a>
+                    </div>
+                </div>
+                <br>
+                <a href="https://maps.app.goo.gl/HwMBCSSWRPTBz77M9">📍 Directions</a>
+            </div>
+            <div class="image-content">
+
+                <img id="museum-img" src="photos/bankura-shyam-rai-temple-120.jpg" alt="Bankura Museum Bankura">
+            </div>
+        </div>
+    </div>
+
+    </div>
+    </div>
+    <div class="bottom">
+        <div id="first">
+            <div class="text-content">
+                <h1 style="text-decoration: underline;">Victoria Memorial Hall: Kolkata</h1>
+                <p id="museum-p">The Victoria Memorial Hall is one of Kolkata's most iconic landmarks, built in memory
+                    of Queen Victoria and designed in the Indo-Saracenic style. Inaugurated in 1921, the grand marble
+                    structure stands amidst lush gardens and is a symbol of British India's colonial legacy. The museum
+                    inside the memorial houses a vast collection of artifacts, paintings, and manuscripts that reflect
+                    the British period in India, as well as India’s freedom struggle. The galleries feature portraits of
+                    British royalty, historic documents, and exhibits related to Kolkata's history. The Victoria
+                    Memorial Hall not only serves as a reminder of India's colonial past but also celebrates the city’s
+                    rich cultural heritage.</p>
+
+
+                <h3 style="text-decoration: underline;">Contact Us:</h3></a>
+                <p id="number">033 2223 1890</p>
+                <div class="dropdown">
+                    <button class="dropbtn">Timings</button>
+                    <div class="dropdown-content">
+                        <a href="#">Monday: CLOSED!</a>
+                        <a href="#">Tuesday: 10:00 - 17:30</a>
+                        <a href="#">Wednesday: 10:00 - 17:30</a>
+                        <a href="#">Thursday: 10:00 - 17:30</a>
+                        <a href="#">Friday: 10:00 - 17:30</a>
+                        <a href="#">Satuday: 10:30 - 17:30</a>
+                        <a href="#">Sunday: 10:30 - 17:30</a>
+                    </div>
+                </div>
+                <br>
+                <a href="https://maps.app.goo.gl/fzYR3aCzYBzDb7k78">📍 Directions</a>
+            </div>
+            <div class="image-content">
+                <img id="museum-img" src="photos/victoria.jpg" alt="Victoria Memorial Hall Kolkata">
+            </div>
+        </div>
+    </div>
+    <div class="bottom">
+        <div id="first">
+            <div class="text-content">
+                <h1 style="text-decoration: underline;">Ashutosh Museum of Indian Art: Kolkata</h1>
+                <p id="museum-p">Located within the University of Calcutta, the Ashutosh Museum of Indian Art was
+                    established in 1937 as the first university museum in India. Named after Sir Ashutosh Mukherjee, a
+                    prominent academician and Vice-Chancellor of the University of Calcutta, the museum is dedicated to
+                    the preservation and promotion of Indian art, with a particular emphasis on the Bengal School of
+                    Art. The museum’s collection includes a wide range of artifacts, such as traditional textiles, folk
+                    art, terracotta sculptures, and ancient manuscripts. It also houses an impressive array of paintings
+                    by renowned artists like Abanindranath Tagore and Nandalal Bose. The museum plays a crucial role in
+                    educating students and the public about the rich artistic traditions of Bengal and India.
+
+                </p>
+
+                <h3 style="text-decoration: underline;">Contact Us:</h3>
+                <p id="number">011 2221 2844</p>
+                <div class="dropdown">
+                    <button class="dropbtn">Timings</button>
+                    <div class="dropdown-content">
+                        <a href="#">Monday: CLOSED!</a>
+                        <a href="#">Tuesday: 10:00 - 17:30</a>
+                        <a href="#">Wednesday: 10:00 - 17:30</a>
+                        <a href="#">Thursday: 10:00 - 17:30</a>
+                        <a href="#">Friday: 10:00 - 17:30</a>
+                        <a href="#">Satuday: 10:30 - 17:30</a>
+                        <a href="#">Sunday: 10:30 - 17:30</a>
+                    </div>
+                </div>
+                <br>
+
+
+                <a href="https://maps.app.goo.gl/9kjhzroPrkGG3hxg7">📍 Directions</a>
+            </div>
+            <div class="image-content">
+                <img id="museum-img" src="photos/ashutosh.png" alt="Ashutosh Museum of Indian Art, Kolkata">
+            </div>
+        </div>
+    </div>
+    <div class="bottom">
+        <div id="first">
+            <div class="text-content">
+                <h1 style="text-decoration: underline;">Gurusaday Museum: Kolkata</h1>
+                <p id="museum-p">
+                    The Gurusaday Museum, located in Joka on the outskirts of Kolkata, is a unique repository of
+                    Bengal’s folk art and culture. Established in 1961, the museum is named after Gurusaday Dutt, a
+                    visionary civil servant, and cultural enthusiast who collected a vast array of folk art during his
+                    travels across rural Bengal in the early 20th century. The museum's collection includes traditional
+                    patachitra (scroll paintings), kantha embroidery, terracotta, wooden carvings, and masks, all of
+                    which reflect the vibrant folk traditions of Bengal. The Gurusaday Museum stands as a testament to
+                    the cultural richness of rural Bengal and plays a vital role in preserving and promoting these
+                    endangered art forms.
+                </p>
+
+                <h3 style="text-decoration: underline;">Contact Number:</h3>
+                <p id="number">011 2688 1888</p>
+                <div class="dropdown">
+                    <button class="dropbtn">Timings</button>
+                    <div class="dropdown-content">
+                        <a href="#">Monday: CLOSED!</a>
+                        <a href="#">Tuesday: 10:00 - 17:30</a>
+                        <a href="#">Wednesday: 10:00 - 17:30</a>
+                        <a href="#">Thursday: 10:00 - 17:30</a>
+                        <a href="#">Friday: 10:00 - 17:30</a>
+                        <a href="#">Satuday: 10:30 - 17:30</a>
+                        <a href="#">Sunday: 10:30 - 17:30</a>
+                    </div>
+                </div>
+                <br>
+                <a href="https://maps.app.goo.gl/ipXTYiX8QkcoFqso6">📍 Directions</a>
+            </div>
+            <div class="image-content">
+                <img id="museum-img" src="photos/Gurusaday-Museum.jpg" alt="Gurusaday Museum Kolkata">
+            </div>
+        </div>
+    </div>
+    <div class="bottom">
+        <div id="first">
+            <div class="text-content">
+                <h1 style="text-decoration: underline;">Birla Industrial & Technological Museum (BITM): Kolkata</h1>
+                <p id="museum-p">The Birla Industrial & Technological Museum, established in 1959, is India's first
+                    science museum and is part of the National Council of Science Museums. Located on Gurusaday Road in
+                    Kolkata, BITM was inspired by the Deutsches Museum in Munich and was established to foster
+                    scientific curiosity and education. The museum features interactive exhibits on various scientific
+                    principles, ranging from physics and chemistry to astronomy and biotechnology. It also hosts a wide
+                    array of educational programs, demonstrations, and workshops aimed at students and the general
+                    public. BITM's engaging exhibits and activities make science accessible and exciting, helping to
+                    cultivate a scientific temper among visitors of all ages.</p>
+
+                <h3 style="text-decoration: underline;">Contact Number:</h3>
+                <p id="number">094773 45291</p>
+                <div class="dropdown">
+                    <button class="dropbtn">Timings</button>
+                    <div class="dropdown-content">
+                        <a href="#">Monday: CLOSED!</a>
+                        <a href="#">Tuesday: 10:00 - 17:30</a>
+                        <a href="#">Wednesday: 10:00 - 17:30</a>
+                        <a href="#">Thursday: 10:00 - 17:30</a>
+                        <a href="#">Friday: 10:00 - 17:30</a>
+                        <a href="#">Satuday: 10:30 - 17:30</a>
+                        <a href="#">Sunday: 10:30 - 17:30</a>
+                    </div>
+                </div>
+                <br>
+                <a href="https://maps.app.goo.gl/cwFkgu6Pcsh2mqbt7">📍 Directions</a>
+            </div>
+            <div class="image-content">
+                <img id="museum-img" src="photos/Birla_Industrial_&_Technological_Museum,_Kolkata.jpg"
+                    alt="Birla Industrial & Technological Museum (BITM) Kolkata">
+            </div>
+        </div>
+    </div>
+    <div class="bottom">
+        <div id="first">
+            <div class="text-content">
+                <h1 style="text-decoration: underline;">Gandhi Smarak Sangrahalaya: Barrackpore</h1>
+                <p id="museum-p">Gandhi Smarak Sangrahalaya, Barrackpore*: Located in Barrackpore, a suburb of Kolkata,
+                    the Gandhi Smarak Sangrahalaya is dedicated to the life and legacy of Mahatma Gandhi. Established in
+                    1961, the museum is housed in the Barrackpore Circuit House, a historic building where Gandhi stayed
+                    during his visits to Bengal. The museum's collection includes photographs, letters, documents, and
+                    personal items related to Gandhi’s life and his role in India’s struggle for independence. The
+                    museum also features exhibits on the history of the Indian independence movement and Gandhi’s
+                    influence on global civil rights movements. The Gandhi Smarak Sangrahalaya serves as a place of
+                    learning and reflection, offering visitors insights into the life of one of the most important
+                    figures in modern history.
+                </p>
+
+                <h3 style="text-decoration: underline;">Contact Us:</h3>
+                <p id="number">033 2592 0170</p>
+                <div class="dropdown">
+                    <button class="dropbtn">Timings</button>
+                    <div class="dropdown-content">
+                        <a href="#">Monday: CLOSED!</a>
+                        <a href="#">Tuesday: 10:00 - 17:30</a>
+                        <a href="#">Wednesday: 10:00 - 17:30</a>
+                        <a href="#">Thursday: 10:00 - 17:30</a>
+                        <a href="#">Friday: 10:00 - 17:30</a>
+                        <a href="#">Satuday: 10:30 - 17:30</a>
+                        <a href="#">Sunday: 10:30 - 17:30</a>
+                    </div>
+                </div>
+                <br>
+                <a href="https://maps.app.goo.gl/3jH8DHLrUeo9sHVR6">📍 Directions</a>
+            </div>
+            <div class="image-content">
+                <img id="museum-img" src="photos/gandhi.jpg" alt="Gandhi Smarak Sangrahalaya: Barrackpore">
+            </div>
+        </div>
+    </div>
+    <div class="bottom">
+        <div id="first">
+            <div class="text-content">
+                <h1 style="text-decoration: underline;">Academy of Fine Arts: Kolkata</h1>
+                <p id="museum-p">Established in 1933, the Academy of Fine Arts in Kolkata is one of the oldest and most
+                    prestigious art institutions in India. Located on Cathedral Road, the museum and gallery are
+                    renowned for their extensive collection of Indian paintings, including works by prominent artists
+                    such as Jamini Roy, Rabindranath Tagore, and Nandalal Bose. The Academy regularly hosts exhibitions,
+                    performances, and cultural events, making it a vital hub for the city's artistic community. The
+                    museum's collection is a testament to the evolution of Indian art, particularly from Bengal, and
+                    offers visitors an enriching experience of the region’s artistic heritage.</p>
+
+                <h3 style="text-decoration: underline;">Contact Number:</h3>
+                <p id="number">08888 53555</p>
+                <div class="dropdown">
+                    <button class="dropbtn">Timings</button>
+                    <div class="dropdown-content">
+                        <a href="#">Monday: CLOSED!</a>
+                        <a href="#">Tuesday: 10:00 - 17:30</a>
+                        <a href="#">Wednesday: 10:00 - 17:30</a>
+                        <a href="#">Thursday: 10:00 - 17:30</a>
+                        <a href="#">Friday: 10:00 - 17:30</a>
+                        <a href="#">Satuday: 10:30 - 17:30</a>
+                        <a href="#">Sunday: 10:30 - 17:30</a>
+                    </div>
+                </div>
+                <br>
+                <a href="https://maps.app.goo.gl/oQWQAkUDmfGCCwhL7">📍 Directions</a>
+            </div>
+            <div class="image-content">
+                <img id="museum-img" src="photos/academy_of_fine.jpeg" alt="Academy of Fine Arts Kolkata">
+            </div>
+        </div>
+    </div>
+    <!--<div class="bottom">
+        <div id="first">
+            <div class="text-content">
+                <h1 style="text-decoration: underline;">National Science Centre</h1>
+                <p id="museum-p"> National Science Centre is located near Pragati Maidan, the National Science Centre is one of the largest science centers in India. Established in 1992, it aims to popularize science and technology among the public, particularly students. The museum’s exhibits cover a wide range of topics, including space science, human biology, ancient Indian science, and emerging technologies. The interactive displays, 3D films, and hands-on exhibits make it an engaging and educational destination for visitors of all ages.</p>
+
+                <h3 style="text-decoration: underline;">Contact Number:</h3>
+                <p id="number">074286 93710</p>
+                <a href="https://maps.app.goo.gl/2ynuiQk5GEdStENQ6">📍 Directions</a>
+            </div>
+            <div class="image-content">
+                <img id="museum-img" src="photos/rao jodha.jpg" alt="National Science Center">
+            </div>
+        </div>
+    </div>-->
+
+
+
+    </div>
+
+
+    <script>
+        function loadGoogleTranslate() {
+            new google.translate.TranslateElement({ pageLanguage: 'en' }, 'google_element');
+        }
+    </script>
+    <script src="https://translate.google.com/translate_a/element.js?cb=loadGoogleTranslate"></script>
+
+
+    <script>
+        let step = 0;
+        let userName = '';
+        let selectedCity = '';
+        let selectedMuseum = '';
+        let visitorType = '';
+        let numberOfTickets = 0;
+        let selectedDate = '';
+        let selectedTime = '';
+        const ticketPrices = { indian: 100, foreigner: 500 };
+
+        function sendMessage() {
+            const userInput = document.getElementById("user-input").value;
+            if (userInput === "") return;
+
+            appendMessage(userInput, 'user');
+            document.getElementById("user-input").value = '';
+
+            if (step === 0) {
+                // Hide the name input after entering the name
+                document.getElementById("nameInputContainer").style.display = "none";
+            }
+
+            setTimeout(() => {
+                botReply(userInput);
+            }, 500);
+        }
+
+
+        function appendMessage(text, sender) {
+            const chatBox = document.getElementById("chat-box");
+            const message = document.createElement("div");
+            message.className = `message ${sender}`;
+            message.innerText = text;
+            chatBox.appendChild(message);
+            chatBox.scrollTop = chatBox.scrollHeight;
+        }
+
+        function botReply(userInput = '') {
+            let botMessage = '';
+
+            switch (step) {
+                case 0:
+                    userName = userInput;
+                    botMessage = `Nice to meet you, ${userName}. Which city would you like to book tickets for?`;
+                    step++;
+                    showElement('cityPrompt');
+                    break;
+
+                case 1:
+                    selectedCity = document.getElementById('citySelect').value;
+                    if (selectedCity) {
+                        botMessage = `You've selected ${selectedCity.charAt(0).toUpperCase() + selectedCity.slice(1)}. Which museum would you like to visit?`;
+                        step++;
+                        updateMuseums();
+                        showElement('museumPrompt');
+                    }
+                    break;
+                case 2:
+                    selectedMuseum = document.getElementById('museumSelect').value;
+                    if (selectedMuseum) {
+                        botMessage = `You've chosen ${selectedMuseum.replace(/_/g, ' ').toUpperCase()}. Are you an Indian or Foreigner?`;
+                        step++;
+                        showElement('visitorTypePrompt');
+                    }
+                    break;
+                case 3:
+                    visitorType = document.getElementById('visitorTypeSelect').value;
+                    if (visitorType) {
+                        botMessage = `You've selected ${visitorType.charAt(0).toUpperCase() + visitorType.slice(1)}. How many tickets would you like to book?`;
+                        step++;
+                        showElement('ticketPrompt');
+                    }
+                    break;
+                case 4:
+                    numberOfTickets = parseInt(document.getElementById('ticketSelect').value);
+                    if (!isNaN(numberOfTickets) && numberOfTickets > 0) {
+                        botMessage = `You've chosen ${numberOfTickets} tickets. Please select a date.`;
+                        step++;
+                        showElement('datePrompt');
+                    }
+                    break;
+                case 5:
+                    selectedDate = document.getElementById('dateSelect').value;
+                    if (selectedDate) {
+                        botMessage = `You've selected ${selectedDate}. Please choose a time slot.`;
+                        step++;
+                        showElement('timePrompt');
+                    }
+                    break;
+                case 6:
+                    selectedTime = document.getElementById('timeSelect').value;
+                    if (selectedTime) {
+                        calculatePrice();
+                        botMessage = `You've chosen ${selectedTime}. The total price is ₹${ticketPrices[visitorType] * numberOfTickets}. Would you like to proceed with the payment?`;
+                        step++;
+                        showElement('paymentButtonContainer');
+                    }
+                    break;
+                case 7:
+                    botMessage = `Thank you, ${userName}! Your booking is confirmed.`;
+                    step++;
+                    document.getElementById('confirmationMessage').classList.remove('hidden');
+                    break;
+                default:
+                    botMessage = "Your ticket has already been booked. Thank you!";
+            }
+
+            if (botMessage) {
+                appendMessage(botMessage, 'bot');
+            }
+        }
+
+        function updateMuseums() {
+            const museumSelect = document.getElementById('museumSelect');
+            museumSelect.innerHTML = ''; // Clear previous options
+
+            const museums = {
+                kolkata: ['--Select a Museum--', 'Academy of Fine Arts', 'Indian Museum', 'Victoria Memorial Hall', 'Ashutosh Museum of Indian Art', 'Gurusaday Museum', 'Birla Industrial & Technological Museum '],
+                barrackpore: ['--Select a Museum--', 'Gandhi Smarak Sangrahalaya'],
+                bankura: ['--Select a Museum--', 'Bankura Museum ', 'Umaid Bhawan Palace Museum', 'Rao Jodha Desert Rock Park']
+            };
+
+            museums[selectedCity].forEach(museum => {
+                const option = document.createElement('option');
+                option.value = museum.toLowerCase().replace(/ /g, '_');
+                option.textContent = museum;
+                museumSelect.appendChild(option);
+            });
+        }
+
+        function calculatePrice() {
+            const totalPrice = ticketPrices[visitorType] * numberOfTickets;
+            const priceMessage = `The total price is ₹${totalPrice}.`;
+            document.getElementById('priceMessage').innerText = priceMessage;
+            showElement('priceDisplay');
+        }
+
+        function completePayment() {
+            appendMessage("Processing your payment...", 'bot');
+            setTimeout(() => {
+                document.getElementById('paymentButtonContainer').classList.add('hidden');
+                botReply();
+            }, 1500); // Simulating payment process delay
+        }
+
+        function showElement(elementId) {
+            document.getElementById(elementId).classList.remove('hidden');
+        }
+    </script>
+
+    <script>
+        function saveData() {
+            const userData = {
+                userName: document.getElementById('userName').value,
+                selectedCity: document.getElementById('selectedCity').value,
+                selectedMuseum: document.getElementById('selectedMuseum').value,
+                visitorType: document.getElementById('visitorType').value,
+                numberOfTickets: document.getElementById('numberOfTickets').value,
+                selectedDate: document.getElementById('selectedDate').value,
+                selectedTime: document.getElementById('selectedTime').value
+            };
+
+            localStorage.setItem('userData', JSON.stringify(userData));
+            window.location.href = 'ticket.html'; // Redirect to ticket page
+        }
+
+        function saveData() {
+            const userData = {
+                userName: document.getElementById('userName').value,
+                selectedCity: document.getElementById('selectedCity').value,
+                selectedMuseum: document.getElementById('selectedMuseum').value,
+                visitorType: document.getElementById('visitorType').value,
+                numberOfTickets: document.getElementById('numberOfTickets').value,
+                selectedDate: document.getElementById('selectedDate').value,
+                selectedTime: document.getElementById('selectedTime').value
+            };
+
+            console.log(userData);  // Log the data to the console for debugging
+
+            localStorage.setItem('userData', JSON.stringify(userData));
+            window.location.href = 'ticket.html';  // Redirect to ticket page
+        }
+
+        function completePayment() {
+            const userData = {
+                userName,
+                selectedCity,
+                selectedMuseum,
+                visitorType,
+                numberOfTickets,
+                selectedDate,
+                selectedTime
+            };
+
+            // Save data to localStorage
+            localStorage.setItem('userData', JSON.stringify(userData));
+
+            // Simulating payment and redirect to ticket.html
+            appendMessage("Processing your payment...", 'bot');
+            setTimeout(() => {
+                window.location.href = 'ticket.html'; // Redirect to ticket.html
+            }, 1500);
+        }
+    </script>
+
+</body>
+
+</html>z

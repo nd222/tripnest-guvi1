@@ -1,0 +1,114 @@
+/* Reset */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f9f9f9;
+}
+
+/* Navbar */
+.navbar {
+    background-color: #FF4A4A;
+    color: white;
+    padding: 15px 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.navbar h1 {
+    font-size: 24px;
+}
+
+.navbar nav {
+    display: flex;
+    gap: 15px;
+}
+
+.navbar nav a {
+    color: white;
+    text-decoration: none;
+    font-size: 14px;
+}
+
+/* Booking Section */
+.booking-section {
+    background-color: white;
+    margin: 20px auto;
+    padding: 20px;
+    max-width: 500px;
+    border-radius: 8px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    text-align: center;
+}
+
+.booking-section h2 {
+    color: #FF4A4A;
+    font-size: 22px;
+    margin-bottom: 20px;
+}
+
+.booking-form {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.form-group label {
+    font-weight: bold;
+    color: #333;
+}
+
+select, input[type="date"], input[type="number"] {
+    width: 100%;
+    padding: 8px;
+    font-size: 14px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+}
+
+.options {
+    text-align: left;
+    margin-top: 10px;
+}
+
+.options label {
+    font-weight: bold;
+    color: #333;
+}
+
+.options div {
+    margin-top: 10px;
+}
+
+.options input[type="checkbox"] {
+    margin-right: 5px;
+}
+
+.search-button {
+    background-color: #FF4A4A;
+    color: white;
+    padding: 10px;
+    font-size: 16px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    margin-top: 15px;
+}
+
+.search-button:hover {
+    background-color: #ff6666;
+}
+
+/* Footer */
+footer {
+    text-align: center;
+    padding: 15px;
+    background-color: #333;
+    color: white;
+    font-size: 14px;
+}

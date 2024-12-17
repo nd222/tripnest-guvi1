@@ -1,0 +1,94 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: Arial, sans-serif;
+    /* background-color: #f4f4f4; */
+    /* background-color: #383636; */
+    background-color: #282626;
+    color: #333;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+header {
+    background-color: #ff5733;
+    width: 100%;
+    text-align: center;
+    padding: 20px;
+    color: white;
+}
+
+header h1 {
+    margin-bottom: 10px;
+}
+
+section.emergency-contacts {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    margin-top: 30px;
+}
+
+.contact-card {
+    background-color: white;
+    border: 1px solid #ddd;
+    border-radius: 10px;
+    padding: 20px;
+    width: 200px;
+    margin: 10px;
+    text-align: center;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+.contact-card h2 {
+    margin-bottom: 10px;
+    color: #ff5733;
+}
+
+.contact-card p {
+    margin-bottom: 10px;
+}
+
+.contact-card button {
+    background-color: #ff5733;
+    color: white;
+    border: none;
+    padding: 10px;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.contact-card button:hover {
+    background-color: #c14427;
+}
+
+footer {
+    margin-top: 40px;
+    padding: 10px;
+    /* background-color: #333; */
+    background-color: black;
+    color: white;
+    width: 100%;
+    text-align: center;
+    position: fixed;
+    bottom: 0;
+}
+
+#header-2 {
+    margin-top: 50px;
+    margin-bottom: 20px;
+    width: 100vw;
+}
+
+section-2{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+}

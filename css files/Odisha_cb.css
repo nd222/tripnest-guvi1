@@ -1,0 +1,232 @@
+* {
+    margin: 0;
+    padding: 0;
+
+}
+
+body {
+    font-family: Arial, sans-serif;
+    height: 100vh;
+    background-color: #f4f4f4;
+    margin: 0;
+}
+
+#bg-img {
+    background: url("photos/odisha-bg.jpg");
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    min-height: 750px;
+
+}
+
+header {
+    display: flex;
+    justify-content: space-between;
+    color: white;
+    font-family: "Roboto", sans-serif;
+    background-color: rgba(0, 0, 0, 0.356);
+}
+
+header div-1 {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+#logo {
+    margin: 15px 0;
+    margin-left: 30px;
+    height: 50px;
+    margin-right: 20px;
+}
+
+
+.chat-container {
+    background: #ffffff6d;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    width: 400px;
+    max-width: 90%;
+    min-height: 500px;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    margin-top: 90px;
+    margin-left: 80px;
+    margin-bottom: 20px;
+}
+
+.chat-box {
+    max-height: 300px;
+    overflow-y: auto;
+    margin-bottom: 10px;
+}
+
+.message {
+    padding: 10px;
+    margin: 5px 0;
+    border-radius: 5px;
+}
+
+.message.bot {
+    background-color: #ececec;
+    text-align: left;
+}
+
+.message.user {
+    background-color: #007bff;
+    color: #fff;
+    text-align: right;
+}
+
+select,
+input[type="date"] {
+    width: calc(100% - 20px);
+    padding: 10px;
+    margin-right: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    margin-bottom: 10px;
+}
+
+button {
+    padding: 10px 15px;
+    background-color: #007bff;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+button:hover {
+    background-color: #0056b3;
+}
+
+.hidden {
+    display: none;
+}
+
+#nameInputContainer {
+    display: flex;
+    justify-content: center;
+}
+
+#user-input {
+    margin-right: 10px;
+    width: 280px;
+    padding: 8px;
+    border-radius: 5px;
+}
+
+#top {
+    display: flex;
+}
+
+.right-text {
+    width: 900px;
+    display: flex;
+    flex-direction: column;
+text-shadow:  0 0 10px black;
+    align-items: center;
+    margin-top: 60px;
+}
+
+.right-text h1 {
+    color: white;
+    color: goldenrod;
+    font-family: "Rajasthan Regular";
+    font-size: 50px;
+}
+
+.right-text p {
+    margin-left: 40px;
+    margin-top: 50px;
+    line-height: 30px;
+    max-width: 800px;
+    color: rgb(234, 234, 234);
+    font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+}
+
+.bottom {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin: 20px;
+    padding: 25px;
+    background-color: #e2d0a0b3;
+    /* f8efd4c9 */
+    border-radius: 15px;
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+    border: 3px solid #c19a6b;
+    background-image: url('https://path/to/rajasthani-pattern.png');
+    background-size: cover;
+}
+
+
+#first {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+}
+
+
+.text-content {
+    margin-right: 30px;
+    text-align: left;
+    font-family: 'Georgia', serif;
+    color: #7b3f00;
+    font-size: 1.2em;
+    line-height: 1.6;
+}
+
+
+.image-content img {
+    max-width: 350px;
+    height: auto;
+    margin-left: 30px;
+    border-radius: 12px;
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.25);
+    border: 4px solid #a0522d;
+}
+
+
+.contact-section {
+    font-weight: bold;
+    color: #8b0000;
+    font-size: 1.2em;
+    margin-bottom: 10px;
+}
+
+
+.bottom a {
+    text-decoration: none;
+    color: #8b0000;
+    font-weight: bold;
+    font-size: 1.2em;
+    font-family: 'Georgia', serif;
+    padding: 8px 15px;
+    background-color: #f5deb3;
+    border-radius: 8px;
+    border: 2px solid #cd853f;
+}
+
+
+.bottom a:hover {
+    color: #ffd700;
+    background-color: #8b0000;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+}
+
+#number {
+    margin-bottom: 10px;
+}
+
+#museum-p {
+    max-width: 1000px;
+}
+
+#museum-img{
+    min-height: 250px;
+}

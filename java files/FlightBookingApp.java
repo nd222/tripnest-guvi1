@@ -4,77 +4,97 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 public class FlightBookingApp {
-
-    private JFrame frame;
-    private JPanel returnDateGroup;
-    private JButton oneWayButton, roundTripButton;
-    private ButtonGroup tripTypeButtons;
-
     public static void main(String[] args) {
-        SwingUtilities.invokeLater(() -> new FlightBookingApp().initializeUI());
-    }
-
-    public void initializeUI() {
-        frame = new JFrame("Flight Booking");
+        JFrame frame = new JFrame("FlightFinder");
+        frame.setSize(500, 400);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        frame.setSize(400, 300);
         frame.setLayout(new BorderLayout());
 
-        // Trip type buttons panel
-        JPanel tripTypePanel = new JPanel(new FlowLayout());
-        oneWayButton = new JButton("One Way");
-        roundTripButton = new JButton("Round Trip");
+        JPanel panel = new JPanel();
+        panel.setLayout(new GridLayout(0, 2));
 
-        // Add listeners for trip type selection
-        oneWayButton.addActionListener(e -> selectTripType("one-way"));
-        roundTripButton.addActionListener(e -> selectTripType("round-trip"));
+        // Input fields
+        JLabel fromLabel = new JLabel("From:");
+        JTextField fromField = new JTextField();
 
-        tripTypePanel.add(oneWayButton);
-        tripTypePanel.add(roundTripButton);
+        JLabel toLabel = new JLabel("To:");
+        JTextField toField = new JTextField();
 
-        frame.add(tripTypePanel, BorderLayout.NORTH);
+        JLabel departureLabel = new JLabel("Departure Date:");
+        JTextField departureField = new JTextField();
 
-        // Form panel
-        JPanel formPanel = new JPanel(new GridLayout(5, 2, 10, 10));
-        formPanel.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
+        JLabel returnLabel = new JLabel("Return Date (Optional):");
+        JTextField returnField = new JTextField();
 
-        formPanel.add(new JLabel("Departure Date:"));
-        JTextField departureDateField = new JTextField();
-        formPanel.add(departureDateField);
+        JLabel passengersLabel = new JLabel("Passengers:");
+        JTextField passengersField = new JTextField();
 
-        returnDateGroup = new JPanel(new FlowLayout());
-        returnDateGroup.add(new JLabel("Return Date:"));
-        JTextField returnDateField = new JTextField();
-        returnDateGroup.add(returnDateField);
-        returnDateGroup.setVisible(false); // Initially hidden
-        formPanel.add(returnDateGroup);
+        JCheckBox studentCheckbox = new JCheckBox("Student");
+        JCheckBox seniorCheckbox = new JCheckBox("Senior Citizen");
+        JCheckBox armedForcesCheckbox = new JCheckBox("Armed Forces");
 
-        frame.add(formPanel, BorderLayout.CENTER);
-
-        // Submit button
         JButton submitButton = new JButton("Search Flights");
+
+        // Adding components to the panel
+        panel.add(fromLabel);
+        panel.add(fromField);
+
+        panel.add(toLabel);
+        panel.add(toField);
+
+        panel.add(departureLabel);
+        panel.add(departureField);
+
+        panel.add(returnLabel);
+        panel.add(returnField);
+
+        panel.add(passengersLabel);
+        panel.add(passengersField);
+
+        panel.add(studentCheckbox);
+        panel.add(seniorCheckbox);
+
+        panel.add(armedForcesCheckbox);
+        panel.add(new JLabel("")); // Empty cell for padding
+
+        panel.add(new JLabel("")); // Empty cell for padding
+        panel.add(submitButton);
+
+        frame.add(panel, BorderLayout.CENTER);
+
+        // Action Listener for submit button
         submitButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                JOptionPane.showMessageDialog(frame, "Searching for flights...");
+                String from = fromField.getText();
+                String to = toField.getText();
+                String departureDate = departureField.getText();
+                String returnDate = returnField.getText();
+                String passengers = passengersField.getText();
+                String specialFares = "";
+
+                if (studentCheckbox.isSelected()) {
+                    specialFares += "Student ";
+                }
+                if (seniorCheckbox.isSelected()) {
+                    specialFares += "Senior Citizen ";
+                }
+                if (armedForcesCheckbox.isSelected()) {
+                    specialFares += "Armed Forces ";
+                }
+
+                String summary = "Searching for flights:\n" +
+                        "From: " + from + "\n" +
+                        "To: " + to + "\n" +
+                        "Departure Date: " + departureDate + "\n" +
+                        "Return Date: " + returnDate + "\n" +
+                        "Passengers: " + passengers + "\n" +
+                        "Special Fares: " + (specialFares.isEmpty() ? "None" : specialFares);
+
+                JOptionPane.showMessageDialog(frame, summary, "Flight Search Summary", JOptionPane.INFORMATION_MESSAGE);
             }
         });
 
-        frame.add(submitButton, BorderLayout.SOUTH);
-
         frame.setVisible(true);
-    }
-
-    private void selectTripType(String type) {
-        // Toggle return date visibility
-        if (type.equals("round-trip")) {
-            returnDateGroup.setVisible(true);
-        } else {
-            returnDateGroup.setVisible(false);
-        }
-
-        // Update button styles
-        oneWayButton.setEnabled(!type.equals("one-way"));
-        roundTripButton.setEnabled(!type.equals("round-trip"));
     }
 }

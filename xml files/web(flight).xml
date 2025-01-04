@@ -1,0 +1,27 @@
+<web-app xmlns="http://java.sun.com/xml/ns/javaee"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://java.sun.com/xml/ns/javaee
+             http://java.sun.com/xml/ns/javaee/web-app_3_0.xsd"
+         version="3.0">
+
+    <servlet>
+        <servlet-name>FlightBookingServlet</servlet-name>
+        <servlet-class>com.yourpackage.FlightBookingServlet</servlet-class>
+    </servlet>
+
+    <servlet-mapping>
+        <servlet-name>FlightBookingServlet</servlet-name>
+        <url-pattern>/FlightBookingServlet</url-pattern>
+    </servlet-mapping>
+</web-app>
+<web-app>
+    <servlet>
+        <servlet-name>FlightBookingServlet</servlet-name>
+        <servlet-class>com.example.servlets.FlightBookingServlet</servlet-class>
+    </servlet>
+
+    <servlet-mapping>
+        <servlet-name>FlightBookingServlet</servlet-name>
+        <url-pattern>/flightBooking</url-pattern>
+    </servlet-mapping>
+</web-app>

@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<web-app xmlns="http://java.sun.com/xml/ns/javaee" 
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+         xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_3_0.xsd" 
+         version="3.0">
+
+    <!-- Welcome File -->
+    <welcome-file-list>
+        <welcome-file>index.jsp</welcome-file>
+    </welcome-file-list>
+
+    <!-- Servlet Definitions -->
+    <servlet>
+        <servlet-name>BookingServlet</servlet-name>
+        <servlet-class>com.railconnect.BookingServlet</servlet-class>
+    </servlet>
+    
+    <servlet>
+        <servlet-name>CancelBookingServlet</servlet-name>
+        <servlet-class>com.railconnect.CancelBookingServlet</servlet-class>
+    </servlet>
+
+    <servlet>
+        <servlet-name>ConfirmBookingServlet</servlet-name>
+        <servlet-class>com.railconnect.ConfirmBookingServlet</servlet-class>
+    </servlet>
+
+    <!-- Servlet Mappings -->
+    <servlet-mapping>
+        <servlet-name>BookingServlet</servlet-name>
+        <url-pattern>/BookingServlet</url-pattern>
+    </servlet-mapping>
+
+    <servlet-mapping>
+        <servlet-name>CancelBookingServlet</servlet-name>
+        <url-pattern>/CancelBookingServlet</url-pattern>
+    </servlet-mapping>
+
+    <servlet-mapping>
+        <servlet-name>ConfirmBookingServlet</servlet-name>
+        <url-pattern>/ConfirmBookingServlet</url-pattern>
+    </servlet-mapping>
+
+    <!-- Error Page Mapping -->
+    <error-page>
+        <error-code>404</error-code>
+        <location>/error.jsp</location>
+    </error-page>
+    
+    <error-page>
+        <exception-type>java.lang.Exception</exception-type>
+        <location>/error.jsp</location>
+    </error-page>
+
+</web-app>
